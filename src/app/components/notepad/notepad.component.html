@@ -1,0 +1,11 @@
+<div class="notepad">
+  <div class="toolbar">
+    <button (click)="saveContent()">Zapisz</button>
+  </div>
+  <textarea
+    [(ngModel)]="content"
+    placeholder="Wpisz tekst..."
+    class="notepad-content"
+  >
+  </textarea>
+</div>
