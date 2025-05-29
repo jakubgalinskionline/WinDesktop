@@ -27,12 +27,12 @@ export class WindowComponent {
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
-    ngOnDestroy() {
-      window.removeEventListener('resize', this.handleResize.bind(this));
-      // Cleanup any additional resources if needed
-      this.elementRef.nativeElement.querySelector('.window').classList.remove('dragging', 'maximizing', 'maximized', 'restoring');
-      this.windowService.closeWindow(this.window.id);
-    }
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.handleResize.bind(this));
+    // Cleanup any additional resources if needed
+    this.elementRef.nativeElement.querySelector('.window').classList.remove('dragging', 'maximizing', 'maximized', 'restoring');
+    this.windowService.closeWindow(this.window.id);
+  }
 
   private handleResize() {
     this.screenBounds = {
