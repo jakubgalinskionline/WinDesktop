@@ -149,7 +149,7 @@ export class WindowComponent {
     this.focusWindow();
   }
 
-    private focusWindow() {
+  private focusWindow() {
     // Znajdź pierwszy element do focusu w oknie
     const focusableElement = this.elementRef.nativeElement.querySelector('[autofocus], input, textarea, select, button');
     if (focusableElement) {
@@ -159,14 +159,6 @@ export class WindowComponent {
     }
   }
 
-  startDragging(event: MouseEvent) {
-    if (event.button !== 0) return; // tylko lewy przycisk myszy
-    event.preventDefault();
-    this.isDragging = true;
-    this.dragOffset.x = event.clientX - this.window.x;
-    this.dragOffset.y = event.clientY - this.window.y;
-    this.elementRef.nativeElement.querySelector('.window').classList.add('dragging');
-  }
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
@@ -193,4 +185,23 @@ export class WindowComponent {
   closeWindow() {
     this.windowService.closeWindow(this.window.id);
   }
+
+  getTransformStyle(): string {
+    return `translate3d(${this.window.x}px, ${this.window.y}px, 0)`;
+  }
+
+  startDragging(event: MouseEvent) {
+    if (event.button !== 0) return; // tylko lewy przycisk myszy
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.isDragging = true;
+    this.dragOffset = {
+      x: event.clientX - this.window.x,
+      y: event.clientY - this.window.y
+    };
+
+    document.body.style.cursor = 'move';
+  }
+
 }

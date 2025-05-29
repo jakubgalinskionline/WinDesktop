@@ -1,12 +1,11 @@
 <div
   class="window"
-  [id]="window.id"
+  [id]="'window-' + window.id"
   [class.active]="window.isActive"
   [class.minimized]="window.isMinimized"
   [class.maximized]="window.isMaximized"
   [class.dragging]="isDragging"
-  [style.left.px]="window.x"
-  [style.top.px]="window.y"
+  [style.transform]="getTransformStyle()"
   [style.width.px]="window.width"
   [style.height.px]="window.height"
   [style.z-index]="window.zIndex"
@@ -17,11 +16,17 @@
     (mousedown)="startDragging($event)"
     [class.dragging]="isDragging"
   >
-    {{ window.title }}
+    <span class="window-title">{{ window.title }}</span>
     <div class="window-controls">
-      <button class="minimize-btn" (click)="minimizeWindow()">_</button>
-      <button class="maximize-btn" (click)="maximizeWindow()">□</button>
-      <button class="close-btn" (click)="closeWindow()">×</button>
+      <button class="minimize-btn" (click)="minimizeWindow()">
+        <span class="icon">_</span>
+      </button>
+      <button class="maximize-btn" (click)="maximizeWindow()">
+        <span class="icon">□</span>
+      </button>
+      <button class="close-btn" (click)="closeWindow()">
+        <span class="icon">×</span>
+      </button>
     </div>
   </div>
   <div class="window-content">

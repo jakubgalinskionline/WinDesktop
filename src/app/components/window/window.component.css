@@ -1,52 +1,45 @@
-    .window {
-      position: absolute;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      outline: none;
-    }
-    .window.dragging {
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
-    .window-header {
-      padding: 8px;
-      background: #f0f0f0;
-      border-bottom: 1px solid #ccc;
-      cursor: move;
-      user-select: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .window-controls {
-      display: flex;
-      gap: 4px;
-    }
-    .window-controls button {
-      width: 24px;
-      height: 24px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .window-controls button:hover {
-      background: rgba(0,0,0,0.1);
-    }
-    .close-btn:hover {
-      background: #ff0000 !important;
-      color: white;
-    }
-    .window-content {
-      padding: 0px;
-      height: calc(100% - 40px);
-      overflow: auto;
-    }
-.window:focus-within {
-  box-shadow: 0 0 0 2px rgba(0,120,212,0.5);
+.window {
+  position: fixed;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.window-header {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: move;
+  padding: 8px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.window-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.window-controls button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  -webkit-app-region: no-drag;
+}
+
+.window.dragging {
+  opacity: 0.95;
+  cursor: move;
 }
