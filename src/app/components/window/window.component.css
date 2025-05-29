@@ -1,0 +1,48 @@
+    .window {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: box-shadow 0.2s ease;
+    }
+    .window.dragging {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .window-header {
+      padding: 8px;
+      background: #f0f0f0;
+      border-bottom: 1px solid #ccc;
+      cursor: move;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .window-controls {
+      display: flex;
+      gap: 4px;
+    }
+    .window-controls button {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .window-controls button:hover {
+      background: rgba(0,0,0,0.1);
+    }
+    .close-btn:hover {
+      background: #ff0000 !important;
+      color: white;
+    }
+    .window-content {
+      padding: 16px;
+      height: calc(100% - 40px);
+      overflow: auto;
+    }

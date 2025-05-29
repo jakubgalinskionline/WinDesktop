@@ -1,3 +1,10 @@
+export interface WindowPrevState {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export interface WindowModel {
   id: number;
   title: string;
@@ -6,7 +13,8 @@ export interface WindowModel {
   y: number;
   width: number;
   height: number;
-  isMinimized: boolean;
-  isMaximized: boolean;
+  isMinimized?: boolean;
+  isMaximized?: boolean;
+  prevState?: WindowPrevState;
   zIndex: number;
 }

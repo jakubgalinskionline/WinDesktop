@@ -1,86 +1,96 @@
 import { Component, Input, ElementRef, HostListener } from '@angular/core';
 import { WindowModel } from '../../models/window.model';
 import { WindowService } from '../../services/window.service';
+import { NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-window',
-  template: `
-    <div class="window"
-         [style.left.px]="window.x"
-         [style.top.px]="window.y"
-         [style.width.px]="window.width"
-         [style.height.px]="window.height"
-         [style.z-index]="window.zIndex"
-         (mousedown)="onWindowClick()">
-      <div class="window-header" (mousedown)="startDragging($event)">
-        {{ window.title }}
-        <button class="close-btn" (click)="closeWindow()">×</button>
-      </div>
-      <div class="window-content">
-        <ng-container *ngComponentOutlet="window.component"></ng-container>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .window {
-      position: absolute;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-    .window-header {
-      padding: 8px;
-      background: #f0f0f0;
-      border-bottom: 1px solid #ccc;
-      cursor: move;
-      user-select: none;
-    }
-    .close-btn {
-      float: right;
-      border: none;
-      background: none;
-      cursor: pointer;
-    }
-    .window-content {
-      padding: 16px;
-    }
-  `]
+  templateUrl:  `./window.component.html`,
+  styleUrls: ['./window.component.css'],
+  standalone: true,
+  imports: [NgComponentOutlet],
 })
 export class WindowComponent {
   @Input() window!: WindowModel;
-  private isDragging = false;
+  public isDragging = false;
   private dragOffset = { x: 0, y: 0 };
+  private screenBounds = {
+    width: window.innerWidth,
+    height: window.innerHeight
+  };
 
   constructor(
     private windowService: WindowService,
     private elementRef: ElementRef
-  ) {}
+  ) {
+    window.addEventListener('resize', () => {
+      this.screenBounds = {
+        width: window.innerWidth,
+        height: window.innerHeight
+      };
+    });
+  }
 
   onWindowClick() {
     this.windowService.bringToFront(this.window.id);
+  }
+
+  startDragging(event: MouseEvent) {
+    if (event.button !== 0) return; // tylko lewy przycisk myszy
+    event.preventDefault();
+    this.isDragging = true;
+    this.dragOffset.x = event.clientX - this.window.x;
+    this.dragOffset.y = event.clientY - this.window.y;
+    this.elementRef.nativeElement.querySelector('.window').classList.add('dragging');
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    if (!this.isDragging) return;
+
+    let newX = event.clientX - this.dragOffset.x;
+    let newY = event.clientY - this.dragOffset.y;
+
+    // Ograniczenie pozycji okna do granic ekranu
+    newX = Math.max(0, Math.min(newX, this.screenBounds.width - this.window.width));
+    newY = Math.max(0, Math.min(newY, this.screenBounds.height - this.window.height));
+
+    this.window.x = newX;
+    this.window.y = newY;
+  }
+
+  @HostListener('document:mouseup')
+  onMouseUp() {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    this.elementRef.nativeElement.querySelector('.window').classList.remove('dragging');
   }
 
   closeWindow() {
     this.windowService.closeWindow(this.window.id);
   }
 
-  startDragging(event: MouseEvent) {
-    this.isDragging = true;
-    this.dragOffset.x = event.clientX - this.window.x;
-    this.dragOffset.y = event.clientY - this.window.y;
+  minimizeWindow() {
+    // TODO: Implementacja minimalizacji
+    this.window.isMinimized = !this.window.isMinimized;
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
-    if (this.isDragging) {
-      this.window.x = event.clientX - this.dragOffset.x;
-      this.window.y = event.clientY - this.dragOffset.y;
+  maximizeWindow() {
+    // TODO: Implementacja maksymalizacji
+    this.window.isMaximized = !this.window.isMaximized;
+    if (this.window.isMaximized) {
+      this.window.prevState = {
+        x: this.window.x,
+        y: this.window.y,
+        width: this.window.width,
+        height: this.window.height
+      };
+      this.window.x = 0;
+      this.window.y = 0;
+      this.window.width = this.screenBounds.width;
+      this.window.height = this.screenBounds.height;
+    } else if (this.window.prevState) {
+      Object.assign(this.window, this.window.prevState);
     }
-  }
-
-  @HostListener('document:mouseup')
-  onMouseUp() {
-    this.isDragging = false;
   }
 }

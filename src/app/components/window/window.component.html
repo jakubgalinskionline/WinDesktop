@@ -1,1 +1,25 @@
-<p>window works!</p>
+<div
+  class="window"
+  [style.left.px]="window.x"
+  [style.top.px]="window.y"
+  [style.width.px]="window.width"
+  [style.height.px]="window.height"
+  [style.z-index]="window.zIndex"
+  (mousedown)="onWindowClick()"
+>
+  <div
+    class="window-header"
+    (mousedown)="startDragging($event)"
+    [class.dragging]="isDragging"
+  >
+    {{ window.title }}
+    <div class="window-controls">
+      <button class="minimize-btn" (click)="minimizeWindow()">_</button>
+      <button class="maximize-btn" (click)="maximizeWindow()">□</button>
+      <button class="close-btn" (click)="closeWindow()">×</button>
+    </div>
+  </div>
+  <div class="window-content">
+    <ng-container *ngComponentOutlet="window.component"></ng-container>
+  </div>
+</div>

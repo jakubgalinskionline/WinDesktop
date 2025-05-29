@@ -17,8 +17,8 @@ export class WindowService {
       component,
       x: 100,
       y: 100,
-      width: 400,
-      height: 300,
+      width: 500,
+      height: 500,
       isMinimized: false,
       isMaximized: false,
       zIndex: this.getMaxZIndex() + 1
