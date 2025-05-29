@@ -192,30 +192,42 @@ export class WindowComponent {
     return `translate3d(${this.window.x}px, ${this.window.y}px, 0)`;
   }
 
-  startDragging(event: MouseEvent | TouchEvent) {
-    let clientX: number, clientY: number;
-
-    if (event instanceof MouseEvent) {
-      if (event.button !== 0) return; // tylko lewy przycisk myszy
-      clientX = event.clientX;
-      clientY = event.clientY;
-    } else if (event instanceof TouchEvent) {
-      if (event.touches.length === 0) return;
-      clientX = event.touches[0].clientX;
-      clientY = event.touches[0].clientY;
-    } else {
-      return;
-    }
+  startDragging(event: PointerEvent) {
+    if (event.button !== 0) return; // tylko lewy przycisk
 
     event.preventDefault();
     event.stopPropagation();
 
     this.isDragging = true;
     this.dragOffset = {
-      x: clientX - this.window.x,
-      y: clientY - this.window.y
+      x: event.clientX - this.window.x,
+      y: event.clientY - this.window.y
     };
 
-    document.body.style.cursor = 'move';
+    (event.target as HTMLElement).setPointerCapture(event.pointerId);
+  }
+
+  @HostListener('document:pointermove', ['$event'])
+  onPointerMove(event: PointerEvent) {
+    if (!this.isDragging) return;
+
+    requestAnimationFrame(() => {
+      this.window.x = event.clientX - this.dragOffset.x;
+      this.window.y = event.clientY - this.dragOffset.y;
+      this.constrainWindowToBounds();
+    });
+  }
+
+  @HostListener('document:pointerup', ['$event'])
+  onPointerUp(event: PointerEvent) {
+    if (!this.isDragging) return;
+
+    this.isDragging = false;
+    (event.target as HTMLElement).releasePointerCapture(event.pointerId);
+  }
+
+  private constrainWindowToBounds() {
+    this.window.x = Math.max(0, Math.min(this.window.x, this.screenBounds.width - this.window.width));
+    this.window.y = Math.max(0, Math.min(this.window.y, this.screenBounds.height - this.window.height));
   }
 }
