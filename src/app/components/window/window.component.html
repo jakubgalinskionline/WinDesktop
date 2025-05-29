@@ -1,5 +1,10 @@
 <div
   class="window"
+  [id]="window.id"
+  [class.active]="window.isActive"
+  [class.minimized]="window.isMinimized"
+  [class.maximized]="window.isMaximized"
+  [class.dragging]="isDragging"
   [style.left.px]="window.x"
   [style.top.px]="window.y"
   [style.width.px]="window.width"

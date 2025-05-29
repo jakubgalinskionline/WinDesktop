@@ -11,6 +11,19 @@ import { FormsModule } from '@angular/forms';
 })
 export class NotepadComponent {
   content: string = '';
+  handleKeydown: any;
+
+  constructor() {
+    // Inicjalizacja lub inne operacje
+  }
+
+  clearContent() {
+    throw new Error('Method not implemented.');
+  }
+
+  downloadContent() {
+   throw new Error('Method not implemented.');
+  }
 
   saveContent() {
     // Tutaj możesz dodać logikę zapisywania

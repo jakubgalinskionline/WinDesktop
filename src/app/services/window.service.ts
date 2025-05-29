@@ -21,7 +21,8 @@ export class WindowService {
       height: 500,
       isMinimized: false,
       isMaximized: false,
-      zIndex: this.getMaxZIndex() + 1
+      zIndex: this.getMaxZIndex() + 1,
+      isActive: true
     };
 
     this.windows.next([...this.windows.getValue(), window]);

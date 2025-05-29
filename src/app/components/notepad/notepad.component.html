@@ -1,11 +1,17 @@
 <div class="notepad">
   <div class="toolbar">
     <button (click)="saveContent()">Zapisz</button>
+    <button (click)="clearContent()">Wyczyść</button>
+    <button (click)="downloadContent()">Pobierz</button>
   </div>
   <textarea
+    id="notepadContent"
+    name="notepadContent"
     [(ngModel)]="content"
     placeholder="Wpisz tekst..."
     class="notepad-content"
-  >
-  </textarea>
+    (keydown)="handleKeydown($event)"
+    rows="20"
+    autofocus
+  ></textarea>
 </div>

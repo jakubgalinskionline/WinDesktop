@@ -4,7 +4,8 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      transition: box-shadow 0.2s ease;
+      transition: all 0.3s ease;
+      outline: none;
     }
     .window.dragging {
       box-shadow: 0 4px 8px rgba(0,0,0,0.3);
@@ -42,7 +43,10 @@
       color: white;
     }
     .window-content {
-      padding: 16px;
+      padding: 0px;
       height: calc(100% - 40px);
       overflow: auto;
     }
+.window:focus-within {
+  box-shadow: 0 0 0 2px rgba(0,120,212,0.5);
+}
