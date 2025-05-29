@@ -9,7 +9,7 @@
   [style.width.px]="window.width"
   [style.height.px]="window.height"
   [style.z-index]="window.zIndex"
-  (pointerdown)="onWindowClick()"
+  (pointerdown)="onWindowClick($event)"
 >
   <div
     class="window-header"

@@ -1,16 +1,19 @@
-import { Component, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, ElementRef, HostListener, OnInit } from '@angular/core';
 import { WindowModel } from '../../models/window.model';
 import { WindowService } from '../../services/window.service';
 import { NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-window',
-  templateUrl:  `./window.component.html`,
+  templateUrl: './window.component.html',
   styleUrls: ['./window.component.css'],
   standalone: true,
   imports: [NgComponentOutlet],
+  host: {
+    '[class.window-container]': 'true'
+  }
 })
-export class WindowComponent {
+export class WindowComponent implements OnInit {
   @Input() window!: WindowModel;
   public isDragging = false;
   private dragOffset = { x: 0, y: 0 };
@@ -25,6 +28,24 @@ export class WindowComponent {
     private elementRef: ElementRef
   ) {
     window.addEventListener('resize', this.handleResize.bind(this));
+  }
+
+
+  ngOnInit() {
+    // Ustaw początkowe wymiary okna jeśli nie są zdefiniowane
+    if (!this.window.width) this.window.width = 400;
+    if (!this.window.height) this.window.height = 300;
+
+    // Wycentruj okno jeśli pozycja nie jest zdefiniowana
+    if (this.window.x === undefined) {
+      this.window.x = (this.screenBounds.width - this.window.width) / 2;
+    }
+    if (this.window.y === undefined) {
+      this.window.y = (this.screenBounds.height - this.window.height) / 2;
+    }
+
+    // Ustaw początkowy z-index
+    if (!this.window.zIndex) this.window.zIndex = 1000;
   }
 
   // jesli usunę klase onOnDestroy to działa
@@ -147,9 +168,25 @@ export class WindowComponent {
     this.windowService.bringToFront(this.window.id);
   }
 
-  onWindowClick() {
+  // onWindowClick() {
+  //   this.windowService.bringToFront(this.window.id);
+  //   this.focusWindow();
+  // }
+
+  onWindowClick(event: MouseEvent) {
+    // Zatrzymaj propagację, aby uniknąć konfliktu z innymi oknami
+    event.stopPropagation();
+
+    // Przenieś okno na wierzch
     this.windowService.bringToFront(this.window.id);
+
+    // Nadaj focus
     this.focusWindow();
+
+    // Dodaj klasę aktywności
+    const allWindows = document.querySelectorAll('.window');
+    allWindows.forEach(w => w.classList.remove('active'));
+    this.getWindowElement().classList.add('active');
   }
 
   private focusWindow() {

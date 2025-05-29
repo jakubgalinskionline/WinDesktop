@@ -4,6 +4,7 @@ import { WindowComponent } from '../window/window.component';
 import { WindowService } from '../../services/window.service';
 import { NotepadComponent } from '../notepad/notepad.component';
 import { CalculatorComponent } from '../calculator/calculator.component';
+// import { NavigationComponent } from "../navigation/navigation.component";
 
 @Component({
   selector: 'app-desktop',

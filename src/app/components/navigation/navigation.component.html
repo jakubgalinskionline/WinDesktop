@@ -1,0 +1,128 @@
+<!-- Navigation Component -->
+
+<header class="app-topbar">
+  <div class="container-fluid topbar-menu">
+    <div class="d-flex align-items-center gap-2">
+      <!-- Topbar Brand Logo -->
+      <div class="logo-topbar">
+        <!-- Logo light -->
+        <a href="index.html" class="logo-light">
+          <span class="logo-lg">
+            <img src="/images/logo.png" alt="logo" />
+          </span>
+          <span class="logo-sm">
+            <img src="/images/logo-sm.png" alt="small logo" />
+          </span>
+        </a>
+
+        <!-- Logo Dark -->
+        <a href="index.html" class="logo-dark">
+          <span class="logo-lg">
+            <img src="/images/ogo-black.png" alt="dark logo" />
+          </span>
+          <span class="logo-sm">
+            <img src="/images/logo-sm.png" alt="small logo" />
+          </span>
+        </a>
+      </div>
+
+      <!-- Sidebar Menu Toggle Button -->
+      <button class="sidenav-toggle-button btn btn-primary btn-icon">
+        <i class="ti ti-menu-4 fs-22"></i>
+      </button>
+
+      <!-- Horizontal Menu Toggle Button -->
+      <button
+        class="topnav-toggle-button px-2"
+        data-bs-toggle="collapse"
+        data-bs-target="#topnav-menu-content"
+      >
+        <i class="ti ti-menu-4 fs-22"></i>
+      </button>
+
+      <!-- Search -->
+      <div class="app-search d-none d-xl-flex">
+        <input
+          type="search"
+          class="form-control topbar-search"
+          name="search"
+          placeholder="Search for something..."
+        />
+        <i data-lucide="search" class="app-search-icon text-muted"></i>
+      </div>
+    </div>
+    <!-- .d-flex-->
+
+    <div class="d-flex align-items-center gap-2">
+      <!-- Language Dropdown -->
+      <div class="topbar-item">
+        <div class="dropdown">
+          <button
+            class="topbar-link fw-bold"
+            data-bs-toggle="dropdown"
+            data-bs-offset="0,21"
+            type="button"
+            aria-haspopup="false"
+            aria-expanded="false"
+          >
+            <img
+              src="images/flags/pl.svg"
+              alt="user-image"
+              class="w-100 rounded me-2"
+              height="18"
+              id="selected-language-image"
+            />
+            <span id="selected-language-code"> PL </span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a
+              href="javascript:void(0);"
+              class="dropdown-item"
+              data-translator-lang="pl"
+              title="Polski"
+            >
+              <img
+                src="images/flags/pl.svg"
+                alt="Polski"
+                class="me-1 rounded"
+                height="18"
+                data-translator-image
+              />
+              <span class="align-middle">Polski</span>
+            </a>
+            <a
+              href="javascript:void(0);"
+              class="dropdown-item"
+              data-translator-lang="en"
+              title="English"
+            >
+              <img
+                src="images/flags/us.svg"
+                alt="English"
+                class="me-1 rounded"
+                height="18"
+                data-translator-image
+              />
+              <span class="align-middle">English</span>
+            </a>
+          </div>
+          <!-- end dropdown-menu-->
+        </div>
+        <!-- end dropdown-->
+      </div>
+      <!-- end topbar item-->
+
+      <app-notification-icon />
+
+      <!-- Light/Dark Mode Button -->
+      <div class="topbar-item d-none d-sm-flex">
+        <button class="topbar-link" id="light-dark-mode" type="button">
+          <i data-lucide="moon" class="fs-xxl mode-light-moon"></i>
+          <i data-lucide="sun" class="fs-xxl mode-light-sun"></i>
+        </button>
+      </div>
+
+      <app-user-nav-icon [webContext]="webContext" />
+    </div>
+  </div>
+</header>
