@@ -1,1 +1,8 @@
-<p>desktop works!</p>
+<div class="desktop">
+  <div class="taskbar">
+    <button (click)="openNotepad()">Notatnik</button>
+    <button (click)="openCalculator()">Kalkulator</button>
+  </div>
+  <app-window *ngFor="let window of windows$ | async" [window]="window">
+  </app-window>
+</div>

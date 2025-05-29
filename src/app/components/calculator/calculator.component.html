@@ -1,1 +1,189 @@
-<p>calculator works!</p>
+<!-- /bootstrap-od-zera-do-mastera-stworz-znakomite-projekty-www/learn/lecture/32042066#overview -->
+
+<div class="container fluid my-4">
+  <div class="row justify-content-center calculator">
+    <div
+      class="p-4 bg-light text-center rouded col-12 col-sm-9 col-md-6 col-lg-6 col-xl-4"
+    >
+      <!-- display -->
+      <div class="row">
+        <div class="col-12 p-1">
+          <input
+            type="text"
+            class="form-control text-end"
+            placeholder="0"
+            [value]="currentNumber"
+            disabled
+          />
+        </div>
+      </div>
+
+      <!-- C + -->
+      <div class="row mt-3">
+        <div class="col-3 p-1">
+          <button
+            (click)="clearDisplay()"
+            class="btn btn-danger text-white w-100"
+          >
+            C
+          </button>
+        </div>
+        <div
+          class="col-3 p-1 d-flex align-items-center justify-content-center text-danger fw-bolder"
+        >
+          &copy; 2025 JG
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addOperation('%')"
+            class="btn btn-dark text-white w-100"
+          >
+            %
+          </button>
+        </div>
+
+        <div class="col-3 p-1">
+          <button
+            (click)="addOperation('+')"
+            class="btn btn-dark text-white w-100"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <!-- 7 8 9 - -->
+      <div class="row mt-3">
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('7')"
+            class="btn btn-secondary text-white w-100"
+          >
+            7
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('8')"
+            class="btn btn-secondary text-white w-100"
+          >
+            8
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('9')"
+            class="btn btn-secondary text-white w-100"
+          >
+            9
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addOperation('-')"
+            class="btn btn-dark text-white w-100"
+          >
+            -
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 5 6 * -->
+      <div class="row mt-3">
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('4')"
+            class="btn btn-secondary text-white w-100"
+          >
+            4
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('5')"
+            class="btn btn-secondary text-white w-100"
+          >
+            5
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('6')"
+            class="btn btn-secondary text-white w-100"
+          >
+            6
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addOperation('*')"
+            class="btn btn-dark text-white w-100"
+          >
+            *
+          </button>
+        </div>
+      </div>
+
+      <!-- 1 2 3 / -->
+      <div class="row mt-3">
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('1')"
+            class="btn btn-secondary text-white w-100"
+          >
+            1
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('2')"
+            class="btn btn-secondary text-white w-100"
+          >
+            2
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('3')"
+            class="btn btn-secondary text-white w-100"
+          >
+            3
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addOperation('/')"
+            class="btn btn-dark text-white w-100"
+          >
+            /
+          </button>
+        </div>
+      </div>
+
+      <!-- 0 . = -->
+      <div class="row mt-3">
+        <div class="col-6 p-1">
+          <button
+            (click)="addNumber('0')"
+            class="btn btn-secondary text-white w-100"
+          >
+            0
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button
+            (click)="addNumber('.')"
+            class="btn btn-secondary text-white w-100"
+          >
+            .
+          </button>
+        </div>
+        <div class="col-3 p-1">
+          <button (click)="calculate()" class="btn btn-danger text-white w-100">
+            =
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
