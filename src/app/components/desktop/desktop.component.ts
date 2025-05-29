@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { WindowComponent } from '../window/window.component';
 import { WindowService } from '../../services/window.service';
-import { WindowComponent } from "../window/window.component";
-import { CalculatorComponent } from '../calculator/calculator.component';
 import { NotepadComponent } from '../notepad/notepad.component';
+import { CalculatorComponent } from '../calculator/calculator.component';
 
 @Component({
   selector: 'app-desktop',
+  standalone: true,
+  imports: [CommonModule, WindowComponent],
   template: `
     <div class="desktop">
       <div class="taskbar">
@@ -35,8 +38,7 @@ import { NotepadComponent } from '../notepad/notepad.component';
       padding: 4px;
       border-top: 1px solid #ccc;
     }
-  `],
-  imports: [WindowComponent]
+  `]
 })
 export class DesktopComponent {
   windows$: typeof this.windowService.windows$;
