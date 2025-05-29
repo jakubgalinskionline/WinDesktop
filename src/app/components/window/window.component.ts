@@ -27,12 +27,12 @@ export class WindowComponent {
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
-    // ngOnDestroy() {
-    //   window.removeEventListener('resize', this.handleResize.bind(this));
-    //   // Cleanup any additional resources if needed
-    //   this.elementRef.nativeElement.querySelector('.window').classList.remove('dragging', 'maximizing', 'maximized', 'restoring');
-    //   this.windowService.closeWindow(this.window.id);
-    // }
+    ngOnDestroy() {
+      window.removeEventListener('resize', this.handleResize.bind(this));
+      // Cleanup any additional resources if needed
+      this.elementRef.nativeElement.querySelector('.window').classList.remove('dragging', 'maximizing', 'maximized', 'restoring');
+      this.windowService.closeWindow(this.window.id);
+    }
 
   private handleResize() {
     this.screenBounds = {
@@ -44,6 +44,7 @@ export class WindowComponent {
       this.updateMaximizedState();
     }
   }
+
   private updateMaximizedState() {
     if (this.window.isMaximized) {
       this.window.x = 0;
@@ -52,7 +53,6 @@ export class WindowComponent {
       this.window.height = this.screenBounds.height - this.TASKBAR_HEIGHT; // Odejmij wysokość paska zadań
     }
   }
-
 
   private getWindowElement(): HTMLElement {
     return this.elementRef.nativeElement.querySelector('.window');
@@ -158,7 +158,6 @@ export class WindowComponent {
       });
     }
   }
-
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
