@@ -33,6 +33,25 @@ export class WindowService {
     return windows.length ? Math.max(...windows.map(w => w.zIndex)) : 0;
   }
 
+  maximizeWindow(id: number) {
+    const windows = this.windows.getValue();
+    const screenBounds = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+    this.windows.next(windows.map(w =>
+      w.id === id ? {
+        ...w,
+        isMaximized: true,
+        x: 0,
+        y: 0,
+        width: screenBounds.width,
+        height: screenBounds.height - 40, // Adjust for taskbar height
+        isActive: true
+      } : {...w, isMaximized: false}
+    ));
+  }
+
   closeWindow(id: number) {
     const windows = this.windows.getValue();
     this.windows.next(windows.filter(w => w.id !== id));

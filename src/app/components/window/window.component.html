@@ -1,4 +1,4 @@
-<div
+<!-- <div
   class="window"
   [id]="'window-' + window.id"
   [class.active]="window.isActive"
@@ -25,6 +25,57 @@
         <span class="icon">□</span>
       </button>
       <button class="close-btn" (click)="closeWindow()">
+        <span class="icon">×</span>
+      </button>
+    </div>
+  </div>
+  <div class="window-content">
+    <ng-container *ngComponentOutlet="window.component"></ng-container>
+  </div>
+</div> -->
+
+<div
+  class="window"
+  [id]="'window-' + window.id"
+  [class.active]="window.isActive"
+  [class.minimized]="window.isMinimized"
+  [class.maximized]="window.isMaximized"
+  [class.dragging]="isDragging"
+  [style.transform]="getTransformStyle()"
+  [style.width.px]="window.width"
+  [style.height.px]="window.height"
+  [style.z-index]="window.zIndex"
+  (mousedown)="onWindowClick()"
+  (touchstart)="onWindowClick()"
+>
+  <div
+    class="window-header"
+    (mousedown)="startDragging($event)"
+    (touchstart)="startDragging($event)"
+    [class.dragging]="isDragging"
+    style="-webkit-app-region: drag"
+  >
+    <span class="window-title">{{ window.title }}</span>
+    <div class="window-controls" style="-webkit-app-region: no-drag">
+      <button
+        class="minimize-btn"
+        (click)="minimizeWindow()"
+        (touchend)="minimizeWindow()"
+      >
+        <span class="icon">_</span>
+      </button>
+      <button
+        class="maximize-btn"
+        (click)="maximizeWindow()"
+        (touchend)="maximizeWindow()"
+      >
+        <span class="icon">□</span>
+      </button>
+      <button
+        class="close-btn"
+        (click)="closeWindow()"
+        (touchend)="closeWindow()"
+      >
         <span class="icon">×</span>
       </button>
     </div>

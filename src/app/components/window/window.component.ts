@@ -192,18 +192,30 @@ export class WindowComponent {
     return `translate3d(${this.window.x}px, ${this.window.y}px, 0)`;
   }
 
-  startDragging(event: MouseEvent) {
-    if (event.button !== 0) return; // tylko lewy przycisk myszy
+  startDragging(event: MouseEvent | TouchEvent) {
+    let clientX: number, clientY: number;
+
+    if (event instanceof MouseEvent) {
+      if (event.button !== 0) return; // tylko lewy przycisk myszy
+      clientX = event.clientX;
+      clientY = event.clientY;
+    } else if (event instanceof TouchEvent) {
+      if (event.touches.length === 0) return;
+      clientX = event.touches[0].clientX;
+      clientY = event.touches[0].clientY;
+    } else {
+      return;
+    }
+
     event.preventDefault();
     event.stopPropagation();
 
     this.isDragging = true;
     this.dragOffset = {
-      x: event.clientX - this.window.x,
-      y: event.clientY - this.window.y
+      x: clientX - this.window.x,
+      y: clientY - this.window.y
     };
 
     document.body.style.cursor = 'move';
   }
-
 }
