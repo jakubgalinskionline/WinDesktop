@@ -1,0 +1,32 @@
+.nav-user {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .dropdown {
+    height: 100%;
+  }
+
+  .topbar-link {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
+    .d-lg-flex {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}
+
+.dropdown-menu {
+  margin-top: 0.5rem;
+}

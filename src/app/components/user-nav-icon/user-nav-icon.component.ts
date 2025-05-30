@@ -10,5 +10,5 @@ import { WebContext } from '../../models/WebContext';
   inputs: ['webContext'],
 })
 export class UserNavIconComponent {
-  @Input() webContext: WebContext = {} as WebContext;
+  // @Input() webContext: WebContext = {} as WebContext;
 }

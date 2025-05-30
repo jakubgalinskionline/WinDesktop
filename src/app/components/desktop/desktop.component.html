@@ -114,87 +114,61 @@
         </div>
 
         <!-- user icon -->
-        <!--
-        <div class="container">
-          <div class="row">
-            <div class="col-3">
-              <div class="container-fluid topbar-menu">
-                <div class="d-flex align-items-center gap-2">
-                  <div class="topbar-item">
-                    <div class="dropdown">
-                      <button
-                        class="topbar-link fw-bold"
-                        data-bs-toggle="dropdown"
-                        data-bs-offset="0,21"
-                        type="button"
-                        aria-haspopup="false"
-                        aria-expanded="false"
-                      >
-                        <img
-                          src="images/flags/pl.svg"
-                          alt="user-image"
-                          class="w-100 rounded me-2"
-                          height="18"
-                          id="selected-language-image"
-                        />
-                        <span id="selected-language-code"> PL </span>
-                      </button>
-                      <div class="dropdown-menu dropdown-menu-end">
-                        <a
-                          href="javascript:void(0);"
-                          class="dropdown-item"
-                          data-translator-lang="pl"
-                          title="Polski"
-                        >
-                          <img
-                            src="images/flags/pl.svg"
-                            alt="Polski"
-                            class="me-1 rounded"
-                            height="18"
-                            data-translator-image
-                          />
-                          <span class="align-middle">Polski</span>
-                        </a>
-                        <a
-                          href="javascript:void(0);"
-                          class="dropdown-item"
-                          data-translator-lang="en"
-                          title="English"
-                        >
-                          <img
-                            src="images/flags/us.svg"
-                            alt="English"
-                            class="me-1 rounded"
-                            height="18"
-                            data-translator-image
-                          />
-                          <span class="align-middle">English</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <app-notification-icon />
-
-                  <div class="topbar-item d-none d-sm-flex">
-                    <button
-                      class="topbar-link"
-                      id="light-dark-mode"
-                      type="button"
-                    >
-                      <i data-lucide="moon" class="fs-xxl mode-light-moon"></i>
-                      <i data-lucide="sun" class="fs-xxl mode-light-sun"></i>
-                    </button>
-                  </div>
-
-                  <app-user-nav-icon [webContext]="webContext" />
+        <!-- Right Topbar -->
+        <div class="topbar-right">
+          <div class="d-flex gap-3">
+            <!-- Language Switcher -->
+            <div class="topbar-item">
+              <div class="dropdown">
+                <button
+                  class="topbar-btn language-btn"
+                  data-bs-toggle="dropdown"
+                  type="button"
+                  aria-label="Wybór języka"
+                >
+                  <img
+                    src="images/flags/pl.svg"
+                    alt=""
+                    class="flag-icon"
+                    id="selected-language-image"
+                  />
+                  <span class="language-code">PL</span>
+                  <div class="menu-arrow"></div>
+                </button>
+                <div class="dropdown-menu language-menu">
+                  <a href="#" class="dropdown-item" data-lang="pl">
+                    <img src="images/flags/pl.svg" alt="" class="flag-icon" />
+                    <span>Polski</span>
+                  </a>
+                  <a href="#" class="dropdown-item" data-lang="en">
+                    <img src="images/flags/us.svg" alt="" class="flag-icon" />
+                    <span>English</span>
+                  </a>
                 </div>
               </div>
             </div>
+
+            <!-- Notifications -->
+            <app-notification-icon />
+
+            <!-- Theme Toggle -->
+            <div class="topbar-item d-none d-sm-block">
+              <button
+                class="topbar-btn"
+                id="theme-toggle"
+                type="button"
+                title="Zmień motyw"
+              >
+                <i class="ti ti-moon theme-icon-dark"></i>
+                <i class="ti ti-sun theme-icon-light"></i>
+              </button>
+            </div>
+
+            <!-- User Profile -->
+            <!-- <app-user-nav-icon [webContext]="webContext" /> -->
+            <app-user-nav-icon />
           </div>
         </div>
-        -->
         <!-- user icon -->
       </nav>
     </header>

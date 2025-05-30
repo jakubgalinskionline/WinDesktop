@@ -6,6 +6,7 @@ import { NotepadComponent } from '../notepad/notepad.component';
 import { CalculatorComponent } from '../calculator/calculator.component';
 import { FooterComponent } from "../footer/footer.component";
 
+
 import { NotificationIconComponent } from '../notification-icon/notification-icon.component';
 import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
 import { WebContext } from '../../models/WebContext';
@@ -13,8 +14,7 @@ import { WebContext } from '../../models/WebContext';
 @Component({
   selector: 'app-desktop',
   standalone: true,
-  imports: [CommonModule, WindowComponent, FooterComponent],
-  // UserNavIconComponent, NotificationIconComponent
+  imports: [CommonModule, WindowComponent, FooterComponent, UserNavIconComponent, NotificationIconComponent],
   templateUrl: `./desktop.component.html`,
   styleUrl: `./desktop.component.scss`,
 })
