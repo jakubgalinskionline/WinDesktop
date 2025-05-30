@@ -114,10 +114,12 @@
         </div>
       </nav>
     </header>
-    <app-window *ngFor="let window of windows$ | async" [window]="window">
-    </app-window>
-    <footer>
-      <app-footer />
-    </footer>
   </div>
+
+  <app-window
+    *ngFor="let window of windows$ | async"
+    [window]="window"
+  ></app-window>
+
+  <app-footer />
 </div>
