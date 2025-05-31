@@ -79,7 +79,7 @@ export class CalculatorComponent {
         result = this.firstOperand / secondOperand;
         break;
       case '%':
-        result = result / secondOperand * 100;
+        result = (this.firstOperand * secondOperand) / 100;
         break;
     }
 
@@ -154,6 +154,7 @@ export class CalculatorComponent {
       case '-':
       case '*':
       case '/':
+      case '%':
         this.addOperation(event.key);
         break;
     }
