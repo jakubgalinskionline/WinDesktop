@@ -159,8 +159,14 @@
                 type="button"
                 title="Zmień motyw"
               >
-                <i class="bi bi-moon-stars-fill fs-5 theme-icon-dark"></i>
-                <i class="bi bi-sun fs-5 theme-icon-light"></i>
+                <i
+                  class="bi bi-moon-stars-fill fs-5 theme-icon-dark"
+                  (click)="toggleTheme()"
+                ></i>
+                <i
+                  class="bi bi-sun fs-5 theme-icon-light"
+                  (click)="toggleTheme()"
+                ></i>
               </button>
             </div>
 
