@@ -10,15 +10,15 @@ export class WindowService {
   windows$ = this.windows.asObservable();
   private nextId = 1;
 
-  openWindow(component: any, title: string) {
+  openWindow(component: any, title: string, w: any, h: any) {
     const window: WindowModel = {
       id: this.nextId++,
       title,
       component,
       x: 100,
       y: 100,
-      width: 500,
-      height: 500,
+      width: w,
+      height: h,
       isMinimized: false,
       isMaximized: false,
       zIndex: this.getMaxZIndex() + 1,

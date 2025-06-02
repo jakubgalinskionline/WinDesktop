@@ -27,10 +27,10 @@ export class DesktopComponent {
   }
 
   openNotepad() {
-    this.windowService.openWindow(NotepadComponent, 'Notatnik');
+    this.windowService.openWindow(NotepadComponent, 'Notatnik', 400, 400);
   }
 
   openCalculator() {
-    this.windowService.openWindow(CalculatorComponent, 'Kalkulator');
+    this.windowService.openWindow(CalculatorComponent, 'Kalkulator', 500, 500);
   }
 }
