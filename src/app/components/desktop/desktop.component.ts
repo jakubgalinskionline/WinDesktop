@@ -23,11 +23,11 @@ export class DesktopComponent {
     this.Windows$ = this.WindowService.Windows$;
   }
 
-  openNotepad() {
+  OpenNotepad() {
     this.WindowService.OpenWindow(NotepadComponent, 'Notatnik', 50, 150, 400, 400);
   }
 
-  openCalculator() {
+  OpenCalculator() {
     this.WindowService.OpenWindow(CalculatorComponent, 'Kalkulator', 150, 200, 600, 600);
   }
 }
