@@ -1,12 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-calculator',
+  selector: 'app-calc',
   imports: [],
-  templateUrl: './calculator.component.html',
-  styleUrl: './calculator.component.css'
+  templateUrl: './calc.component.html',
+  styleUrl: './calc.component.css'
 })
-export class CalculatorComponent {
+export class CalcComponent {
   // Właściwości kalkulatora
   currentNumber: string = '0';  // Aktualny numer wyświetlany na kalkulatorze
   firstOperand: number | null = null; // Pierwszy operand, czyli pierwsza liczba w operacji
@@ -79,7 +79,8 @@ export class CalculatorComponent {
         result = this.firstOperand / secondOperand;
         break;
       case '%':
-        result = (this.firstOperand * secondOperand) / 100;
+        // 8 % 8 = 0,64 - procent z liczby
+        result = this.firstOperand * (secondOperand / 100);
         break;
     }
 
