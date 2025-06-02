@@ -75,3 +75,25 @@
 .minimize-btn .icon { color: #666; }
 .maximize-btn .icon { color: #666; }
 .close-btn .icon { color: #f44; }
+
+.window-controls {
+    display: flex;
+    gap: 2px;  /* zmniejszony odstęp między przyciskami */
+}
+
+.window-controls button {
+    width: 20px;    /* zmniejszona szerokość */
+    height: 20px;   /* zmniejszona wysokość */
+    border: none;
+    border-radius: 3px;  /* zmniejszony radius */
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.window-controls i {
+    font-size: 12px;  /* zmniejszona wielkość ikon */
+}
