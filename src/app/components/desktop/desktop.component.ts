@@ -6,10 +6,8 @@ import { NotepadComponent } from '../notepad/notepad.component';
 import { CalculatorComponent } from '../calculator/calculator.component';
 import { FooterComponent } from "../footer/footer.component";
 
-
 import { NotificationIconComponent } from '../notification-icon/notification-icon.component';
 import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
-import { WebContext } from '../../models/WebContext';
 
 @Component({
   selector: 'app-desktop',
@@ -20,14 +18,13 @@ import { WebContext } from '../../models/WebContext';
 })
 export class DesktopComponent {
   windows$: typeof this.windowService.windows$;
-  // webContext: WebContext = {} as WebContext;
 
   constructor(private windowService: WindowService) {
     this.windows$ = this.windowService.windows$;
   }
 
   openNotepad() {
-    this.windowService.openWindow(NotepadComponent, 'Notatnik', 400, 400);
+    this.windowService.openWindow(NotepadComponent, 'Notatnik', 400, 500);
   }
 
   openCalculator() {
