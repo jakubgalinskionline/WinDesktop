@@ -83,46 +83,12 @@ constructor(
     return this.elementRef.nativeElement.querySelector('.window');
   }
 
-  // MaximizeWindow() {
-  //     this.Window.isMaximized = !this.Window.isMaximized;
-  //     const windowElement = this.GetWindowElement();
-
-  //     if (this.Window.isMaximized) {
-  //       this.Window.prevState = {
-  //         x: this.Window.x,
-  //         y: this.Window.y,
-  //         width: this.Window.width,
-  //         height: this.Window.height
-  //       };
-
-  //       windowElement.classList.add('maximizing');
-
-  //       requestAnimationFrame(() => {
-  //         this.UpdateMaximizedState();
-  //         windowElement.classList.add('maximized');
-  //         windowElement.classList.remove('maximizing');
-  //         this.cdr.detectChanges();
-  //       });
-  //     } else {
-  //       if (this.Window.prevState) {
-  //         windowElement.classList.add('restoring');
-
-  //         requestAnimationFrame(() => {
-  //           Object.assign(this.Window, this.Window.prevState);
-  //           windowElement.classList.remove('maximized', 'restoring');
-  //           this.cdr.detectChanges();
-  //         });
-  //       }
-  //     }
-
-  //     this.WindowService.BringToFront(this.Window.id);
-  // }
   MaximizeWindow() {
-      this.Window.isMaximized = !this.Window.isMaximized;
       const windowElement = this.GetWindowElement();
+      this.Window.isMaximized = !this.Window.isMaximized;
 
       if (this.Window.isMaximized) {
-          // Zapisz aktualny stan przed maksymalizacją
+          // Zapisz aktualny stan
           this.Window.prevState = {
               x: this.Window.x,
               y: this.Window.y,
@@ -130,34 +96,26 @@ constructor(
               height: this.Window.height
           };
 
-          // Dodaj klasę animacji
+          // Animacja maksymalizacji
           windowElement.classList.add('maximizing');
+          this.UpdateMaximizedState();
+          this.cdr.detectChanges();
 
-          // Użyj setTimeout zamiast requestAnimationFrame
           setTimeout(() => {
-              this.UpdateMaximizedState();
+              windowElement.classList.remove('maximizing');
+              windowElement.classList.add('maximized');
               this.cdr.detectChanges();
-
-              // Dodaj małe opóźnienie przed dodaniem klasy maximized
-              setTimeout(() => {
-                  windowElement.classList.add('maximized');
-                  windowElement.classList.remove('maximizing');
-                  this.cdr.detectChanges();
-              }, 50);
-          }, 0);
+          }, 300);
       } else {
           if (this.Window.prevState) {
               windowElement.classList.add('restoring');
+              Object.assign(this.Window, this.Window.prevState);
+              this.cdr.detectChanges();
 
               setTimeout(() => {
-                  Object.assign(this.Window, this.Window.prevState);
+                  windowElement.classList.remove('maximized', 'restoring');
                   this.cdr.detectChanges();
-
-                  setTimeout(() => {
-                      windowElement.classList.remove('maximized', 'restoring');
-                      this.cdr.detectChanges();
-                  }, 50);
-              }, 0);
+              }, 300);
           }
       }
 
@@ -165,51 +123,53 @@ constructor(
   }
 
   MinimizeWindow() {
-    const windowElement = this.GetWindowElement();
+      const windowElement = this.GetWindowElement();
 
-    if (!this.Window.isMinimized) {
-      // Zapisz aktualny stan przed minimalizacją
-      this.Window.prevState = {
-        x: this.Window.x,
-        y: this.Window.y,
-        width: this.Window.width,
-        height: this.Window.height
-      };
+      if (!this.Window.isMinimized) {
+          // Zapisz aktualny stan
+          this.Window.prevState = {
+              x: this.Window.x,
+              y: this.Window.y,
+              width: this.Window.width,
+              height: this.Window.height
+          };
 
-      // Dodaj klasę animacji
-      windowElement.classList.add('minimizing');
+          // Znajdź pozycję przycisku na pasku zadań
+          const taskbarButton = document.querySelector(`[data-window-id="${this.Window.id}"]`);
+          if (taskbarButton) {
+              const rect = taskbarButton.getBoundingClientRect();
 
-      // Animowana minimalizacja
-      requestAnimationFrame(() => {
-        // Pobierz pozycję przycisku na pasku zadań
-        const taskbarButton = document.querySelector(`[data-window-id="${this.Window.id}"]`);
-        if (taskbarButton) {
-          const rect = taskbarButton.getBoundingClientRect();
-          this.Window.x = rect.left;
-          this.Window.y = this.screenBounds.height - this.TASKBAR_HEIGHT;
-          this.Window.width = rect.width;
-          this.Window.height = 0;
-        }
+              windowElement.classList.add('minimizing');
+              this.Window.isMinimized = true;
+              this.Window.x = rect.left;
+              this.Window.y = this.screenBounds.height - this.TASKBAR_HEIGHT;
+              this.Window.width = rect.width;
+              this.Window.height = this.TASKBAR_HEIGHT;
+              this.cdr.detectChanges();
 
-        this.Window.isMinimized = true;
-        windowElement.classList.add('minimized');
-        windowElement.classList.remove('minimizing');
-      });
-    } else {
-      // Przywracanie okna
-      windowElement.classList.add('restoring');
+              setTimeout(() => {
+                  windowElement.classList.remove('minimizing');
+                  windowElement.classList.add('minimized');
+                  this.cdr.detectChanges();
+              }, 300);
+          }
+      } else {
+          // Przywracanie okna
+          windowElement.classList.add('restoring');
 
-      requestAnimationFrame(() => {
-        if (this.Window.prevState) {
-          Object.assign(this.Window, this.Window.prevState);
-        }
-        this.Window.isMinimized = false;
-        windowElement.classList.remove('minimized', 'restoring');
-      });
-    }
+          if (this.Window.prevState) {
+              Object.assign(this.Window, this.Window.prevState);
+              this.Window.isMinimized = false;
+              this.cdr.detectChanges();
 
-    // Aktualizuj z-index
-    this.WindowService.BringToFront(this.Window.id);
+              setTimeout(() => {
+                  windowElement.classList.remove('minimized', 'restoring');
+                  this.cdr.detectChanges();
+              }, 300);
+          }
+      }
+
+      this.WindowService.BringToFront(this.Window.id);
   }
 
   // onWindowClick() {
