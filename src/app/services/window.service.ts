@@ -6,17 +6,17 @@ import { WindowModel } from '../models/window.model';
   providedIn: 'root'
 })
 export class WindowService {
-  private windows = new BehaviorSubject<WindowModel[]>([]);
-  windows$ = this.windows.asObservable();
+  private Windows = new BehaviorSubject<WindowModel[]>([]);
+  Windows$ = this.Windows.asObservable();
   private nextId = 1;
 
-  openWindow(component: any, title: string, w: any, h: any) {
-    const window: WindowModel = {
+  OpenWindow(component: any, title: string, x: number, y: number, w: number, h: number) {
+    const Window: WindowModel = {
       id: this.nextId++,
       title,
       component,
-      x: 100,
-      y: 100,
+      x: x,
+      y: y,
       width: w,
       height: h,
       isMinimized: false,
@@ -25,21 +25,21 @@ export class WindowService {
       isActive: true
     };
 
-    this.windows.next([...this.windows.getValue(), window]);
+    this.Windows.next([...this.Windows.getValue(), Window]);
   }
 
   private getMaxZIndex(): number {
-    const windows = this.windows.getValue();
-    return windows.length ? Math.max(...windows.map(w => w.zIndex)) : 0;
+    const Windows = this.Windows.getValue();
+    return Windows.length ? Math.max(...Windows.map(w => w.zIndex)) : 0;
   }
 
-  maximizeWindow(id: number) {
-    const windows = this.windows.getValue();
+  MaximizeWindow(id: number) {
+    const Windows = this.Windows.getValue();
     const screenBounds = {
       width: window.innerWidth,
       height: window.innerHeight
     };
-    this.windows.next(windows.map(w =>
+    this.Windows.next(Windows.map(w =>
       w.id === id ? {
         ...w,
         isMaximized: true,
@@ -52,15 +52,15 @@ export class WindowService {
     ));
   }
 
-  closeWindow(id: number) {
-    const windows = this.windows.getValue();
-    this.windows.next(windows.filter(w => w.id !== id));
+  CloseWindow(id: number) {
+    const Windows = this.Windows.getValue();
+    this.Windows.next(Windows.filter(w => w.id !== id));
   }
 
-  bringToFront(id: number) {
-    const windows = this.windows.getValue();
+  BringToFront(id: number) {
+    const Windows = this.Windows.getValue();
     const maxZ = this.getMaxZIndex();
-    this.windows.next(windows.map(w =>
+    this.Windows.next(Windows.map(w =>
       w.id === id ? {...w, zIndex: maxZ + 1} : w
     ));
   }

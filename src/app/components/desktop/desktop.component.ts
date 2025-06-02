@@ -17,17 +17,17 @@ import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
   styleUrl: `./desktop.component.scss`,
 })
 export class DesktopComponent {
-  windows$: typeof this.windowService.windows$;
+  Windows$: typeof this.WindowService.Windows$;
 
-  constructor(private windowService: WindowService) {
-    this.windows$ = this.windowService.windows$;
+  constructor(private WindowService: WindowService) {
+    this.Windows$ = this.WindowService.Windows$;
   }
 
   openNotepad() {
-    this.windowService.openWindow(NotepadComponent, 'Notatnik', 400, 500);
+    this.WindowService.OpenWindow(NotepadComponent, 'Notatnik', 50, 150, 400, 400);
   }
 
   openCalculator() {
-    this.windowService.openWindow(CalculatorComponent, 'Kalkulator', 500, 500);
+    this.WindowService.OpenWindow(CalculatorComponent, 'Kalkulator', 150, 200, 600, 600);
   }
 }

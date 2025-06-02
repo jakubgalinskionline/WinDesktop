@@ -1,14 +1,14 @@
 <div
   class="window"
-  [id]="'window-' + window.id"
-  [class.active]="window.isActive"
-  [class.minimized]="window.isMinimized"
-  [class.maximized]="window.isMaximized"
+  [id]="'window-' + Window.id"
+  [class.active]="Window.isActive"
+  [class.minimized]="Window.isMinimized"
+  [class.maximized]="Window.isMaximized"
   [class.dragging]="isDragging"
   [style.transform]="getTransformStyle()"
-  [style.width.px]="window.width"
-  [style.height.px]="window.height"
-  [style.z-index]="window.zIndex"
+  [style.width.px]="Window.width"
+  [style.height.px]="Window.height"
+  [style.z-index]="Window.zIndex"
   (pointerdown)="onWindowClick($event)"
 >
   <div
@@ -16,20 +16,20 @@
     (pointerdown)="startDragging($event)"
     [class.dragging]="isDragging"
   >
-    <span class="window-title">{{ window.title }}</span>
+    <span class="window-title">{{ Window.title }}</span>
     <div class="window-controls">
-      <button class="minimize-btn" (pointerup)="minimizeWindow()">
+      <button class="minimize-btn" (pointerup)="MinimizeWindow()">
         <span class="icon">_</span>
       </button>
-      <button class="maximize-btn" (pointerup)="maximizeWindow()">
+      <button class="maximize-btn" (pointerup)="MaximizeWindow()">
         <span class="icon">□</span>
       </button>
-      <button class="close-btn" (pointerup)="closeWindow()">
+      <button class="close-btn" (pointerup)="CloseWindow()">
         <span class="icon">×</span>
       </button>
     </div>
   </div>
   <div class="window-content">
-    <ng-container *ngComponentOutlet="window.component"></ng-container>
+    <ng-container *ngComponentOutlet="Window.component"></ng-container>
   </div>
 </div>
