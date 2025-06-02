@@ -6,7 +6,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.css'
 })
-export class CalcComponent {
+export class CalculatorComponent {
   // Właściwości kalkulatora
   currentNumber: string = '0';  // Aktualny numer wyświetlany na kalkulatorze
   firstOperand: number | null = null; // Pierwszy operand, czyli pierwsza liczba w operacji
