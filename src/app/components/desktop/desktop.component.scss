@@ -231,3 +231,19 @@ app-footer {
   }
 }
 
+.flag-icon {
+  width: 20px;
+  height: 15px;
+  margin-right: 8px;
+}
+
+.language-code {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+}

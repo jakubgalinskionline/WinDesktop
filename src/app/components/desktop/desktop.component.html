@@ -124,10 +124,12 @@
         <div class="topbar-right">
           <div class="d-flex gap-3">
             <!-- Language Switcher -->
+            <!-- Language Switcher -->
             <div class="topbar-item">
               <div class="dropdown">
                 <button
-                  class="topbar-btn language-btn"
+                  class="btn btn-link p-0 border-0 shadow-none"
+                  [ngClass]="(isDarkMode$ | async) ? 'text-light' : 'text-dark'"
                   data-bs-toggle="dropdown"
                   type="button"
                   aria-label="Wybór języka"
@@ -139,9 +141,12 @@
                     id="selected-language-image"
                   />
                   <span class="language-code">PL</span>
-                  <div class="menu-arrow"></div>
+                  <i class="bi bi-chevron-down ms-1"></i>
                 </button>
-                <div class="dropdown-menu language-menu">
+                <div
+                  class="dropdown-menu"
+                  [ngClass]="(isDarkMode$ | async) ? 'dropdown-menu-dark' : ''"
+                >
                   <a href="#" class="dropdown-item" data-lang="pl">
                     <img src="images/flags/pl.svg" alt="" class="flag-icon" />
                     <span>Polski</span>
@@ -188,8 +193,8 @@
   <app-window
     *ngFor="let window of windows$ | async"
     [Window]="window"
-    [isDarkMode]="(isDarkMode$ | async) ?? false"
+    [isDarkMode$]="(isDarkMode$ | async) ?? false"
   ></app-window>
 
-  <app-footer [isDarkMode]="(isDarkMode$ | async) ?? false" />
+  <app-footer />
 </div>

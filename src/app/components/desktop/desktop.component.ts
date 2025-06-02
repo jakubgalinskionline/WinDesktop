@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { take } from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
 })
 export class DesktopComponent implements OnInit {
   windows$: typeof this.windowService.Windows$;
-  isDarkMode$: typeof this.themeService.darkMode$;
+  @Input() isDarkMode$: typeof this.themeService.darkMode$;
 
   constructor(private windowService: WindowService, private themeService: ThemeService) {
     this.windows$ = this.windowService.Windows$;
