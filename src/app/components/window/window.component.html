@@ -10,6 +10,11 @@
   [style.height.px]="Window.height"
   [style.z-index]="Window.zIndex"
   (pointerdown)="onWindowClick($event)"
+  [ngStyle]="{
+    transform: getTransformStyle(),
+    'width.px': Window.width,
+    'height.px': Window.height
+  }"
 >
   <div
     class="window-header"

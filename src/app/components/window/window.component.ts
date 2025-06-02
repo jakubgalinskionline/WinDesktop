@@ -1,14 +1,14 @@
-import { Component, Input, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, Input, ElementRef, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
 import { WindowModel } from '../../models/window.model';
 import { WindowService } from '../../services/window.service';
-import { NgComponentOutlet } from '@angular/common';
+import { CommonModule, NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css'],
   standalone: true,
-  imports: [NgComponentOutlet],
+  imports: [CommonModule, NgComponentOutlet],
   host: {
     '[class.window-container]': 'true'
   }
@@ -23,12 +23,13 @@ export class WindowComponent implements OnInit {
   };
   private readonly TASKBAR_HEIGHT = 40;
 
-  constructor(
-    private WindowService: WindowService,
-    private elementRef: ElementRef
-  ) {
-    window.addEventListener('resize', this.handleResize.bind(this));
-  }
+constructor(
+  private WindowService: WindowService,
+  private elementRef: ElementRef,
+  private cdr: ChangeDetectorRef  // Dodaj ChangeDetectorRef
+) {
+  window.addEventListener('resize', this.handleResize.bind(this));
+}
 
 
   ngOnInit() {
@@ -82,42 +83,85 @@ export class WindowComponent implements OnInit {
     return this.elementRef.nativeElement.querySelector('.window');
   }
 
+  // MaximizeWindow() {
+  //     this.Window.isMaximized = !this.Window.isMaximized;
+  //     const windowElement = this.GetWindowElement();
+
+  //     if (this.Window.isMaximized) {
+  //       this.Window.prevState = {
+  //         x: this.Window.x,
+  //         y: this.Window.y,
+  //         width: this.Window.width,
+  //         height: this.Window.height
+  //       };
+
+  //       windowElement.classList.add('maximizing');
+
+  //       requestAnimationFrame(() => {
+  //         this.UpdateMaximizedState();
+  //         windowElement.classList.add('maximized');
+  //         windowElement.classList.remove('maximizing');
+  //         this.cdr.detectChanges();
+  //       });
+  //     } else {
+  //       if (this.Window.prevState) {
+  //         windowElement.classList.add('restoring');
+
+  //         requestAnimationFrame(() => {
+  //           Object.assign(this.Window, this.Window.prevState);
+  //           windowElement.classList.remove('maximized', 'restoring');
+  //           this.cdr.detectChanges();
+  //         });
+  //       }
+  //     }
+
+  //     this.WindowService.BringToFront(this.Window.id);
+  // }
   MaximizeWindow() {
-    this.Window.isMaximized = !this.Window.isMaximized;
-    const windowElement = this.GetWindowElement();
+      this.Window.isMaximized = !this.Window.isMaximized;
+      const windowElement = this.GetWindowElement();
 
-    if (this.Window.isMaximized) {
-      // Zapisz aktualny stan przed maksymalizacją
-      this.Window.prevState = {
-        x: this.Window.x,
-        y: this.Window.y,
-        width: this.Window.width,
-        height: this.Window.height
-      };
+      if (this.Window.isMaximized) {
+          // Zapisz aktualny stan przed maksymalizacją
+          this.Window.prevState = {
+              x: this.Window.x,
+              y: this.Window.y,
+              width: this.Window.width,
+              height: this.Window.height
+          };
 
-      // Dodaj klasę przed animacją
-      windowElement.classList.add('maximizing');
+          // Dodaj klasę animacji
+          windowElement.classList.add('maximizing');
 
-      // Animowana maksymalizacja
-      requestAnimationFrame(() => {
-        this.UpdateMaximizedState();
-        windowElement.classList.add('maximized');
-        windowElement.classList.remove('maximizing');
-      });
-    } else {
-      // Przywróć poprzedni stan okna
-      if (this.Window.prevState) {
-        windowElement.classList.add('restoring');
+          // Użyj setTimeout zamiast requestAnimationFrame
+          setTimeout(() => {
+              this.UpdateMaximizedState();
+              this.cdr.detectChanges();
 
-        requestAnimationFrame(() => {
-          Object.assign(this.Window, this.Window.prevState);
-          windowElement.classList.remove('maximized', 'restoring');
-        });
+              // Dodaj małe opóźnienie przed dodaniem klasy maximized
+              setTimeout(() => {
+                  windowElement.classList.add('maximized');
+                  windowElement.classList.remove('maximizing');
+                  this.cdr.detectChanges();
+              }, 50);
+          }, 0);
+      } else {
+          if (this.Window.prevState) {
+              windowElement.classList.add('restoring');
+
+              setTimeout(() => {
+                  Object.assign(this.Window, this.Window.prevState);
+                  this.cdr.detectChanges();
+
+                  setTimeout(() => {
+                      windowElement.classList.remove('maximized', 'restoring');
+                      this.cdr.detectChanges();
+                  }, 50);
+              }, 0);
+          }
       }
-    }
 
-    // Przenieś okno na wierzch
-    this.WindowService.BringToFront(this.Window.id);
+      this.WindowService.BringToFront(this.Window.id);
   }
 
   MinimizeWindow() {
