@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { take } from 'rxjs/operators';
 
 // obsługa okna
 import { WindowComponent } from '../window/window.component';
 import { WindowService } from '../../services/window.service';
-// obsługa tematu - jasny/ciemny
+// obsługa tematu - jasny/cie
 import { ThemeService } from './../../services/theme.service';
 
 import { NotepadComponent } from '../notepad/notepad.component';
@@ -22,25 +23,35 @@ import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
   templateUrl: `./desktop.component.html`,
   styleUrl: `./desktop.component.scss`,
 })
-export class DesktopComponent {
-  Windows$: typeof this.WindowService.Windows$;
-  isDarkMode$;
+export class DesktopComponent implements OnInit {
+  windows$: typeof this.windowService.Windows$;
+  isDarkMode$: typeof this.themeService.darkMode$;
 
-  constructor(private WindowService: WindowService, private themeService: ThemeService) {
-    this.Windows$ = this.WindowService.Windows$;
+  constructor(private windowService: WindowService, private themeService: ThemeService) {
+    this.windows$ = this.windowService.Windows$;
     this.isDarkMode$ = this.themeService.darkMode$;
+  }
+
+  ngOnInit() {
+    // Subskrybuj zmiany motywu i aktualizuj okna
+    this.isDarkMode$.subscribe(isDark => {
+      this.windows$.pipe(take(1)).subscribe((windows: any[]) => {
+        windows.forEach(window => {
+          window.isDarkMode = isDark;
+        });
+      });
+    });
   }
 
   toggleTheme() {
     this.themeService.toggleTheme();
   }
 
-
   OpenNotepad() {
-    this.WindowService.OpenWindow(NotepadComponent, 'Notatnik', 50, 150, 400, 400);
+    this.windowService.OpenWindow(NotepadComponent, 'Notatnik', 50, 150, 400, 400);
   }
 
   OpenCalculator() {
-    this.WindowService.OpenWindow(CalculatorComponent, 'Kalkulator', 150, 200, 600, 600);
+    this.windowService.OpenWindow(CalculatorComponent, 'Kalkulator', 150, 200, 600, 600);
   }
 }

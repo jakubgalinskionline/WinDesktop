@@ -1,12 +1,18 @@
-<!-- moje -->
-<!-- <button (click)="openNotepad()">Notatnik</button>
-<button (click)="openCalculator()">Kalkulator</button> -->
-<!-- //moje -->
 <!-- <app-navigation /> -->
-<div class="desktop">
+<div
+  class="desktop"
+  [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
+>
   <div class="taskbar">
     <header class="topnav">
-      <nav class="navbar navbar-expand-lg container-fluid">
+      <nav
+        class="navbar navbar-expand-lg container-fluid"
+        [ngClass]="
+          (isDarkMode$ | async)
+            ? 'navbar-dark bg-dark'
+            : 'navbar-light bg-light'
+        "
+      >
         <div class="collapse navbar-collapse" id="topnav-menu-content">
           <ul class="navbar-nav">
             <!-- Dashboard -->
@@ -154,19 +160,19 @@
             <!-- Theme Toggle -->
             <div class="topbar-item">
               <button
-                class="btn btn-link text-body p-0 border-0 shadow-none"
+                class="btn btn-link p-0 border-0 shadow-none"
+                [ngClass]="(isDarkMode$ | async) ? 'text-light' : 'text-dark'"
                 id="theme-toggle"
                 type="button"
+                (click)="toggleTheme()"
                 title="Zmień motyw"
               >
-                <i
-                  class="bi bi-moon-stars-fill fs-5 theme-icon-dark"
-                  (click)="toggleTheme()"
-                ></i>
-                <i
-                  class="bi bi-sun fs-5 theme-icon-light"
-                  (click)="toggleTheme()"
-                ></i>
+                <ng-container *ngIf="isDarkMode$ | async; else lightIcon">
+                  <i class="bi bi-sun-fill fs-5"></i>
+                </ng-container>
+                <ng-template #lightIcon>
+                  <i class="bi bi-moon-stars-fill fs-5"></i>
+                </ng-template>
               </button>
             </div>
 
@@ -180,9 +186,10 @@
   </div>
 
   <app-window
-    *ngFor="let Window of Windows$ | async"
-    [Window]="Window"
+    *ngFor="let window of windows$ | async"
+    [Window]="window"
+    [isDarkMode]="(isDarkMode$ | async) ?? false"
   ></app-window>
 
-  <app-footer />
+  <app-footer [isDarkMode]="(isDarkMode$ | async) ?? false" />
 </div>

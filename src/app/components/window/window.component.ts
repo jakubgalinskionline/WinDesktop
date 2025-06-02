@@ -2,6 +2,7 @@ import { Component, Input, ElementRef, HostListener, OnInit, ChangeDetectorRef }
 import { WindowModel } from '../../models/window.model';
 import { WindowService } from '../../services/window.service';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-window',
@@ -15,6 +16,7 @@ import { CommonModule, NgComponentOutlet } from '@angular/common';
 })
 export class WindowComponent implements OnInit {
   @Input() Window!: WindowModel;
+  @Input() isDarkMode?: boolean;  // dark mode
   public isDragging = false;
   private dragOffset = { x: 0, y: 0 };
   private screenBounds = {
@@ -23,14 +25,21 @@ export class WindowComponent implements OnInit {
   };
   private readonly TASKBAR_HEIGHT = 40;
 
-constructor(
-  private WindowService: WindowService,
-  private elementRef: ElementRef,
-  private cdr: ChangeDetectorRef  // Dodaj ChangeDetectorRef
-) {
-  window.addEventListener('resize', this.handleResize.bind(this));
-}
+  constructor(
+    private WindowService: WindowService,
+    private elementRef: ElementRef,
+    private cdr: ChangeDetectorRef,  // Dodaj ChangeDetectorRef
+    private themeService: ThemeService
+  ) {
+    // resize
+    window.addEventListener('resize', this.handleResize.bind(this));
 
+    // dark mode
+    this.themeService.darkMode$.subscribe(isDark => {
+        this.Window.isDarkMode = isDark;
+        this.cdr.detectChanges();
+    });
+  }
 
   ngOnInit() {
     // Ustaw początkowe wymiary okna jeśli nie są zdefiniowane

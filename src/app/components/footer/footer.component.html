@@ -1,5 +1,8 @@
 <!-- FOOTER -->
-<footer class="footer">
+<footer
+  class="footer"
+  [ngClass]="(isDarkMode$ | async) ? 'footer-dark' : 'footer-light'"
+>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-6 text-center text-md-start">

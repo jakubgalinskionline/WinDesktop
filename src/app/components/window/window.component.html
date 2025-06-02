@@ -10,6 +10,7 @@
   [style.height.px]="Window.height"
   [style.z-index]="Window.zIndex"
   (pointerdown)="onWindowClick($event)"
+  [attr.data-theme]="Window.isDarkMode ? 'dark' : 'light'"
   [ngStyle]="{
     transform: getTransformStyle(),
     'width.px': Window.width,

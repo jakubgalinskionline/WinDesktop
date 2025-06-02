@@ -9,6 +9,7 @@ export interface WindowModel {
   height: number;
   isMinimized: boolean;
   isMaximized: boolean;
+  isDarkMode?: boolean;
   zIndex: number;
   prevState?: {
     x: number;
