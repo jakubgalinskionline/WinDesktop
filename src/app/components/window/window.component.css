@@ -1,79 +1,21 @@
-/* .window {
+.window {
   position: fixed;
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  will-change: transform;
-  transform: translate3d(0,0,0);
-  -webkit-transform: translate3d(0,0,0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  touch-action: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-.window-header {
-  padding: 8px;
-  background: #f0f0f0;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: move;
-  touch-action: none;
-}
-
-.window-controls {
-  display: flex;
-  gap: 4px;
-}
-
-.window-controls button {
-  width: 30px;
-  height: 30px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.window.dragging {
-  opacity: 0.95;
-  pointer-events: auto;
-}
-
-.window-content {
-  position: relative;
-  height: calc(100% - 46px);
-  overflow: auto;
-  touch-action: auto;
-}
- */
-
- .window {
-  position: fixed;
-  background: #ffffff;
+  background: #fff;
   border-radius: 6px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.15);
   min-width: 200px;
   min-height: 150px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   z-index: 1000;
+  transition: all 0.0s ease-in-out;
 }
 
 .window-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 8px;
   background: #f5f5f5;
   border-bottom: 1px solid #ddd;
   user-select: none;
@@ -83,7 +25,6 @@
   font-size: 14px;
   font-weight: 500;
   color: #333;
-  margin-right: 8px;
 }
 
 .window-controls {
@@ -108,24 +49,20 @@
   background-color: rgba(0,0,0,0.1);
 }
 
-.minimize-btn .icon { color: #666; }
-.maximize-btn .icon { color: #666; }
-.close-btn .icon { color: #ff4444; }
-
 .window-content {
   flex: 1;
   overflow: auto;
   padding: 16px;
-  position: relative;
 }
 
+/* Stany okna */
 .window.dragging {
-  opacity: 0.92;
+  opacity: 0.9;
   cursor: move;
 }
 
 .window.minimized {
-  transform: scale(0.1);
+  transform: scale(0);
   opacity: 0;
   pointer-events: none;
 }
@@ -133,3 +70,8 @@
 .window.maximized {
   border-radius: 0;
 }
+
+/* Kolory ikon */
+.minimize-btn .icon { color: #666; }
+.maximize-btn .icon { color: #666; }
+.close-btn .icon { color: #f44; }
