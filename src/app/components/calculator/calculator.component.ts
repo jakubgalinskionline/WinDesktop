@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-calc',
+  selector: 'app-calculator',
   imports: [],
-  templateUrl: './calc.component.html',
-  styleUrl: './calc.component.css'
+  templateUrl: './calculator.component.html',
+  styleUrl: './calculator.component.css'
 })
 export class CalcComponent {
   // Właściwości kalkulatora
