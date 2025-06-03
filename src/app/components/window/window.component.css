@@ -27,6 +27,10 @@
   color: #333;
 }
 
+.window[data-theme="dark"] .window-title {
+  color: #e9ecef;
+}
+
 .window-controls {
   display: flex;
   gap: 4px;
@@ -55,7 +59,6 @@
   padding: 16px;
 }
 
-/* Stany okna */
 .window.dragging {
   opacity: 0.9;
   cursor: move;
@@ -71,21 +74,20 @@
   border-radius: 0;
 }
 
-/* Kolory ikon */
 .minimize-btn .icon { color: #666; }
 .maximize-btn .icon { color: #666; }
 .close-btn .icon { color: #f44; }
 
 .window-controls {
     display: flex;
-    gap: 2px;  /* zmniejszony odstęp między przyciskami */
+    gap: 2px;
 }
 
 .window-controls button {
-    width: 20px;    /* zmniejszona szerokość */
-    height: 20px;   /* zmniejszona wysokość */
+    width: 20px;
+    height: 20px;
     border: none;
-    border-radius: 3px;  /* zmniejszony radius */
+    border-radius: 3px;
     background: transparent;
     display: flex;
     align-items: center;
@@ -95,7 +97,7 @@
 }
 
 .window-controls i {
-    font-size: 12px;  /* zmniejszona wielkość ikon */
+    font-size: 12px;
 }
 
 .window[data-theme="dark"] {

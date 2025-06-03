@@ -9,25 +9,25 @@ export class ThemeService {
   darkMode$ = this.darkMode.asObservable();
 
   constructor() {
-    // Sprawdź zapisany motyw
+    // Sprawdź zapisany motyw w localStorage
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-      this.setDarkMode(savedTheme === 'dark');
+      this.darkMode.next(savedTheme === 'dark');
     } else {
       // Sprawdź preferencje systemowe
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.setDarkMode(prefersDark);
+      this.darkMode.next(prefersDark);
     }
   }
 
-  toggleTheme() {
-    this.setDarkMode(!this.darkMode.value);
+  toggleTheme(): void {
+    const newValue = !this.darkMode.getValue();
+    this.darkMode.next(newValue);
+    // Zapisz wybór w localStorage
+    localStorage.setItem('theme', newValue ? 'dark' : 'light');
   }
 
-  private setDarkMode(isDark: boolean) {
-    this.darkMode.next(isDark);
-    const theme = isDark ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
-    document.documentElement.setAttribute('data-bs-theme', theme);
+  getCurrentTheme(): boolean {
+    return this.darkMode.getValue();
   }
 }

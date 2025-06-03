@@ -1,5 +1,4 @@
 export interface WindowModel {
-  isActive: boolean;
   id: number;
   title: string;
   component: any;
@@ -9,8 +8,9 @@ export interface WindowModel {
   height: number;
   isMinimized: boolean;
   isMaximized: boolean;
-  isDarkMode?: boolean;
   zIndex: number;
+  isActive: boolean;
+  isDarkMode: boolean;
   prevState?: {
     x: number;
     y: number;
