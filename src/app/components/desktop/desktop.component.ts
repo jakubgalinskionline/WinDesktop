@@ -1,32 +1,31 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-// obsługa okna
+// okno
 import { WindowComponent } from '../window/window.component';
 import { WindowService } from '../../services/window.service';
-// obsługa tematu - jasny/cie
 import { ThemeService } from './../../services/theme.service';
-
-import { NotepadComponent } from '../notepad/notepad.component';
-import { CalculatorComponent } from '../calculator/calculator.component';
-import { FooterComponent } from "../footer/footer.component";
-
 import { NotificationIconComponent } from '../notification-icon/notification-icon.component';
 import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
-import { Observable } from 'rxjs';
+import { FooterComponent } from "../footer/footer.component";
+// komponenty
+import { NotepadComponent } from '../notepad/notepad.component';
+import { CalculatorComponent } from '../calculator/calculator.component';
 
+import { AgentComponent } from '../agent/agent.component';
 @Component({
   selector: 'app-desktop',
   standalone: true,
-  imports: [CommonModule, WindowComponent, FooterComponent, UserNavIconComponent, NotificationIconComponent],
+  imports: [CommonModule, WindowComponent, FooterComponent, UserNavIconComponent, NotificationIconComponent, AgentComponent],
   providers: [ThemeService],
   templateUrl: `./desktop.component.html`,
   styleUrl: `./desktop.component.scss`,
 })
 export class DesktopComponent implements OnInit {
   windows$: typeof this.windowService.Windows$;
-@Input() isDarkMode$: Observable<boolean>;
+  @Input() isDarkMode$: Observable<boolean>;
 
   constructor(private windowService: WindowService, private themeService: ThemeService) {
     this.windows$ = this.windowService.Windows$;

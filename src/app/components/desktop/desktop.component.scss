@@ -38,6 +38,14 @@
   padding-bottom: 4px;
 }
 
+// Style dla agenta
+.agent {
+  position: fixed;
+  right: 20px;
+  bottom: 58px; // 48px (wysokość stopki) + 10px marginesu
+  z-index: 1020;
+}
+
 // Style dla ikon w menu
 .menu-icon {
   display: inline-flex;
