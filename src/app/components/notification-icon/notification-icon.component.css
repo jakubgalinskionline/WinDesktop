@@ -103,3 +103,47 @@
   text-align: center;
   border-top: 1px solid #eee;
 }
+
+/* Zmienne dla motywów */
+:root {
+  --notification-bg: #ffffff;
+  --notification-border: #dee2e6;
+  --notification-text: #212529;
+  --notification-hover: #f8f9fa;
+}
+
+[data-theme="dark"] {
+  --notification-bg: #343a40;
+  --notification-border: #495057;
+  --notification-text: #ffffff;
+  --notification-hover: #495057;
+  --notification-time: #d3d3d3;
+}
+
+.dropdown-menu {
+  background-color: var(--notification-bg);
+  border-color: var(--notification-border);
+  color: var(--notification-text);
+}
+
+.dropdown-item {
+  color: var(--notification-text);
+}
+
+.dropdown-item:hover {
+  background-color: var(--notification-hover);
+}
+
+.border-bottom {
+  border-color: var(--notification-border) !important;
+}
+
+.text-muted {
+  color: var(--notification-text) !important;
+  opacity: 0.75;
+}
+
+.badge-label {
+  background-color: var(--notification-hover);
+  color: var(--notification-text);
+}

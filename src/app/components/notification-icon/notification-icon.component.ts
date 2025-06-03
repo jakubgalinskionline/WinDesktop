@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../../services/theme.service';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-notification-icon',
   standalone: true,
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './notification-icon.component.html',
-  styleUrl: './notification-icon.component.css'
+  styleUrls: ['./notification-icon.component.css']
 })
-export class NotificationIconComponent {
+export class NotificationIconComponent implements OnInit {
+  isDarkMode$: Observable<boolean>;
 
+  constructor(private themeService: ThemeService) {
+    this.isDarkMode$ = this.themeService.darkMode$;
+  }
+
+  ngOnInit(): void {}
 }

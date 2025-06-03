@@ -1,5 +1,8 @@
 <!-- Notification Dropdown -->
-<div class="topbar-item">
+<div
+  class="topbar-item"
+  [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
+>
   <div class="dropdown">
     <button
       class="topbar-link dropdown-toggle drop-arrow-none"
@@ -14,7 +17,10 @@
       <span class="badge badge-square text-bg-warning topbar-badge">14</span>
     </button>
 
-    <div class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg">
+    <div
+      class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg"
+      [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
+    >
       <div class="px-3 py-2 border-bottom">
         <div class="row align-items-center">
           <div class="col">
@@ -434,14 +440,13 @@
         </div>
       </div>
       <!-- end dropdown-->
-
       <!-- All-->
-      <a
+      <!-- <a
         href="javascript:void(0);"
         class="dropdown-item text-center text-reset text-decoration-underline link-offset-2 fw-bold notify-item border-top border-light py-2"
       >
         View All Alerts
-      </a>
+      </a> -->
     </div>
   </div>
 </div>
