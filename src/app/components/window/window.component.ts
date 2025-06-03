@@ -16,7 +16,8 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class WindowComponent implements OnInit {
   @Input() Window!: WindowModel;
-  @Input() isDarkMode$!: boolean;  // dark mode
+  @Input() isDarkMode$!: boolean;
+
   public isDragging = false;
   private dragOffset = { x: 0, y: 0 };
   private screenBounds = {
@@ -28,7 +29,7 @@ export class WindowComponent implements OnInit {
   constructor(
     private WindowService: WindowService,
     private elementRef: ElementRef,
-    private cdr: ChangeDetectorRef,  // Dodaj ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
     private themeService: ThemeService
   ) {
     // resize

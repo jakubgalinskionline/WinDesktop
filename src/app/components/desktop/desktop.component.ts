@@ -14,6 +14,7 @@ import { FooterComponent } from "../footer/footer.component";
 
 import { NotificationIconComponent } from '../notification-icon/notification-icon.component';
 import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-desktop',
@@ -25,7 +26,7 @@ import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
 })
 export class DesktopComponent implements OnInit {
   windows$: typeof this.windowService.Windows$;
-  @Input() isDarkMode$: typeof this.themeService.darkMode$;
+@Input() isDarkMode$: Observable<boolean>;
 
   constructor(private windowService: WindowService, private themeService: ThemeService) {
     this.windows$ = this.windowService.Windows$;

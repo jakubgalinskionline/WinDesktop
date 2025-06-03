@@ -1,20 +1,39 @@
+/* Zmienne dla motywów */
+:root {
+  --desktop-bg: #f8f9fa;
+  --taskbar-bg: #ffffff;
+  --taskbar-border: #dee2e6;
+  --text-color: #212529;
+}
+
+[data-theme="dark"] {
+  --desktop-bg: #1a1d21;
+  --taskbar-bg: #212529;
+  --taskbar-border: #495057;
+  --text-color: #e9ecef;
+}
+
 .desktop {
-  height: 100vh;
-  background: #f8f8f8;
-  overflow: hidden;
+  background-color: var(--desktop-bg);
+  min-height: 100vh;
   position: relative;
+  overflow: hidden;
+  color: var(--text-color);
 }
 
 .taskbar {
+  background-color: var(--taskbar-bg);
+  border-bottom: 1px solid var(--taskbar-border);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 48px;
-  background: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  z-index: 1000;
+  z-index: 1030;
 }
+
+
+
+
 
 // Style dla ikon w menu
 .menu-icon {
@@ -275,6 +294,22 @@ app-footer {
 }
 
 [data-theme="dark"] .dropdown-item:hover i {
+  color: #fff;
+}
+
+
+/* Style dla menu w trybie ciemnym */
+[data-theme="dark"] .dropdown-menu {
+  background-color: #343a40;
+  border-color: #495057;
+}
+
+[data-theme="dark"] .dropdown-item {
+  color: #e9ecef;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: #495057;
   color: #fff;
 }
 
