@@ -1,59 +1,105 @@
-:host {
-  display: block;
-  width: 400px;
-  height: 300px;
-  background-color: var(--taskbar-bg);
-  border: 1px solid var(--taskbar-border);
-  border-radius: 6px;
-  overflow: hidden;
-  z-index: 1020;
-  position: relative;
-}
+    .agent-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background-color: white;
+      border-radius: 8px;
+    }
 
-:host-context([data-theme="dark"]) {
-  background-color: #343a40;
-  border-color: #495057;
-  color: #e9ecef;
-}
+    .dark-mode {
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
 
-// Scrollbar
-::-webkit-scrollbar {
-  width: 6px;
-}
+    .agent-header {
+      padding: 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
+    .agent-title {
+      font-size: 18px;
+      font-weight: 500;
+    }
 
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 3px;
-}
+    .agent-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      overflow: hidden;
+    }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
 
-// Ciemny motyw dla scrollbara
-:host-context([data-theme="dark"]) {
-  ::-webkit-scrollbar-track {
-    background: #2b3035;
-  }
+    .message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 80%;
+    }
 
-  ::-webkit-scrollbar-thumb {
-    background: #495057;
-  }
+    .user-message {
+      margin-left: auto;
+      background-color: #007bff;
+      color: white;
+    }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6c757d;
-  }
-}
+    .agent-message {
+      margin-right: auto;
+      background-color: #f0f0f0;
+      color: black;
+    }
 
-.agent-content {
-  padding: 16px;
-  height: 100%;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
+    .dark-mode .agent-message {
+      background-color: #2d2d2d;
+      color: white;
+    }
+
+    .message-time {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .dark-input {
+      background-color: #2d2d2d;
+      color: white;
+      border-color: #3d3d3d;
+    }
+
+    button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    .dark-button {
+      background-color: #0056b3;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }

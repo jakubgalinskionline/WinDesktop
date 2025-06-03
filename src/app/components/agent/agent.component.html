@@ -1,3 +1,30 @@
-<div class="agent-content">
-  <!-- Tutaj będzie zawartość okna agenta -->
+<div class="agent-container" [class.dark-mode]="isDarkMode$ | async">
+  <div class="agent-header">
+    <div class="agent-title">Asystent AI</div>
+  </div>
+  <div class="agent-content">
+    <div class="chat-messages" #chatMessages>
+      <div
+        *ngFor="let message of messages"
+        [class.user-message]="message.type === 'user'"
+        [class.agent-message]="message.type === 'agent'"
+        class="message"
+      >
+        <div class="message-content">{{ message.text }}</div>
+        <div class="message-time">{{ message.time | date : "shortTime" }}</div>
+      </div>
+    </div>
+    <div class="input-area">
+      <input
+        type="text"
+        [(ngModel)]="userInput"
+        (keyup.enter)="sendMessage()"
+        placeholder="Napisz wiadomość..."
+        [class.dark-input]="isDarkMode$ | async"
+      />
+      <button (click)="sendMessage()" [class.dark-button]="isDarkMode$ | async">
+        <i class="bi bi-send"></i>
+      </button>
+    </div>
+  </div>
 </div>
