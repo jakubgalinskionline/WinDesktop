@@ -43,6 +43,12 @@ export class WindowComponent implements OnInit {
   }
 
   ngOnInit() {
+        // dark mode
+    this.themeService.darkMode$.subscribe(isDark => {
+        this.Window.isDarkMode = isDark;
+        this.cdr.detectChanges();
+    });
+
     // Ustaw początkowe wymiary okna jeśli nie są zdefiniowane
     if (!this.Window.width) this.Window.width = 400;
     if (!this.Window.height) this.Window.height = 300;
