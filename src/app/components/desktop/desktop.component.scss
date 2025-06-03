@@ -29,20 +29,23 @@
   left: 0;
   right: 0;
   z-index: 1030;
+  height: 48px;
 }
 
-
-
-
+.navbar {
+  min-height: 48px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
 
 // Style dla ikon w menu
 .menu-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
 
   i {
     font-size: 16px;
@@ -120,17 +123,17 @@ app-window {
   top: 48px; // wysokość taskbara
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 48px;
   overflow: hidden;
 }
 
 // Style dla komponentu footer
 app-footer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 30px;
+  height: 10px;
   background: #ffffff;
   border-top: 1px solid #e0e0e0;
   z-index: 1000;
@@ -151,14 +154,14 @@ app-footer {
   }
 }
 
-
-
 // user icon
 .language-btn {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px;
+  padding: 10px 12px;
+  height: 32px;
+  padding: 6px 10px;
   background: var(--bs-light);
   border: 1px solid var(--bs-border-color);
   border-radius: 6px;
@@ -199,7 +202,8 @@ app-footer {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 8px 16px;
+  height: 32px; // Zmniejszona wysokość z 40px
+  padding: 0 12px; // Mniejszy padding
 
     &:hover {
       background: var(--bs-gray-100);
@@ -254,6 +258,7 @@ app-footer {
   width: 20px;
   height: 15px;
   margin-right: 8px;
+  object-fit: contain;
 }
 
 .language-code {
@@ -262,12 +267,11 @@ app-footer {
 }
 
 .dropdown-item {
+  height: 40px; // Dodana stała wysokość
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 0 16px; // Zmodyfikowany padding dla lepszego wycentrowania
 }
-
-
 
 /* Dropdown items w trybie ciemnym */
 [data-theme="dark"] .dropdown-menu {
@@ -296,20 +300,3 @@ app-footer {
 [data-theme="dark"] .dropdown-item:hover i {
   color: #fff;
 }
-
-
-/* Style dla menu w trybie ciemnym */
-[data-theme="dark"] .dropdown-menu {
-  background-color: #343a40;
-  border-color: #495057;
-}
-
-[data-theme="dark"] .dropdown-item {
-  color: #e9ecef;
-}
-
-[data-theme="dark"] .dropdown-item:hover {
-  background-color: #495057;
-  color: #fff;
-}
-

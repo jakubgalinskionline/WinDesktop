@@ -43,8 +43,8 @@
 
 .dropdown-menu {
   background-color: var(--user-menu-bg);
-
 }
+/* border-color: var(--user-menu-border); */
 
 .dropdown-item {
   color: var(--user-menu-text);
@@ -55,10 +55,10 @@
 }
 
 .dropdown-divider {
-
 }
+/* border-color: var(--user-menu-border); */
 
 [data-theme="dark"] .dropdown-header {
-
   background-color: var(--user-menu-bg);
 }
+/* border-color: var(--user-menu-border); */
