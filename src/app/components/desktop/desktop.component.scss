@@ -247,3 +247,34 @@ app-footer {
   align-items: center;
   padding: 8px 16px;
 }
+
+
+
+/* Dropdown items w trybie ciemnym */
+[data-theme="dark"] .dropdown-menu {
+  background-color: #343a40;
+  border-color: #495057;
+}
+
+[data-theme="dark"] .dropdown-item {
+  color: #e9ecef;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: #495057;
+  color: #fff;
+}
+
+[data-theme="dark"] .dropdown-item:active {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+[data-theme="dark"] .dropdown-item i {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .dropdown-item:hover i {
+  color: #fff;
+}
+
