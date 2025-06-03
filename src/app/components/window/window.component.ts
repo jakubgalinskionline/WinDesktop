@@ -1,8 +1,10 @@
-import { Component, Input, ElementRef, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ElementRef, HostListener, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { WindowModel } from '../../models/window.model';
 import { WindowService } from '../../services/window.service';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
+import { WindowCommunicationService } from '../../services/window-communication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-window',
@@ -14,7 +16,7 @@ import { ThemeService } from '../../services/theme.service';
     '[class.window-container]': 'true'
   }
 })
-export class WindowComponent implements OnInit {
+export class WindowComponent implements OnInit, OnDestroy {
   @Input() Window!: WindowModel;
   @Input() isDarkMode$!: boolean;
 
@@ -25,12 +27,13 @@ export class WindowComponent implements OnInit {
     height: window.innerHeight
   };
   private readonly TASKBAR_HEIGHT = 40;
-
+  private messageSubscription?: Subscription;
   constructor(
     private WindowService: WindowService,
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private windowCommunication: WindowCommunicationService
   ) {
     // resize
     window.addEventListener('resize', this.handleResize.bind(this));
@@ -42,8 +45,25 @@ export class WindowComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-        // dark mode
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.handleResize.bind(this));
+    this.messageSubscription?.unsubscribe();
+  }
+  ngOnInit() {    // Subskrybuj wiadomości dla tego okna
+    this.messageSubscription = this.windowCommunication.getMessages(this.Window.id)
+      .subscribe(message => {
+        // Przekaż wiadomość do komponentu wewnątrz okna, jeśli implementuje odpowiedni interfejs
+        const component = this.Window.component;
+        if (component && 'onWindowMessage' in component) {
+          component.onWindowMessage(message);
+        }
+      });
+
+    // Przekaż kontekst okna do komponentu wewnętrznego
+    (window as any).currentWindowId = this.Window.id;
+    (window as any).currentWindowComponent = this;
+
+    // dark mode
     this.themeService.darkMode$.subscribe(isDark => {
         this.Window.isDarkMode = isDark;
         this.cdr.detectChanges();
@@ -282,9 +302,17 @@ export class WindowComponent implements OnInit {
     this.isDragging = false;
     (event.target as HTMLElement).releasePointerCapture(event.pointerId);
   }
-
   private constrainWindowToBounds() {
     this.Window.x = Math.max(0, Math.min(this.Window.x, this.screenBounds.width - this.Window.width));
     this.Window.y = Math.max(0, Math.min(this.Window.y, this.screenBounds.height - this.Window.height));
+  }
+
+  // Metoda do wysyłania wiadomości z okna
+  sendMessage(type: string, data: any, toId?: number) {
+    if (toId) {
+      this.windowCommunication.sendDirectMessage(this.Window.id, toId, type, data);
+    } else {
+      this.windowCommunication.broadcast(this.Window.id, type, data);
+    }
   }
 }
