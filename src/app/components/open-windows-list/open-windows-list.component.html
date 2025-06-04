@@ -5,7 +5,7 @@
   <div
     class="windows-list"
     [class.show]="isListVisible"
-    [attr.data-theme]="'light'"
+    [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
   >
     <div
       class="window-item"

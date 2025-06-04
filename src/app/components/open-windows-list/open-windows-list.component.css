@@ -53,7 +53,6 @@
 .window-item:last-child {
   border-bottom: none;
 }
-
 .window-title {
   flex: 1;
   margin-right: 12px;
@@ -90,10 +89,21 @@
 }
 
 /* Dark mode */
-[data-theme="dark"] .window-item:hover {
+[data-theme="dark"] .windows-list {
   background-color: var(--bs-gray-800);
+  border-color: var(--bs-gray-700);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .window-item {
+  background-color: var(--bs-gray-800);
+  border-color: var(--bs-gray-700);
+}
+
+[data-theme="dark"] .window-item:hover {
+  background-color: var(--bs-gray-700);
 }
 
 [data-theme="dark"] .window-action-btn:hover {
-  background-color: var(--bs-gray-700);
+  background-color: var(--bs-gray-600);
 }

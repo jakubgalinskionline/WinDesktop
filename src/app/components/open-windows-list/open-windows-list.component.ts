@@ -2,6 +2,8 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowModel } from '../../models/window/window.model';
 import { WindowService } from '../../services/window.service';
+import { ThemeService } from '../../services/theme.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-open-windows-list',
@@ -14,8 +16,11 @@ import { WindowService } from '../../services/window.service';
 export class OpenWindowsListComponent {
   @Input() windows: WindowModel[] = [];
   isListVisible = false;
+  isDarkMode$: Observable<boolean>;
 
-  constructor(private windowService: WindowService) {}
+  constructor(private themeService: ThemeService, private windowService: WindowService) {
+        this.isDarkMode$ = this.themeService.darkMode$;
+  }
 
   trackById(index: number, window: WindowModel): number {
     return window.id;
