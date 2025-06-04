@@ -3,7 +3,6 @@ import { WindowModel } from '../../models/window.model';
 import { WindowService } from '../../services/window.service';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
-import { WindowCommunicationService } from '../../services/window-communication.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -33,7 +32,6 @@ export class WindowComponent implements OnInit, OnDestroy {
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
     private themeService: ThemeService,
-    private windowCommunication: WindowCommunicationService
   ) {
     // resize
     window.addEventListener('resize', this.handleResize.bind(this));
@@ -50,15 +48,6 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.messageSubscription?.unsubscribe();
   }
   ngOnInit() {    // Subskrybuj wiadomości dla tego okna
-    this.messageSubscription = this.windowCommunication.getMessages(this.Window.id)
-      .subscribe(message => {
-        // Przekaż wiadomość do komponentu wewnątrz okna, jeśli implementuje odpowiedni interfejs
-        const component = this.Window.component;
-        if (component && 'onWindowMessage' in component) {
-          component.onWindowMessage(message);
-        }
-      });
-
     // Przekaż kontekst okna do komponentu wewnętrznego
     (window as any).currentWindowId = this.Window.id;
     (window as any).currentWindowComponent = this;
@@ -305,14 +294,5 @@ export class WindowComponent implements OnInit, OnDestroy {
   private constrainWindowToBounds() {
     this.Window.x = Math.max(0, Math.min(this.Window.x, this.screenBounds.width - this.Window.width));
     this.Window.y = Math.max(0, Math.min(this.Window.y, this.screenBounds.height - this.Window.height));
-  }
-
-  // Metoda do wysyłania wiadomości z okna
-  sendMessage(type: string, data: any, toId?: number) {
-    if (toId) {
-      this.windowCommunication.sendDirectMessage(this.Window.id, toId, type, data);
-    } else {
-      this.windowCommunication.broadcast(this.Window.id, type, data);
-    }
   }
 }
