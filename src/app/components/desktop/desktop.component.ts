@@ -9,7 +9,6 @@ import { WindowService } from '../../services/window.service';
 import { ThemeService } from './../../services/theme.service';
 import { NotificationIconComponent } from '../notification-icon/notification-icon.component';
 import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
-import { FooterComponent } from "../footer/footer.component";
 // komponenty
 import { NotepadComponent } from '../notepad/notepad.component';
 import { CalculatorComponent } from '../calculator/calculator.component';
@@ -18,7 +17,7 @@ import { AgentComponent } from '../agent/agent.component';
 @Component({
   selector: 'app-desktop',
   standalone: true,
-  imports: [CommonModule, WindowComponent, FooterComponent, UserNavIconComponent, NotificationIconComponent, AgentComponent],
+  imports: [CommonModule, WindowComponent, UserNavIconComponent, NotificationIconComponent, AgentComponent],
   providers: [ThemeService],
   templateUrl: `./desktop.component.html`,
   styleUrl: `./desktop.component.scss`,
