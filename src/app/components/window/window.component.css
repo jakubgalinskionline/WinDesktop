@@ -7,10 +7,49 @@
   min-height: 150px;
   display: flex;
   flex-direction: column;
-  z-index: 1000;
-  transition: all 0.0s ease-in-out;
+  z-index: var(--window-z-index, 1000);
+  transform: var(--window-transform);
+  width: var(--window-width);
+  height: var(--window-height);
+  transition: all 0.3s ease-in-out;
 }
 
+/* Stany okna */
+.window.minimizing {
+  transition: all 0.3s ease-in-out;
+  opacity: 0.5;
+  transform-origin: bottom left;
+  pointer-events: none;
+}
+
+.window.minimized {
+  transform: translate(var(--taskbar-position-x), var(--taskbar-position-y)) scale(0.1) !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.window.maximized {
+  border-radius: 0;
+  width: 100vw !important;
+  height: calc(100vh - var(--taskbar-height)) !important;
+  transform: none !important;
+}
+
+.window.restoring {
+  transition: all 0.3s ease-in-out;
+}
+
+.window.active {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.window.dragging {
+  opacity: 0.8;
+  transition: none;
+  cursor: move;
+}
+
+/* Nagłówek okna */
 .window-header {
   display: flex;
   align-items: center;
@@ -31,9 +70,10 @@
   color: #e9ecef;
 }
 
+/* Przyciski kontrolne */
 .window-controls {
   display: flex;
-  gap: 4px;
+  gap: 2px;
 }
 
 .window-controls button {
@@ -53,72 +93,38 @@
   background-color: rgba(0,0,0,0.1);
 }
 
+.window-controls i {
+  font-size: 12px;
+}
+
+/* Zawartość okna */
 .window-content {
   flex: 1;
   overflow: auto;
+  position: relative;
   padding: 16px;
 }
 
-.window.dragging {
-  opacity: 0.9;
-  cursor: move;
-}
-
-.window.minimized {
-  transform: scale(0);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.window.maximized {
-  border-radius: 0;
-}
-
-.minimize-btn .icon { color: #666; }
-.maximize-btn .icon { color: #666; }
-.close-btn .icon { color: #f44; }
-
-.window-controls {
-    display: flex;
-    gap: 2px;
-}
-
-.window-controls button {
-    width: 20px;
-    height: 20px;
-    border: none;
-    border-radius: 3px;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.window-controls i {
-    font-size: 12px;
-}
-
+/* Tryb ciemny */
 .window[data-theme="dark"] {
-    background-color: #343a40;
-    color: #e9ecef;
+  background: #1e1e1e;
+  color: #e9ecef;
 }
 
 .window[data-theme="dark"] .window-header {
-    background-color: #212529;
-    border-bottom-color: #495057;
+  background: #2d2d2d;
+  border-bottom-color: #3d3d3d;
 }
 
 .window[data-theme="dark"] .window-controls button {
-    color: #adb5bd;
+  color: #adb5bd;
 }
 
 .window[data-theme="dark"] .window-controls button:hover {
-    background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255,255,255,0.1);
 }
 
-.window[data-theme="dark"] .window-controls .close-btn:hover {
-    background-color: #dc3545;
-    color: white;
-}
+/* Kolory przycisków kontrolnych */
+.minimize-btn:hover { background-color: rgba(0,0,0,0.1); }
+.maximize-btn:hover { background-color: rgba(0,0,0,0.1); }
+.close-btn:hover { background-color: #dc3545 !important; color: white !important; }

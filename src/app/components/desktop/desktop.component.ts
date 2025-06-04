@@ -1,61 +1,72 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-// okno
+import { WindowModel } from '../../models/window/window.model';
 import { WindowComponent } from '../window/window.component';
-import { WindowService } from '../../services/window.service';
-import { ThemeService } from './../../services/theme.service';
 import { NotificationIconComponent } from '../notification-icon/notification-icon.component';
 import { UserNavIconComponent } from '../user-nav-icon/user-nav-icon.component';
-// komponenty
-import { NotepadComponent } from '../notepad/notepad.component';
-import { CalculatorComponent } from '../calculator/calculator.component';
-
+import { OpenWindowsListComponent } from '../open-windows-list/open-windows-list.component';
 import { AgentComponent } from '../agent/agent.component';
+
+import { WindowService } from '../../services/window.service';
+import { ThemeService } from '../../services/theme.service';
+
+import { CalculatorComponent } from '../calculator/calculator.component';
+import { NotepadComponent } from '../notepad/notepad.component';
+
 @Component({
   selector: 'app-desktop',
   standalone: true,
-  imports: [CommonModule, WindowComponent, UserNavIconComponent, NotificationIconComponent, AgentComponent],
-  providers: [ThemeService],
-  templateUrl: `./desktop.component.html`,
-  styleUrl: `./desktop.component.scss`,
+  imports: [
+    CommonModule,
+    WindowComponent,
+    UserNavIconComponent,
+    NotificationIconComponent,
+    AgentComponent,
+    OpenWindowsListComponent,
+  ],
+  providers: [ThemeService, WindowService],
+  templateUrl: './desktop.component.html',
+  styleUrl: './desktop.component.scss',
 })
 export class DesktopComponent implements OnInit {
-  windows$: typeof this.windowService.Windows$;
-  @Input() isDarkMode$: Observable<boolean>;
+  windows$: Observable<WindowModel[]>;
+  isDarkMode$: Observable<boolean>;
 
   constructor(private windowService: WindowService, private themeService: ThemeService) {
-    this.windows$ = this.windowService.Windows$;
+    this.windows$ = this.windowService.windows$;
     this.isDarkMode$ = this.themeService.darkMode$;
   }
 
   ngOnInit() {
-    // Subskrybuj zmiany motywu i aktualizuj okna
-    this.isDarkMode$.subscribe(isDark => {
-      this.windows$.pipe(take(1)).subscribe((windows: any[]) => {      windows.forEach(window => {
-          window.themeMode = isDark;
-        });
-      });
-    });
+    // Inicjalizacja komponentu
   }
 
   toggleTheme() {
-    this.themeService.toggleTheme();
+    this.themeService.toggleDarkMode();
+  }
+  openNotepad() {
+    this.windowService.openWindow(NotepadComponent, 'Notatnik',
+      Math.random() * (window.innerWidth - 400), // losowa pozycja x
+      Math.random() * (window.innerHeight - 400), // losowa pozycja y
+      400, 400);
   }
 
-  OpenNotepad() {
-    this.windowService.OpenWindow(NotepadComponent, 'Notatnik', 50, 150, 400, 400);
-  }
-  OpenCalculator() {
-    this.windowService.OpenWindow(CalculatorComponent, 'Kalkulator', 150, 200, 600, 600);
+  openCalculator() {
+    this.windowService.openWindow(CalculatorComponent, 'Kalkulator',
+      Math.random() * (window.innerWidth - 600), // losowa pozycja x
+      Math.random() * (window.innerHeight - 600), // losowa pozycja y
+      600, 600);
   }
 
-  OpenTwoWindows() {
-    // Otwórz pierwsze okno czatu
-    this.windowService.OpenWindow(NotepadComponent, 'Chat 1', 50, 50, 400, 500);
-    // Otwórz drugie okno czatu obok
-    this.windowService.OpenWindow(CalculatorComponent, 'Chat 2', 500, 50, 400, 500);
+  openTwoWindows() {
+    this.openNotepad();
+    this.openCalculator();
+  }
+
+  trackById(index: number, window: WindowModel): number {
+    return window.id;
   }
 }

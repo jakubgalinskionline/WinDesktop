@@ -1,205 +1,199 @@
+<!DOCTYPE html>
 <!-- <app-navigation /> -->
+<!-- Główny kontener desktop -->
 <div
   class="desktop"
   [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
 >
+  <!-- Taskbar -->
   <div class="taskbar">
-    <header class="topnav">
-      <nav
-        class="navbar navbar-expand-lg container-fluid"
-        [ngClass]="
-          (isDarkMode$ | async)
-            ? 'navbar-dark bg-dark'
-            : 'navbar-light bg-light'
-        "
-      >
-        <div class="collapse navbar-collapse" id="topnav-menu-content">
-          <ul class="navbar-nav">
-            <!-- Dashboard -->
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle drop-arrow-none"
-                href="#"
-                id="topnav-dashboards"
-                data-bs-toggle="dropdown"
-              >
-                <span class="menu-icon"
-                  ><i class="ti ti-layout-dashboard"></i
-                ></span>
-                <span class="menu-text">Pulpit</span>
-                <div class="menu-arrow"></div>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="topnav-dashboards">
-                <a href="#" class="dropdown-item" (click)="OpenCalculator()">
-                  <i class="ti ti-home"></i> Panel główny</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenNotepad()">
-                  <i class="ti ti-pencil"></i> Notatnik</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenCalculator()">
-                  <i class="ti ti-chart-pie"></i> Raporty</a
-                >
-              </div>
-            </li>
-
-            <!-- Zarządzanie -->
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle drop-arrow-none"
-                href="#"
-                id="topnav-management"
-                data-bs-toggle="dropdown"
-              >
-                <span class="menu-icon"><i class="ti ti-settings"></i></span>
-                <span class="menu-text">Zarządzanie</span>
-                <div class="menu-arrow"></div>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="topnav-management">
-                <a href="#" class="dropdown-item" (click)="OpenNotepad()">
-                  <i class="ti ti-users"></i> Użytkownicy</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenCalculator()">
-                  <i class="ti ti-lock"></i> Uprawnienia</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenNotepad()">
-                  <i class="ti ti-settings"></i> Ustawienia</a
-                >
-              </div>
-            </li>
-
-            <!-- Dokumenty -->
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle drop-arrow-none"
-                href="#"
-                id="topnav-documents"
-                data-bs-toggle="dropdown"
-              >
-                <span class="menu-icon"><i class="ti ti-files"></i></span>
-                <span class="menu-text">Dokumenty</span>
-                <div class="menu-arrow"></div>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="topnav-documents">
-                <a href="#" class="dropdown-item" (click)="OpenCalculator()">
-                  <i class="ti ti-file-invoice"></i> Faktury</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenNotepad()">
-                  <i class="ti ti-shopping-cart"></i> Zamówienia</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenCalculator()">
-                  <i class="ti ti-file-contract"></i> Umowy</a
-                >
-              </div>
-            </li>
-
-            <!-- Raporty -->
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle drop-arrow-none"
-                href="#"
-                id="topnav-reports"
-                data-bs-toggle="dropdown"
-              >
-                <span class="menu-icon"><i class="ti ti-chart-bar"></i></span>
-                <span class="menu-text">Raporty</span>
-                <div class="menu-arrow"></div>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="topnav-reports">
-                <a href="#" class="dropdown-item" (click)="OpenNotepad()">
-                  <i class="ti ti-report-money"></i> Raporty sprzedaży</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenCalculator()">
-                  <i class="ti ti-report"></i> Raporty finansowe</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenNotepad()">
-                  <i class="ti ti-chart-dots"></i> Analityka</a
-                >
-                <a href="#" class="dropdown-item" (click)="OpenTwoWindows()">
-                  <i class="ti ti-messages"></i> Otwórz 2 okna</a
-                >
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <!-- user icon -->
-        <!-- Right Topbar -->
-        <div class="topbar-right">
-          <div class="d-flex gap-3">
-            <!-- Language Switcher -->
-            <!-- Language Switcher -->
-            <div class="topbar-item">
-              <div class="dropdown">
-                <button
-                  class="btn btn-link p-0 border-0 shadow-none"
-                  [ngClass]="(isDarkMode$ | async) ? 'text-light' : 'text-dark'"
+    <nav class="navbar">
+      <header class="topnav w-100">
+        <nav
+          class="navbar navbar-expand-lg container-fluid"
+          [ngClass]="
+            (isDarkMode$ | async)
+              ? 'navbar-dark bg-dark'
+              : 'navbar-light bg-light'
+          "
+        >
+          <div class="navbar-left">
+            <ul class="navbar-nav">
+              <!-- Dashboard -->
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle drop-arrow-none"
+                  href="#"
+                  id="topnav-dashboards"
                   data-bs-toggle="dropdown"
-                  type="button"
-                  aria-label="Wybór języka"
                 >
-                  <img
-                    src="images/flags/pl.svg"
-                    alt=""
-                    class="flag-icon"
-                    id="selected-language-image"
-                  />
-                  <span class="language-code">PL</span>
-                  <i class="bi bi-chevron-down ms-1"></i>
-                </button>
-                <div
-                  class="dropdown-menu"
-                  [ngClass]="(isDarkMode$ | async) ? 'dropdown-menu-dark' : ''"
-                >
-                  <a href="#" class="dropdown-item" data-lang="pl">
-                    <img src="images/flags/pl.svg" alt="" class="flag-icon" />
-                    <span>Polski</span>
-                  </a>
-                  <a href="#" class="dropdown-item" data-lang="en">
-                    <img src="images/flags/us.svg" alt="" class="flag-icon" />
-                    <span>English</span>
-                  </a>
+                  <span class="menu-icon"
+                    ><i class="ti ti-layout-dashboard"></i
+                  ></span>
+                  <span class="menu-text">Pulpit</span>
+                  <div class="menu-arrow"></div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="topnav-dashboards">
+                  <a
+                    class="dropdown-item"
+                    (click)="openCalculator(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-home"></i> Panel główny</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openNotepad(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-pencil"></i> Notatnik</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openCalculator(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-chart-pie"></i> Raporty</a
+                  >
                 </div>
-              </div>
-            </div>
+              </li>
 
-            <!-- Notifications -->
-            <app-notification-icon />
+              <!-- Zarządzanie -->
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle drop-arrow-none"
+                  href="#"
+                  id="topnav-management"
+                  data-bs-toggle="dropdown"
+                >
+                  <span class="menu-icon"><i class="ti ti-settings"></i></span>
+                  <span class="menu-text">Zarządzanie</span>
+                  <div class="menu-arrow"></div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="topnav-management">
+                  <a
+                    class="dropdown-item"
+                    (click)="openNotepad(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-users"></i> Użytkownicy</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openCalculator(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-lock"></i> Uprawnienia</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openNotepad(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-settings"></i> Ustawienia</a
+                  >
+                </div>
+              </li>
 
-            <!-- Theme Toggle -->
-            <div class="topbar-item">
-              <button
-                class="btn btn-link p-0 border-0 shadow-none"
-                [ngClass]="(isDarkMode$ | async) ? 'text-light' : 'text-dark'"
-                id="theme-toggle"
-                type="button"
-                (click)="toggleTheme()"
-                title="Zmień motyw"
-              >
-                <ng-container *ngIf="isDarkMode$ | async; else lightIcon">
-                  <i class="bi bi-sun-fill fs-5"></i>
-                </ng-container>
-                <ng-template #lightIcon>
-                  <i class="bi bi-moon-stars-fill fs-5"></i>
-                </ng-template>
-              </button>
-            </div>
+              <!-- Dokumenty -->
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle drop-arrow-none"
+                  href="#"
+                  id="topnav-documents"
+                  data-bs-toggle="dropdown"
+                >
+                  <span class="menu-icon"><i class="ti ti-files"></i></span>
+                  <span class="menu-text">Dokumenty</span>
+                  <div class="menu-arrow"></div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="topnav-documents">
+                  <a
+                    class="dropdown-item"
+                    (click)="openCalculator(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-file-invoice"></i> Faktury</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openNotepad(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-shopping-cart"></i> Zamówienia</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openCalculator(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-file-contract"></i> Umowy</a
+                  >
+                </div>
+              </li>
 
-            <!-- User Profile -->
-            <app-user-nav-icon />
+              <!-- Raporty -->
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle drop-arrow-none"
+                  href="#"
+                  id="topnav-reports"
+                  data-bs-toggle="dropdown"
+                >
+                  <span class="menu-icon"><i class="ti ti-chart-bar"></i></span>
+                  <span class="menu-text">Raporty</span>
+                  <div class="menu-arrow"></div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="topnav-reports">
+                  <a
+                    class="dropdown-item"
+                    (click)="openNotepad(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-report-money"></i> Raporty sprzedaży</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openCalculator(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-report"></i> Raporty finansowe</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openNotepad(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-chart-dots"></i> Analityka</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    (click)="openTwoWindows(); $event.preventDefault()"
+                  >
+                    <i class="ti ti-messages"></i> Otwórz 2 okna</a
+                  >
+                </div>
+              </li>
+            </ul>
           </div>
-        </div>
-        <!-- user icon -->
-      </nav>
-    </header>
+
+          <!-- Prawy pasek -->
+          <div class="navbar-right">
+            <app-open-windows-list
+              [windows]="(windows$ | async) || []"
+            ></app-open-windows-list>
+            <app-notification-icon></app-notification-icon>
+            <button class="theme-toggle" (click)="toggleTheme()">
+              <i
+                [class]="(isDarkMode$ | async) ? 'bi bi-sun' : 'bi bi-moon'"
+              ></i>
+            </button>
+            <app-user-nav-icon></app-user-nav-icon>
+          </div>
+        </nav>
+      </header>
+    </nav>
+  </div>
+  <!-- Okna aplikacji -->
+  <div class="windows-container">
+    <app-window
+      *ngFor="let window of (windows$ | async) || []; trackBy: trackById"
+      [window]="window"
+      [isDarkMode]="(isDarkMode$ | async) || false"
+    >
+    </app-window>
   </div>
 
-  <app-window
-    *ngFor="let window of windows$ | async"
-    [Window]="window"
-    [isDarkMode$]="(isDarkMode$ | async) ?? false"
-  ></app-window>
-
-  <div class="agent">
-    <app-agent />
+  <!-- Agent -->
+  <div class="agent-container">
+    <app-agent></app-agent>
   </div>
 </div>

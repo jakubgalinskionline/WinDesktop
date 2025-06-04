@@ -1,0 +1,54 @@
+<div class="open-windows-icon" (click)="toggleList(); $event.stopPropagation()">
+  <i class="bi bi-window-stack fs-5"></i>
+  <span class="open-windows-count">{{ windows.length }}</span>
+
+  <div
+    class="windows-list"
+    [class.show]="isListVisible"
+    [attr.data-theme]="'light'"
+  >
+    <div
+      class="window-item"
+      *ngFor="let window of windows; trackBy: trackById"
+      [class.active]="window.isActive"
+      [attr.data-window-id]="window.id"
+      (click)="minimizeWindow(window, $event)"
+    >
+      <span class="window-title">{{ window.title }}</span>
+      <div class="window-actions">
+        <button
+          class="window-action-btn"
+          (click)="minimizeWindow(window, $event)"
+          [title]="window.isMinimized ? 'Przywróć' : 'Minimalizuj'"
+        >
+          <i
+            class="bi"
+            [class.bi-dash-lg]="!window.isMinimized"
+            [class.bi-window-stack]="window.isMinimized"
+          ></i>
+        </button>
+        <button
+          class="window-action-btn"
+          (click)="maximizeWindow(window, $event)"
+          [title]="window.isMaximized ? 'Przywróć' : 'Maksymalizuj'"
+        >
+          <i
+            class="bi"
+            [class.bi-square]="!window.isMaximized"
+            [class.bi-window]="window.isMaximized"
+          ></i>
+        </button>
+        <button
+          class="window-action-btn close-btn"
+          (click)="closeWindow(window.id, $event)"
+          title="Zamknij"
+        >
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+    <div class="window-item empty" *ngIf="windows.length === 0">
+      <span class="window-title">Brak otwartych okien</span>
+    </div>
+  </div>
+</div>

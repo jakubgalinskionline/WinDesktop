@@ -1,8 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-calculator',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.css'
 })
@@ -90,6 +92,7 @@ export class CalculatorComponent {
     this.currentNumber = String(result);
     return result;
   }
+
   ////////////////////////////////////////////////////////// obsługa numpad
   // Obsługa klawiszy skrótów dla kalkulatora
   // przycisk "ESC" czyści ekran kalkulatora

@@ -9,7 +9,6 @@ import { AsyncPipe, CommonModule } from '@angular/common';
   imports: [CommonModule, AsyncPipe],
   templateUrl: './user-nav-icon.component.html',
   styleUrl: './user-nav-icon.component.css',
-  inputs: ['webContext'],
 })
 export class UserNavIconComponent {
   isDarkMode$: Observable<boolean>;

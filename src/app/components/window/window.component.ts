@@ -1,12 +1,11 @@
 import { CommonModule, NgComponentOutlet } from '@angular/common';
-import { Component, Input, ElementRef, HostListener, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ElementRef, HostListener, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { WindowModel } from '../../models/window/window.model';
 import { WindowClasses } from '../../models/window/windowClasses.model';
 import { WindowStyles } from '../../models/window/windowStyles.model';
 import { WindowService } from '../../services/window.service';
-
 import { ThemeService } from '../../services/theme.service';
 
 @Component({
@@ -17,11 +16,12 @@ import { ThemeService } from '../../services/theme.service';
   imports: [CommonModule, NgComponentOutlet],
   host: {
     '[class.window-container]': 'true'
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WindowComponent implements OnInit, OnDestroy {
-  @Input() Window!: WindowModel;
-  @Input() isDarkMode$!: boolean;
+  @Input() window!: WindowModel;
+  @Input() isDarkMode: boolean = false;
 
   public isDragging = false;
   private dragOffset = { x: 0, y: 0 };
@@ -31,86 +31,106 @@ export class WindowComponent implements OnInit, OnDestroy {
   };
   private readonly TASKBAR_HEIGHT = 40;
   private subscriptions = new Subscription();
-
   constructor(
-    private WindowService: WindowService,
-    private elementRef: ElementRef,
-    private cdr: ChangeDetectorRef,
-    private themeService: ThemeService,
+      private windowService: WindowService,
+      private elementRef: ElementRef,
+      private cdr: ChangeDetectorRef,
+      private themeService: ThemeService,
   ) {
     this.handleResize = this.handleResize.bind(this);
     window.addEventListener('resize', this.handleResize);
   }
 
   ngOnInit() {
-    // Przekaż kontekst okna
-    (window as any).currentWindowId = this.Window.id;
+    // Przekaż kontekst okna    (window as any).currentwindowId = this.window.id;
     (window as any).currentWindowComponent = this;
 
     // Subskrybuj tryb ciemny
     this.subscriptions.add(      this.themeService.darkMode$.subscribe(isDark => {
-        this.Window.themeMode = isDark;
+        this.window.themeMode = isDark;
         this.cdr.detectChanges();
       })
     );
 
-    this.initializeWindowProperties();
+    this.initializewindowProperties();
   }
 
   ngOnDestroy() {
     window.removeEventListener('resize', this.handleResize);
     this.subscriptions.unsubscribe();
-    const windowElement = this.GetWindowElement();
+    const windowElement = this.GetwindowElement();
     if (windowElement) {
       windowElement.classList.remove('dragging', 'maximizing', 'maximized', 'restoring');
     }
   }
 
-  private initializeWindowProperties() {
-    if (!this.Window.width) this.Window.width = 400;
-    if (!this.Window.height) this.Window.height = 300;
-    if (this.Window.x === undefined) {
-      this.Window.x = (this.screenBounds.width - this.Window.width) / 2;
-    }
-    if (this.Window.y === undefined) {
-      this.Window.y = (this.screenBounds.height - this.Window.height) / 2;
-    }
-    if (!this.Window.zIndex) this.Window.zIndex = 1000;
+private initializewindowProperties() {
+  // Ustaw domyślne wymiary jeśli nie są zdefiniowane
+  this.window.width = this.window.width || 400;
+  this.window.height = this.window.height || 300;
+
+  // Wycentruj okno jeśli pozycja nie jest zdefiniowana
+  if (this.window.x === undefined || this.window.y === undefined) {
+    const centerX = (this.screenBounds.width - this.window.width) / 2;
+    const centerY = (this.screenBounds.height - this.window.height) / 2;
+    this.window.x = Math.max(0, centerX);
+    this.window.y = Math.max(0, centerY);
   }
+
+  // Zawsze aktualizuj zIndex przy inicjalizacji
+  this.windowService.bringToFront(this.window.id);
+}
 
   private handleResize() {
     this.screenBounds = {
       width: window.innerWidth,
       height: window.innerHeight
     };
-    if (this.Window.isMaximized) {
+    if (this.window.isMaximized) {
       this.UpdateMaximizedState();
     }
   }
 
-  private UpdateMaximizedState() {
-    if (this.Window.isMaximized) {
-      this.Window.x = 0;
-      this.Window.y = 0;
-      this.Window.width = this.screenBounds.width;
-      this.Window.height = this.screenBounds.height - this.TASKBAR_HEIGHT;
+private UpdateMaximizedState() {
+  if (this.window.isMaximized) {
+    if (!this.window.prevState) {
+      this.window.prevState = {
+        x: this.window.x,
+        y: this.window.y,
+        width: this.window.width,
+        height: this.window.height
+      };
     }
-  }
 
-  private GetWindowElement(): HTMLElement {
+    requestAnimationFrame(() => {
+      this.window.x = 0;
+      this.window.y = 0;
+      this.window.width = this.screenBounds.width;
+      this.window.height = this.screenBounds.height - this.TASKBAR_HEIGHT;
+      this.cdr.detectChanges();
+    });
+  } else if (this.window.prevState) {
+    requestAnimationFrame(() => {
+      Object.assign(this.window, this.window.prevState);
+      this.window.prevState = undefined;
+      this.cdr.detectChanges();
+    });
+  }
+}
+  private GetwindowElement(): HTMLElement {
     return this.elementRef.nativeElement.querySelector('.window');
   }
 
-  MaximizeWindow() {
-    const windowElement = this.GetWindowElement();
-    this.Window.isMaximized = !this.Window.isMaximized;
+  Maximizewindow() {
+    const windowElement = this.GetwindowElement();
+    this.window.isMaximized = !this.window.isMaximized;
 
-    if (this.Window.isMaximized) {
-      this.Window.prevState = {
-        x: this.Window.x,
-        y: this.Window.y,
-        width: this.Window.width,
-        height: this.Window.height
+    if (this.window.isMaximized) {
+      this.window.prevState = {
+        x: this.window.x,
+        y: this.window.y,
+        width: this.window.width,
+        height: this.window.height
       };
 
       windowElement.classList.add('maximizing');
@@ -122,9 +142,9 @@ export class WindowComponent implements OnInit, OnDestroy {
         windowElement.classList.add('maximized');
         this.cdr.detectChanges();
       }, 300);
-    } else if (this.Window.prevState) {
+    } else if (this.window.prevState) {
       windowElement.classList.add('restoring');
-      Object.assign(this.Window, this.Window.prevState);
+      Object.assign(this.window, this.window.prevState);
       this.cdr.detectChanges();
 
       setTimeout(() => {
@@ -133,67 +153,83 @@ export class WindowComponent implements OnInit, OnDestroy {
       }, 300);
     }
 
-    this.WindowService.BringToFront(this.Window.id);
+    this.windowService.bringToFront(this.window.id);
   }
 
-  MinimizeWindow() {
-    const windowElement = this.GetWindowElement();
+  Minimizewindow() {
+    const windowElement = this.GetwindowElement();
 
-    if (!this.Window.isMinimized) {
-      this.Window.prevState = {
-        x: this.Window.x,
-        y: this.Window.y,
-        width: this.Window.width,
-        height: this.Window.height
+    if (!this.window.isMinimized) {
+      // Zapisz aktualny stan przed minimalizacją
+      this.window.prevState = {
+        x: this.window.x,
+        y: this.window.y,
+        width: this.window.width,
+        height: this.window.height
       };
 
-      const taskbarButton = document.querySelector(`[data-window-id="${this.Window.id}"]`);
+      const taskbarButton = document.querySelector(`[data-window-id="${this.window.id}"]`);
       if (taskbarButton) {
         const rect = taskbarButton.getBoundingClientRect();
-
+        
         windowElement.classList.add('minimizing');
-        this.Window.isMinimized = true;
-        this.Window.x = rect.left;
-        this.Window.y = this.screenBounds.height - this.TASKBAR_HEIGHT;
-        this.Window.width = rect.width;
-        this.Window.height = this.TASKBAR_HEIGHT;
+        this.windowService.minimizeWindow(this.window.id);
+        
+        // Animuj do pozycji przycisku na pasku zadań
+        this.window.x = rect.left;
+        this.window.y = this.screenBounds.height - this.TASKBAR_HEIGHT;
+        this.window.width = rect.width;
+        this.window.height = this.TASKBAR_HEIGHT;
         this.cdr.detectChanges();
-
-        setTimeout(() => {
-          windowElement.classList.remove('minimizing');
-          windowElement.classList.add('minimized');
-          this.cdr.detectChanges();
-        }, 300);
       }
-    } else if (this.Window.prevState) {
+    } else if (this.window.prevState) {
+      // Przywróć z minimalizacji
       windowElement.classList.add('restoring');
-      Object.assign(this.Window, this.Window.prevState);
-      this.Window.isMinimized = false;
-      this.cdr.detectChanges();
+      this.windowService.restoreWindow(this.window.id);
 
+      // Przywróć poprzedni stan pozycji i rozmiaru
+      this.window.x = this.window.prevState.x;
+      this.window.y = this.window.prevState.y;
+      this.window.width = this.window.prevState.width;
+      this.window.height = this.window.prevState.height;
+      this.window.prevState = undefined;
+      this.cdr.detectChanges();
+      
+      // Po zakończeniu animacji wyczyść klasy
       setTimeout(() => {
-        windowElement.classList.remove('minimized', 'restoring');
+        windowElement.classList.remove('minimized', 'restoring', 'minimizing');
         this.cdr.detectChanges();
       }, 300);
     }
 
-    this.WindowService.BringToFront(this.Window.id);
+    this.windowService.bringToFront(this.window.id);
   }
 
   onWindowClick(event: MouseEvent) {
     event.stopPropagation();
-    this.WindowService.BringToFront(this.Window.id);
-    this.focusWindow();
-    const AllWindows = document.querySelectorAll('.window');
-    AllWindows.forEach(w => w.classList.remove('active'));
-    this.GetWindowElement().classList.add('active');
+    this.windowService.bringToFront(this.window.id);
+    this.focuswindow();
+
+    // Aktualizacja klas aktywności
+    const allWindows = document.querySelectorAll('.window');
+    allWindows.forEach(w => w.classList.remove('active'));
+
+    const windowElement = this.GetwindowElement();
+    if (windowElement) {
+      windowElement.classList.add('active');
+      this.window.isActive = true;
+    }
   }
 
-  private focusWindow() {
-    const focusableElement = this.elementRef.nativeElement.querySelector('[autofocus], input, textarea, select, button');
-    if (focusableElement) {
-      setTimeout(() => focusableElement.focus());
-    }
+  private focuswindow() {
+    requestAnimationFrame(() => {
+      const focusableElement = this.elementRef.nativeElement.querySelector(
+        '[autofocus], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), button:not([disabled])'
+      );
+      if (focusableElement) {
+        focusableElement.focus();
+      }
+    });
   }
 
   @HostListener('document:mousemove', ['$event'])
@@ -201,95 +237,144 @@ export class WindowComponent implements OnInit, OnDestroy {
     if (!this.isDragging) return;
     let newX = event.clientX - this.dragOffset.x;
     let newY = event.clientY - this.dragOffset.y;
-    newX = Math.max(0, Math.min(newX, this.screenBounds.width - this.Window.width));
-    newY = Math.max(0, Math.min(newY, this.screenBounds.height - this.Window.height));
-    this.Window.x = newX;
-    this.Window.y = newY;
+    newX = Math.max(0, Math.min(newX, this.screenBounds.width - this.window.width));
+    newY = Math.max(0, Math.min(newY, this.screenBounds.height - this.window.height));
+    this.window.x = newX;
+    this.window.y = newY;
   }
 
   @HostListener('document:mouseup')
   onMouseUp() {
     if (!this.isDragging) return;
     this.isDragging = false;
-    this.GetWindowElement().classList.remove('dragging');
+    this.GetwindowElement().classList.remove('dragging');
   }
 
-  CloseWindow() {
-    this.WindowService.CloseWindow(this.Window.id);
+  Closewindow() {
+    this.windowService.closeWindow(this.window.id);
   }
 
   getTransformStyle(): string {
-    return `translate3d(${this.Window.x}px, ${this.Window.y}px, 0)`;
+    return `translate3d(${this.window.x}px, ${this.window.y}px, 0)`;
   }
 
-  startDragging(event: PointerEvent) {
-    if (event.button !== 0) return;
-    event.preventDefault();
-    event.stopPropagation();
-    this.isDragging = true;
-    this.dragOffset = {
-      x: event.clientX - this.Window.x,
-      y: event.clientY - this.Window.y
-    };
-    (event.target as HTMLElement).setPointerCapture(event.pointerId);
-  }
+startDragging(event: PointerEvent) {
+  if (event.button !== 0 || this.window.isMaximized) return;
+  event.preventDefault();
+  event.stopPropagation();
 
-  @HostListener('document:pointermove', ['$event'])
+  this.isDragging = true;
+  this.GetwindowElement().classList.add('dragging');
+
+  this.dragOffset = {
+    x: event.clientX - this.window.x,
+    y: event.clientY - this.window.y
+  };
+
+  // Bring window to front when starting drag
+  this.windowService.bringToFront(this.window.id);
+  (event.target as HTMLElement).setPointerCapture(event.pointerId);
+}
+
+  @HostListener('document:pointermove', ['$event'])  private lastMoveTime = 0;
+  private readonly THROTTLE_TIME = 16; // około 60 FPS
   onPointerMove(event: PointerEvent) {
     if (!this.isDragging) return;
-    requestAnimationFrame(() => {
-      this.Window.x = event.clientX - this.dragOffset.x;
-      this.Window.y = event.clientY - this.dragOffset.y;
-      this.constrainWindowToBounds();
-    });
+    event.preventDefault();
+
+    const now = performance.now();
+    if (now - this.lastMoveTime < this.THROTTLE_TIME) return;
+
+    this.lastMoveTime = now;
+
+    const x = event.clientX - this.dragOffset.x;
+    const y = event.clientY - this.dragOffset.y;
+
+    const windowElement = this.GetwindowElement();
+    if (windowElement) {
+      windowElement.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    }
+
+    // Aktualizuj pozycję tylko po zakończeniu przeciągania
+    this.window.x = x;
+    this.window.y = y;
   }
 
   @HostListener('document:pointerup', ['$event'])
   onPointerUp(event: PointerEvent) {
     if (!this.isDragging) return;
+    event.preventDefault();
+
     this.isDragging = false;
-    (event.target as HTMLElement).releasePointerCapture(event.pointerId);
+    const target = event.target as HTMLElement;
+    if (target.hasPointerCapture(event.pointerId)) {
+      target.releasePointerCapture(event.pointerId);
+    }
+
+    const windowElement = this.GetwindowElement();
+    if (windowElement) {
+      windowElement.classList.remove('dragging');
+    }
   }
 
-  private constrainWindowToBounds() {
-    this.Window.x = Math.max(0, Math.min(this.Window.x, this.screenBounds.width - this.Window.width));
-    this.Window.y = Math.max(0, Math.min(this.Window.y, this.screenBounds.height - this.Window.height));
+private constrainwindowToBounds() {
+  const minVisible = 50; // Minimalna widoczna część okna
+  const maxX = this.screenBounds.width - minVisible;
+  const maxY = this.screenBounds.height - minVisible;
+  const minX = -this.window.width + minVisible;
+
+  // Zapewnienie, że okno nie wyjdzie poza ekran
+  this.window.x = Math.max(minX, Math.min(this.window.x, maxX));
+  this.window.y = Math.max(0, Math.min(this.window.y, maxY));
+
+  // Jeśli okno jest zbyt daleko w lewo, przyciągnij je do lewej krawędzi
+  if (this.window.x < 0 && this.window.x > minX) {
+    this.window.x = 0;
   }
 
+  // Jeśli okno jest prawie na prawej krawędzi, przyciągnij je
+  if (this.window.x > maxX - 20 && this.window.x < maxX) {
+    this.window.x = maxX;
+  }
+}
   windowControls = [
     {
       class: 'minimize-btn',
       icon: 'bi bi-dash-lg',
-      action: () => this.MinimizeWindow()
+      action: () => this.Minimizewindow()
     },
     {
       class: 'maximize-btn',
       icon: 'bi bi-square',
-      action: () => this.MaximizeWindow()
+      action: () => this.Maximizewindow()
     },
     {
       class: 'close-btn',
       icon: 'bi bi-x-lg',
-      action: () => this.CloseWindow()
+      action: () => this.Closewindow()
     }
   ];
 
   getWindowClasses(): WindowClasses {
     return {
-      active: this.Window.isActive,
-      minimized: this.Window.isMinimized,
-      maximized: this.Window.isMaximized,
+      active: this.window.isActive,
+      minimized: this.window.isMinimized,
+      maximized: this.window.isMaximized,
       dragging: this.isDragging
     };
   }
-
   getWindowStyles(): WindowStyles {
-    return {
-      transform: this.getTransformStyle(),
-      width: `${this.Window.width}px`,
-      height: `${this.Window.height}px`,
-      zIndex: this.Window.zIndex
-    };
+    const styles = {
+      '--window-transform': this.getTransformStyle(),
+      '--window-width': `${this.window.width}px`,
+      '--window-height': `${this.window.height}px`,
+      '--window-z-index': this.window.zIndex,
+      '--taskbar-height': `${this.TASKBAR_HEIGHT}px`,
+      '--taskbar-position-x': '0px',
+      '--taskbar-position-y': '100vh'
+    } as any;
+
+    return styles;
   }
 
 }

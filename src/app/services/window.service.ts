@@ -1,22 +1,26 @@
 import { Injectable, Input } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { WindowModel } from '../models/window/window.model';
 import { ThemeService } from './theme.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WindowService {
-  private Windows = new BehaviorSubject<WindowModel[]>([]);
-  Windows$ = this.Windows.asObservable();
+export class WindowService {  private windowsSubject = new BehaviorSubject<WindowModel[]>([]);
+  windows$ = this.windowsSubject.asObservable();
   private nextId = 1;
+
+
 
 constructor(private themeService: ThemeService) {
   // Inicjalizacja początkowego stanu
   this.currentTheme = this.themeService.getCurrentTheme();
 
-  // Nasłuchuj zmian motywu
-  this.themeService.darkMode$.subscribe(isDark => {
+  // Nasłuchuj zmian motywu z buforowaniem
+  this.themeService.darkMode$.pipe(
+    distinctUntilChanged() // aktualizuj tylko gdy wartość faktycznie się zmienia
+  ).subscribe(isDark => {
     this.currentTheme = isDark;
     this.updateWindowsTheme();
   });
@@ -27,19 +31,19 @@ constructor(private themeService: ThemeService) {
   private getCurrentTheme(): boolean {
     return this.currentTheme;
   }
-
   private updateWindowsTheme(): void {
-    const windows = this.Windows.getValue();
-    if (windows.length > 0) {      const updatedWindows = windows.map(window => ({
+    const windows = this.windowsSubject.getValue();
+    if (windows.length > 0) {
+      const updatedWindows = windows.map((window: WindowModel) => ({
         ...window,
         themeMode: this.getCurrentTheme()
       }));
-      this.Windows.next(updatedWindows);
+      this.windowsSubject.next(updatedWindows);
     }
   }
 
-  OpenWindow(component: any, title: string, x: number, y: number, w: number, h: number) {
-    const Window: WindowModel = {
+  openWindow(component: any, title: string, x: number, y: number, w: number, h: number) {
+    const window: WindowModel = {
       id: this.nextId++,
       title,
       component,
@@ -53,33 +57,32 @@ constructor(private themeService: ThemeService) {
       themeMode: this.getCurrentTheme()
     };
 
-    this.Windows.next([...this.Windows.getValue(), Window]);
-    this.BringToFront(Window.id);
+    this.windowsSubject.next([...this.windowsSubject.getValue(), window]);
+    this.bringToFront(window.id);
   }
 
   private updateWindow(id: number, updates: Partial<WindowModel>): void {
-    const windows = this.Windows.getValue();
-    this.Windows.next(windows.map(w =>
-      w.id === id ? { ...w, ...updates, isDarkMode: this.getCurrentTheme() } : w
+    const windows = this.windowsSubject.getValue();
+    this.windowsSubject.next(windows.map((w: WindowModel) =>
+      w.id === id ? { ...w, ...updates, themeMode: this.getCurrentTheme() } : w
     ));
   }
-
   private getMaxZIndex(): number {
-    const windows = this.Windows.getValue();
+    const windows = this.windowsSubject.getValue();
     return windows.length > 0
-      ? Math.max(...windows.map(w => w.zIndex))
+      ? Math.max(...windows.map((w: WindowModel) => w.zIndex))
       : 0;
   }
 
-  BringToFront(id: number) {
-    const windows = this.Windows.getValue();
+  bringToFront(id: number) {
+    const windows = this.windowsSubject.getValue();
     const maxZ = this.getMaxZIndex();
-    this.Windows.next(windows.map(w =>
+    this.windowsSubject.next(windows.map((w: WindowModel) =>
       w.id === id ? { ...w, zIndex: maxZ + 1, isActive: true } : { ...w, isActive: false }
     ));
   }
 
-  MaximizeWindow(id: number) {
+  maximizeWindow(id: number) {
     const screenBounds = {
       width: window.innerWidth,
       height: window.innerHeight
@@ -95,21 +98,20 @@ constructor(private themeService: ThemeService) {
     });
   }
 
-  MinimizeWindow(id: number) {
+  minimizeWindow(id: number) {
     this.updateWindow(id, {
       isMinimized: true
     });
   }
 
-  RestoreWindow(id: number) {
+  restoreWindow(id: number) {
     this.updateWindow(id, {
       isMinimized: false,
       isMaximized: false
     });
   }
-
-  CloseWindow(id: number) {
-    const Windows = this.Windows.getValue();
-    this.Windows.next(Windows.filter(w => w.id !== id));
+  closeWindow(id: number) {
+    const windows = this.windowsSubject.getValue();
+    this.windowsSubject.next(windows.filter((w: WindowModel) => w.id !== id));
   }
 }

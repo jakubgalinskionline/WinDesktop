@@ -1,17 +1,17 @@
 <div
   class="window"
-  [id]="'window-' + Window.id"
+  [id]="'window-' + window.id"
   [class]="getWindowClasses()"
   [style]="getWindowStyles()"
   (pointerdown)="onWindowClick($event)"
-  [attr.data-theme]="Window.themeMode ? 'dark' : 'light'"
+  [attr.data-theme]="window.themeMode ? 'dark' : 'light'"
 >
   <div
     class="window-header"
     (pointerdown)="startDragging($event)"
     [class.dragging]="isDragging"
   >
-    <span class="window-title">{{ Window.title }}</span>
+    <span class="window-title">{{ window.title }}</span>
     <div class="window-controls">
       <button
         *ngFor="let control of windowControls"
@@ -23,6 +23,6 @@
     </div>
   </div>
   <div class="window-content">
-    <ng-container *ngComponentOutlet="Window.component"></ng-container>
+    <ng-container *ngComponentOutlet="window.component"></ng-container>
   </div>
 </div>
