@@ -10,7 +10,7 @@ export interface WindowModel {
   isMaximized: boolean;
   zIndex: number;
   isActive: boolean;
-  isDarkMode: boolean;
+  themeMode: boolean;
   prevState?: {
     x: number;
     y: number;

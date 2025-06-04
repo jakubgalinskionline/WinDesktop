@@ -4,7 +4,7 @@
   [class]="getWindowClasses()"
   [style]="getWindowStyles()"
   (pointerdown)="onWindowClick($event)"
-  [attr.data-theme]="Window.isDarkMode ? 'dark' : 'light'"
+  [attr.data-theme]="Window.themeMode ? 'dark' : 'light'"
 >
   <div
     class="window-header"

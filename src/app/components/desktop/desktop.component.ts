@@ -35,9 +35,8 @@ export class DesktopComponent implements OnInit {
   ngOnInit() {
     // Subskrybuj zmiany motywu i aktualizuj okna
     this.isDarkMode$.subscribe(isDark => {
-      this.windows$.pipe(take(1)).subscribe((windows: any[]) => {
-        windows.forEach(window => {
-          window.isDarkMode = isDark;
+      this.windows$.pipe(take(1)).subscribe((windows: any[]) => {      windows.forEach(window => {
+          window.themeMode = isDark;
         });
       });
     });

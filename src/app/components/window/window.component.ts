@@ -48,9 +48,8 @@ export class WindowComponent implements OnInit, OnDestroy {
     (window as any).currentWindowComponent = this;
 
     // Subskrybuj tryb ciemny
-    this.subscriptions.add(
-      this.themeService.darkMode$.subscribe(isDark => {
-        this.Window.isDarkMode = isDark;
+    this.subscriptions.add(      this.themeService.darkMode$.subscribe(isDark => {
+        this.Window.themeMode = isDark;
         this.cdr.detectChanges();
       })
     );

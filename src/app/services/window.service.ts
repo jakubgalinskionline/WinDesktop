@@ -30,10 +30,9 @@ constructor(private themeService: ThemeService) {
 
   private updateWindowsTheme(): void {
     const windows = this.Windows.getValue();
-    if (windows.length > 0) {
-      const updatedWindows = windows.map(window => ({
+    if (windows.length > 0) {      const updatedWindows = windows.map(window => ({
         ...window,
-        isDarkMode: this.getCurrentTheme()
+        themeMode: this.getCurrentTheme()
       }));
       this.Windows.next(updatedWindows);
     }
@@ -51,7 +50,7 @@ constructor(private themeService: ThemeService) {
       isMaximized: false,
       zIndex: this.getMaxZIndex() + 1,
       isActive: true,
-      isDarkMode: this.getCurrentTheme()
+      themeMode: this.getCurrentTheme()
     };
 
     this.Windows.next([...this.Windows.getValue(), Window]);
