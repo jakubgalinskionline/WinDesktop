@@ -29,7 +29,7 @@ export class OpenWindowsListComponent {
     if (event) {
       event.stopPropagation();
     }
-    
+
     if (window.isMinimized) {
       this.windowService.restoreWindow(window.id);
     } else {
@@ -42,7 +42,7 @@ export class OpenWindowsListComponent {
     if (event) {
       event.stopPropagation();
     }
-    
+
     if (window.isMaximized) {
       this.windowService.restoreWindow(window.id);
     } else {
@@ -55,7 +55,7 @@ export class OpenWindowsListComponent {
     if (event) {
       event.stopPropagation();
     }
-    
+
     this.windowService.closeWindow(id);
     if (this.windows.length === 1) {
       this.isListVisible = false;

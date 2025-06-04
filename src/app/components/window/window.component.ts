@@ -171,10 +171,10 @@ private UpdateMaximizedState() {
       const taskbarButton = document.querySelector(`[data-window-id="${this.window.id}"]`);
       if (taskbarButton) {
         const rect = taskbarButton.getBoundingClientRect();
-        
+
         windowElement.classList.add('minimizing');
         this.windowService.minimizeWindow(this.window.id);
-        
+
         // Animuj do pozycji przycisku na pasku zadań
         this.window.x = rect.left;
         this.window.y = this.screenBounds.height - this.TASKBAR_HEIGHT;
@@ -194,7 +194,7 @@ private UpdateMaximizedState() {
       this.window.height = this.window.prevState.height;
       this.window.prevState = undefined;
       this.cdr.detectChanges();
-      
+
       // Po zakończeniu animacji wyczyść klasy
       setTimeout(() => {
         windowElement.classList.remove('minimized', 'restoring', 'minimizing');
