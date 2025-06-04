@@ -2,9 +2,9 @@ import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { Component, Input, ElementRef, HostListener, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { WindowModel } from '../../models/window.model';
-import { WindowClasses } from './WindowClasses.model';
-import { WindowStyles } from './windowStyles.model';
+import { WindowModel } from '../../models/window/window.model';
+import { WindowClasses } from '../../models/window/windowClasses.model';
+import { WindowStyles } from '../../models/window/windowStyles.model';
 import { WindowService } from '../../services/window.service';
 
 import { ThemeService } from '../../services/theme.service';

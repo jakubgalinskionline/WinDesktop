@@ -1,6 +1,6 @@
 import { Injectable, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { WindowModel } from '../models/window.model';
+import { WindowModel } from '../models/window/window.model';
 import { ThemeService } from './theme.service';
 
 @Injectable({
