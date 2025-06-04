@@ -13,7 +13,6 @@ import { FooterComponent } from "../footer/footer.component";
 // komponenty
 import { NotepadComponent } from '../notepad/notepad.component';
 import { CalculatorComponent } from '../calculator/calculator.component';
-import { ChatComponent } from '../chat/chat.component';
 
 import { AgentComponent } from '../agent/agent.component';
 @Component({
@@ -55,10 +54,10 @@ export class DesktopComponent implements OnInit {
     this.windowService.OpenWindow(CalculatorComponent, 'Kalkulator', 150, 200, 600, 600);
   }
 
-  OpenChat() {
+  OpenTwoWindows() {
     // Otwórz pierwsze okno czatu
-    this.windowService.OpenWindow(ChatComponent, 'Chat 1', 50, 50, 400, 500);
+    this.windowService.OpenWindow(NotepadComponent, 'Chat 1', 50, 50, 400, 500);
     // Otwórz drugie okno czatu obok
-    this.windowService.OpenWindow(ChatComponent, 'Chat 2', 500, 50, 400, 500);
+    this.windowService.OpenWindow(CalculatorComponent, 'Chat 2', 500, 50, 400, 500);
   }
 }
