@@ -27,7 +27,7 @@
             [class.bi-window-stack]="window.isMinimized"
           ></i>
         </button>
-        <button
+        <!-- <button
           class="window-action-btn"
           (click)="maximizeWindow(window, $event)"
           [title]="window.isMaximized ? 'Przywróć' : 'Maksymalizuj'"
@@ -37,7 +37,7 @@
             [class.bi-square]="!window.isMaximized"
             [class.bi-window]="window.isMaximized"
           ></i>
-        </button>
+        </button> -->
         <button
           class="window-action-btn close-btn"
           (click)="closeWindow(window.id, $event)"
