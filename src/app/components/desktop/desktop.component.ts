@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { RightClickContextMenuComponent } from '../right-click-context-menu/right-click-context-menu.component';
 
 import { WindowModel } from '../../models/window/window.model';
 import { WindowComponent } from '../window/window.component';
@@ -26,16 +27,22 @@ import { NotepadComponent } from '../notepad/notepad.component';
     NotificationIconComponent,
     AgentComponent,
     OpenWindowsListComponent,
-  ],
+    RightClickContextMenuComponent
+],
   providers: [ThemeService, WindowService],
   templateUrl: './desktop.component.html',
   styleUrl: './desktop.component.scss',
 })
 export class DesktopComponent implements OnInit {
+  @ViewChild('contextMenu') contextMenu!: RightClickContextMenuComponent;
+
   windows$: Observable<WindowModel[]>;
   isDarkMode$: Observable<boolean>;
 
-  constructor(private windowService: WindowService, private themeService: ThemeService) {
+  constructor(
+    private windowService: WindowService,
+    private themeService: ThemeService
+  ) {
     this.windows$ = this.windowService.windows$;
     this.isDarkMode$ = this.themeService.darkMode$;
   }
@@ -59,14 +66,14 @@ export class DesktopComponent implements OnInit {
       Math.random() * (window.innerWidth - 600), // losowa pozycja x
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
       600, 600);
-  }
-
-  openTwoWindows() {
+  }  openTwoWindows() {
     this.openNotepad();
     this.openCalculator();
   }
 
   trackById(index: number, window: WindowModel): number {
     return window.id;
+  }  displayContextMenu(event: MouseEvent) {
+    this.contextMenu.show(event);
   }
 }

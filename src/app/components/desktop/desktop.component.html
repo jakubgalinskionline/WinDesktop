@@ -1,10 +1,11 @@
-<!DOCTYPE html>
 <!-- <app-navigation /> -->
 <!-- Główny kontener desktop -->
 <div
   class="desktop"
   [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
+  (contextmenu)="displayContextMenu($event)"
 >
+  <right-click-context-menu #contextMenu></right-click-context-menu>
   <!-- Taskbar -->
   <div class="taskbar">
     <nav class="navbar">
