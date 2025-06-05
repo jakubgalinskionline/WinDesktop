@@ -191,8 +191,7 @@ export class WindowComponent implements OnInit, OnDestroy {
         action: () => this.Minimizewindow()
       },
       {
-        class: 'maximize-btn',
-        icon: `bi ${this.window.isMaximized ? 'bi-window-stack' : 'bi-square'}`,
+        class: 'maximize-btn',        icon: `bi ${this.window.isMaximized ? 'bi-window' : 'bi-square'}`,
         action: () => this.Maximizewindow()
       },
       {
