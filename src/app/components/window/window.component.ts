@@ -183,23 +183,25 @@ export class WindowComponent implements OnInit, OnDestroy {
   }
 
   // Kontrolki okna
-  windowControls = [
-    {
-      class: 'minimize-btn',
-      icon: 'bi bi-dash-lg',
-      action: () => this.Minimizewindow()
-    },
-    {
-      class: 'maximize-btn',
-      icon: 'bi bi-square',
-      action: () => this.Maximizewindow()
-    },
-    {
-      class: 'close-btn',
-      icon: 'bi bi-x-lg',
-      action: () => this.Closewindow()
-    }
-  ];
+  get windowControls() {
+    return [
+      {
+        class: 'minimize-btn',
+        icon: 'bi bi-dash-lg',
+        action: () => this.Minimizewindow()
+      },
+      {
+        class: 'maximize-btn',
+        icon: `bi ${this.window.isMaximized ? 'bi-window-stack' : 'bi-square'}`,
+        action: () => this.Maximizewindow()
+      },
+      {
+        class: 'close-btn',
+        icon: 'bi bi-x-lg',
+        action: () => this.Closewindow()
+      }
+    ];
+  }
 
   getWindowClasses(): WindowClasses {
     return {
