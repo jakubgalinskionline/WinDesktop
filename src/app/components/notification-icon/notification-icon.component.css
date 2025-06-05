@@ -3,6 +3,33 @@
   position: relative;
 }
 
+/* Ikona powiadomień */
+.bi-bell {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  transition: color 0.2s ease-in-out;
+}
+
+[data-theme="dark"] {
+  .bi-bell {
+    color: var(--bs-gray-300);
+
+    &:hover {
+      color: var(--bs-gray-100);
+    }
+  }
+}
+
+[data-theme="light"] {
+  .bi-bell {
+    color: var(--bs-gray-700);
+
+    &:hover {
+      color: var(--bs-gray-900);
+    }
+  }
+}
+
 /* Przycisk powiadomień */
 .topbar-link {
   background: transparent;
@@ -14,8 +41,8 @@
 /* Badge z licznikiem */
 .topbar-badge {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: 1px;
+  right: 1px;
   min-width: 18px;
   height: 18px;
   padding: 0 5px;
