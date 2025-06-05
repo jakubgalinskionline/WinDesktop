@@ -343,6 +343,15 @@ app-footer {
   padding: 0 16px; // Zmodyfikowany padding dla lepszego wycentrowania
 }
 
+// Style dla elementów menu
+.nav-link,
+.dropdown-item,
+.menu-text,
+.menu-icon,
+.topbar-link {
+  cursor: pointer;
+}
+
 /* Dropdown items w trybie ciemnym */
 [data-theme="dark"] .dropdown-menu {
   background-color: #343a40;
