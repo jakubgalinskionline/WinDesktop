@@ -46,3 +46,10 @@
     </div>
   </div>
 </div>
+<button
+  class="restore-button"
+  (click)="minimizeAgent()"
+  *ngIf="isMinimized && isVisible"
+>
+  <i class="bi bi-chevron-up"></i>
+</button>

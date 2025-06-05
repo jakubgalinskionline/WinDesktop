@@ -1,9 +1,8 @@
-.agent-container {
-  position: fixed;
+.agent-container {  position: fixed;
   right: 20px;
   bottom: 20px;
   width: 300px;
-  height: 400px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -16,7 +15,31 @@
 .agent-container.minimized {
   transform: scale(0.2);
   opacity: 0.8;
-  pointer-events: none;
+}
+
+.restore-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 36px;
+  height: 36px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.restore-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
 }
 
 .agent-container.hidden {
@@ -37,7 +60,7 @@
 }
 
 .agent-header {
-  padding: 15px;
+  padding: 8px;
   border-bottom: 1px solid #e0e0e0;
   display: flex;
   justify-content: space-between;
@@ -46,7 +69,7 @@
 }
 
 .agent-title {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -57,10 +80,10 @@
 }
 
 .agent-control-btn {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   border: none;
-  border-radius: 4px;
+  border-radius: 3px;
   background: transparent;
   padding: 0;
   display: flex;
@@ -71,7 +94,7 @@
 }
 
 .agent-control-btn i {
-  font-size: 12px;
+  font-size: 10px;
   pointer-events: none;
 }
 
@@ -92,21 +115,22 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 8px;
   overflow: hidden;
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
 .message {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 8px;
+  margin-bottom: 6px;
+  padding: 6px;
+  border-radius: 6px;
   max-width: 80%;
+  font-size: 12px;
 }
 
 .user-message {
@@ -135,17 +159,18 @@
 
 .input-area {
   display: flex;
-  gap: 10px;
-  padding: 10px;
+  gap: 6px;
+  padding: 6px;
   border-top: 1px solid #e0e0e0;
 }
 
 .input-area input {
   flex: 1;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 3px;
   outline: none;
+  font-size: 12px;
 }
 
 .input-area .dark-input {
@@ -161,6 +186,9 @@
   background-color: #007bff;
   color: white;
   cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
 }
 
 .send-button:hover {
