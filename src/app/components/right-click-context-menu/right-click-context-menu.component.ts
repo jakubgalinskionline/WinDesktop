@@ -76,14 +76,17 @@ import { ContextMenuItem } from './models/context-menu-item.model';
       background-color: var(--bs-gray-100);
     }
 
-    .context-menu-item.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
     .context-menu-item.separator {
       border-top: 1px solid var(--bs-border-color);
       margin: 4px 0;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .context-menu-item.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .submenu-arrow {
