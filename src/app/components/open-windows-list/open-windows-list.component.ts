@@ -71,6 +71,9 @@ export class OpenWindowsListComponent {
     if (event) {
       event.stopPropagation();
     }
+    if (window.isMinimized) {
+      this.windowService.restoreWindow(window.id);
+    }
     this.windowService.bringToFront(window.id);
   }
 
