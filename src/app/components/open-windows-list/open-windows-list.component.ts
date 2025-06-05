@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowModel } from '../../models/window/window.model';
 import { WindowService } from '../../services/window.service';
@@ -17,9 +17,20 @@ export class OpenWindowsListComponent {
   @Input() windows: WindowModel[] = [];
   isListVisible = false;
   isDarkMode$: Observable<boolean>;
+  constructor(
+    private themeService: ThemeService,
+    private windowService: WindowService,
+    private elementRef: ElementRef
+  ) {
+    this.isDarkMode$ = this.themeService.darkMode$;
+  }
 
-  constructor(private themeService: ThemeService, private windowService: WindowService) {
-        this.isDarkMode$ = this.themeService.darkMode$;
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Sprawdzamy czy kliknięcie było poza komponentem
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.isListVisible = false;
+    }
   }
 
   trackById(index: number, window: WindowModel): number {
