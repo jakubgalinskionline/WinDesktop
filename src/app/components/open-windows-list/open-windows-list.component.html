@@ -12,7 +12,7 @@
       *ngFor="let window of windows; trackBy: trackById"
       [class.active]="window.isActive"
       [attr.data-window-id]="window.id"
-      (click)="minimizeWindow(window, $event)"
+      (click)="bringToFront(window, $event)"
     >
       <span class="window-title">{{ window.title }}</span>
       <div class="window-actions">

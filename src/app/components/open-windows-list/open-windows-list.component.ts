@@ -67,6 +67,13 @@ export class OpenWindowsListComponent {
     this.windowService.bringToFront(window.id);
   }
 
+  bringToFront(window: WindowModel, event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.windowService.bringToFront(window.id);
+  }
+
   closeWindow(id: number, event?: MouseEvent) {
     if (event) {
       event.stopPropagation();
