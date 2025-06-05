@@ -21,11 +21,9 @@
 .window.minimizing {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0.5;
-  transform-origin: right left;
+  transform-origin: bottom left;
   pointer-events: none;
 }
-  /* transform-origin: bottom left;  -- domyślnie w dół */
-  /*  transform-origin: right left; -- domyślnie w prawo */
 
 .window.minimized {
   transform: translate(var(--taskbar-position-x), var(--taskbar-position-y)) scale(0.1) !important;
@@ -96,15 +94,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.window-controls button:hover {
-  background-color: rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
 }
 
 .window-controls i {
   font-size: 12px;
+  pointer-events: none;
 }
 
 /* Zawartość okna */
@@ -136,14 +131,20 @@
 
 /* Kolory przycisków kontrolnych */
 /* Przyciski kontrolne - jasny motyw */
-.minimize-btn:hover { background-color: rgba(0,0,0,0.1); }
-.maximize-btn:hover { background-color: rgba(0,0,0,0.1); }
-.close-btn:hover { background-color: #dc3545 !important; color: white !important; }
+.minimize-btn:hover { background-color: rgba(0,0,0,0.1) !important; }
+.maximize-btn:hover { background-color: rgba(0,0,0,0.1) !important; }
+.close-btn:hover {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
 
 /* Przyciski kontrolne - ciemny motyw */
-.window[data-theme="dark"] .minimize-btn:hover { background-color: rgba(255,255,255,0.1); }
-.window[data-theme="dark"] .maximize-btn:hover { background-color: rgba(255,255,255,0.1); }
-.window[data-theme="dark"] .close-btn:hover { background-color: #dc3545 !important; color: white !important; }
+.window[data-theme="dark"] .minimize-btn:hover { background-color: rgba(255,255,255,0.1) !important; }
+.window[data-theme="dark"] .maximize-btn:hover { background-color: rgba(255,255,255,0.1) !important; }
+.window[data-theme="dark"] .close-btn:hover {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
 
 /* Animacje przycisków */
 .window-controls button {

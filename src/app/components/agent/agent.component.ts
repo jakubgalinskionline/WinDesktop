@@ -10,15 +10,31 @@ import { AsyncPipe } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule, AsyncPipe],
   templateUrl: './agent.component.html',
-  styleUrl: './agent.component.scss'
+  styleUrl: './agent.component.css'
 })
 export class AgentComponent {
   isDarkMode$: Observable<boolean>;
   userInput: string = '';
   messages: Array<{type: 'user' | 'agent', text: string, time: Date}> = [];
+  isVisible: boolean = true;
+  isMinimized: boolean = false;
 
   constructor(private themeService: ThemeService) {
     this.isDarkMode$ = this.themeService.darkMode$;
+  }  minimizeAgent() {
+    if (!this.isMinimized) {
+      // Oblicz pozycję dla animacji
+      const rect = document.querySelector('.agent-container')?.getBoundingClientRect();
+      if (rect) {
+        document.documentElement.style.setProperty('--minimize-position-x', `${rect.x}px`);
+        document.documentElement.style.setProperty('--minimize-position-y', `${rect.y}px`);
+      }
+    }
+    this.isMinimized = !this.isMinimized;
+  }
+
+  closeAgent() {
+    this.isVisible = false;
   }
 
   sendMessage() {

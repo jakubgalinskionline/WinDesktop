@@ -1,6 +1,20 @@
-<div class="agent-container" [class.dark-mode]="isDarkMode$ | async">
+<div
+  class="agent-container"
+  [class.dark-mode]="isDarkMode$ | async"
+  [class.minimized]="isMinimized"
+  [class.minimizing]="isMinimized"
+  [class.hidden]="!isVisible"
+>
   <div class="agent-header">
     <div class="agent-title">Asystent AI</div>
+    <div class="agent-controls">
+      <button class="agent-control-btn minimize-btn" (click)="minimizeAgent()">
+        <i class="bi bi-dash-lg"></i>
+      </button>
+      <button class="agent-control-btn close-btn" (click)="closeAgent()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
   </div>
   <div class="agent-content">
     <div class="chat-messages" #chatMessages>
@@ -22,7 +36,11 @@
         placeholder="Napisz wiadomość..."
         [class.dark-input]="isDarkMode$ | async"
       />
-      <button (click)="sendMessage()" [class.dark-button]="isDarkMode$ | async">
+      <button
+        class="send-button"
+        (click)="sendMessage()"
+        [class.dark-button]="isDarkMode$ | async"
+      >
         <i class="bi bi-send"></i>
       </button>
     </div>
