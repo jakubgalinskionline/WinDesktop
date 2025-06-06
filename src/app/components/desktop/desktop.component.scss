@@ -379,3 +379,51 @@ app-footer {
 [data-theme="dark"] .dropdown-item:hover i {
   color: #fff;
 }
+
+.dropend {
+  position: relative;
+  .dropdown-toggle {
+    position: relative;
+    padding-right: 1.5rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      border: solid var(--text-color);
+      border-width: 0 1px 1px 0;
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 0.5rem;
+    display: none;
+  }
+
+  &:hover > .dropdown-menu {
+    display: block;
+  }
+}
+
+// Dark mode
+[data-theme="dark"] {
+  // ...existing code...
+
+  .dropend {
+    .dropdown-menu {
+      background: var(--taskbar-bg);
+      border-color: var(--bs-gray-700);
+
+      .dropdown-item:hover {
+        background-color: var(--bs-gray-800);
+      }
+    }
+  }
+}

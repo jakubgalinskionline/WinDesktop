@@ -18,153 +18,58 @@
               : 'navbar-light bg-light'
           "
         >
+          <!-- Menu -->
           <div class="navbar-left">
-            <ul class="navbar-nav">
-              <!-- Dashboard -->
-              <li class="nav-item dropdown">
+            <ul class="navbar-nav" [class.dark-mode]="isDarkMode$ | async">
+              <li class="nav-item dropdown" *ngFor="let item of menuItems">
                 <a
                   class="nav-link dropdown-toggle drop-arrow-none"
                   href="#"
-                  id="topnav-dashboards"
+                  attr.id="{{ item.id }}"
                   data-bs-toggle="dropdown"
                 >
-                  <span class="menu-icon"
-                    ><i class="ti ti-layout-dashboard"></i
-                  ></span>
-                  <span class="menu-text">Pulpit</span>
+                  <span class="menu-icon"><i class="{{ item.icon }}"></i></span>
+                  <span class="menu-text">{{ item.label }}</span>
                   <div class="menu-arrow"></div>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="topnav-dashboards">
-                  <a
-                    class="dropdown-item"
-                    (click)="openCalculator(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-home"></i> Panel główny</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openNotepad(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-pencil"></i> Notatnik</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openCalculator(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-chart-pie"></i> Raporty</a
-                  >
-                </div>
-              </li>
-
-              <!-- Zarządzanie -->
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle drop-arrow-none"
-                  href="#"
-                  id="topnav-management"
-                  data-bs-toggle="dropdown"
-                >
-                  <span class="menu-icon"><i class="ti ti-settings"></i></span>
-                  <span class="menu-text">Zarządzanie</span>
-                  <div class="menu-arrow"></div>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="topnav-management">
-                  <a
-                    class="dropdown-item"
-                    (click)="openNotepad(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-users"></i> Użytkownicy</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openCalculator(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-lock"></i> Uprawnienia</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openNotepad(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-settings"></i> Ustawienia</a
-                  >
-                </div>
-              </li>
-
-              <!-- Dokumenty -->
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle drop-arrow-none"
-                  href="#"
-                  id="topnav-documents"
-                  data-bs-toggle="dropdown"
-                >
-                  <span class="menu-icon"><i class="ti ti-files"></i></span>
-                  <span class="menu-text">Dokumenty</span>
-                  <div class="menu-arrow"></div>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="topnav-documents">
-                  <a
-                    class="dropdown-item"
-                    (click)="openCalculator(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-file-invoice"></i> Faktury</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openNotepad(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-shopping-cart"></i> Zamówienia</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openCalculator(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-file-contract"></i> Umowy</a
-                  >
-                </div>
-              </li>
-
-              <!-- Raporty -->
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle drop-arrow-none"
-                  href="#"
-                  id="topnav-reports"
-                  data-bs-toggle="dropdown"
-                >
-                  <span class="menu-icon"><i class="ti ti-chart-bar"></i></span>
-                  <span class="menu-text">Raporty</span>
-                  <div class="menu-arrow"></div>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="topnav-reports">
-                  <a
-                    class="dropdown-item"
-                    (click)="openNotepad(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-report-money"></i> Raporty sprzedaży</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openCalculator(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-report"></i> Raporty finansowe</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openNotepad(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-chart-dots"></i> Analityka</a
-                  >
-                  <a
-                    class="dropdown-item"
-                    (click)="openTwoWindows(); $event.preventDefault()"
-                  >
-                    <i class="ti ti-messages"></i> Otwórz 2 okna</a
-                  >
+                <div class="dropdown-menu" attr.aria-labelledby="{{ item.id }}">
+                  <ng-container *ngFor="let child of item.children">
+                    <!-- Jeśli element ma podmenu -->
+                    <div class="dropend" *ngIf="child.children">
+                      <a
+                        class="dropdown-item dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <i class="{{ child.icon }}"></i> {{ child.label }}
+                      </a>
+                      <div class="dropdown-menu">
+                        <a
+                          class="dropdown-item"
+                          *ngFor="let subChild of child.children"
+                          (click)="subChild.action(); $event.preventDefault()"
+                        >
+                          <i class="{{ subChild.icon }}"></i>
+                          {{ subChild.label }}
+                        </a>
+                      </div>
+                    </div>
+                    <!-- Jeśli element nie ma podmenu -->
+                    <a
+                      *ngIf="!child.children"
+                      class="dropdown-item"
+                      (click)="child.action(); $event.preventDefault()"
+                    >
+                      <i class="{{ child.icon }}"></i> {{ child.label }}
+                    </a>
+                  </ng-container>
                 </div>
               </li>
             </ul>
           </div>
+          <!-- //Menu -->
 
           <!-- Prawy pasek -->
           <div class="navbar-right">
