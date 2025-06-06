@@ -154,3 +154,78 @@
 .window-controls button:active {
     transform: scale(0.95);
 }
+
+/* Uchwyty do zmiany rozmiaru */
+.resize-handle {
+  position: absolute;
+  z-index: 2;
+}
+
+.resize-handle.n {
+  top: -3px;
+  left: 3px;
+  right: 3px;
+  height: 6px;
+  cursor: n-resize;
+}
+
+.resize-handle.e {
+  top: 3px;
+  right: -3px;
+  bottom: 3px;
+  width: 6px;
+  cursor: e-resize;
+}
+
+.resize-handle.s {
+  bottom: -3px;
+  left: 3px;
+  right: 3px;
+  height: 6px;
+  cursor: s-resize;
+}
+
+.resize-handle.w {
+  top: 3px;
+  left: -3px;
+  bottom: 3px;
+  width: 6px;
+  cursor: w-resize;
+}
+
+.resize-handle.ne {
+  top: -3px;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  cursor: ne-resize;
+}
+
+.resize-handle.se {
+  bottom: -3px;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  cursor: se-resize;
+}
+
+.resize-handle.sw {
+  bottom: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  cursor: sw-resize;
+}
+
+.resize-handle.nw {
+  top: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  cursor: nw-resize;
+}
+
+/* Ukryj uchwyty do zmiany rozmiaru gdy okno jest zmaksymalizowane */
+.window.maximized .resize-handle {
+  display: none;
+}

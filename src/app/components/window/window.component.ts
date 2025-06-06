@@ -24,6 +24,10 @@ export class WindowComponent implements OnInit, OnDestroy {
   @Input() isDarkMode: boolean = false;
 
   public isDragging = false;
+  public isResizing = false;
+  private resizeDirection = '';
+  private minWidth = 200;
+  private minHeight = 150;
   private dragOffset = { x: 0, y: 0 };
   private screenBounds = {
     width: window.innerWidth,
@@ -116,49 +120,126 @@ export class WindowComponent implements OnInit, OnDestroy {
     (event.target as HTMLElement).setPointerCapture(event.pointerId);
   }
 
+  startResizing(event: PointerEvent, direction: string) {
+    if (event.button !== 0 || this.window.isMaximized) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.isResizing = true;
+    this.resizeDirection = direction;
+
+    const windowElement = this.GetwindowElement();
+    if (windowElement) {
+      windowElement.style.transition = 'none';
+    }
+
+    this.dragOffset = {
+      x: event.clientX,
+      y: event.clientY
+    };
+
+    (event.target as HTMLElement).setPointerCapture(event.pointerId);
+  }
+
   @HostListener('document:pointermove', ['$event'])
   onPointerMove(event: PointerEvent) {
-    if (!this.isDragging) return;
+    if (!this.isDragging && !this.isResizing) return;
     event.preventDefault();
 
     const now = performance.now();
     if (now - this.lastMoveTime < this.THROTTLE_TIME) return;
     this.lastMoveTime = now;
 
-    let x = event.clientX - this.dragOffset.x;
-    let y = event.clientY - this.dragOffset.y;
+    if (this.isResizing) {
+      const dx = event.clientX - this.dragOffset.x;
+      const dy = event.clientY - this.dragOffset.y;
 
-    // Ograniczamy pozycję do granic ekranu
-    x = Math.max(0, Math.min(x, this.screenBounds.width - this.window.width));
-    y = Math.max(0, Math.min(y, this.screenBounds.height - this.window.height));
+      let newWidth = this.window.width;
+      let newHeight = this.window.height;
+      let newX = this.window.x;
+      let newY = this.window.y;
 
-    const windowElement = this.GetwindowElement();
-    if (windowElement) {
-      windowElement.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      if (this.resizeDirection.includes('e')) {
+        newWidth = Math.max(this.minWidth, this.window.width + dx);
+      }
+      if (this.resizeDirection.includes('w')) {
+        const maxLeftMove = this.window.width - this.minWidth;
+        const actualMove = Math.max(-maxLeftMove, Math.min(dx, this.window.x));
+        newWidth = this.window.width - actualMove;
+        newX = this.window.x + actualMove;
+      }
+      if (this.resizeDirection.includes('s')) {
+        newHeight = Math.max(this.minHeight, this.window.height + dy);
+      }
+      if (this.resizeDirection.includes('n')) {
+        const maxTopMove = this.window.height - this.minHeight;
+        const actualMove = Math.max(-maxTopMove, Math.min(dy, this.window.y));
+        newHeight = this.window.height - actualMove;
+        newY = this.window.y + actualMove;
+      }
+
+      // Ograniczenie do granic ekranu
+      if (newX + newWidth > this.screenBounds.width) {
+        newWidth = this.screenBounds.width - newX;
+      }
+      if (newY + newHeight > this.screenBounds.height) {
+        newHeight = this.screenBounds.height - newY;
+      }
+
+      this.window.width = newWidth;
+      this.window.height = newHeight;
+      this.window.x = newX;
+      this.window.y = newY;
+
+      this.dragOffset = {
+        x: event.clientX,
+        y: event.clientY
+      };
+    } else {
+      let x = event.clientX - this.dragOffset.x;
+      let y = event.clientY - this.dragOffset.y;
+
+      x = Math.max(0, Math.min(x, this.screenBounds.width - this.window.width));
+      y = Math.max(0, Math.min(y, this.screenBounds.height - this.window.height));
+
+      const windowElement = this.GetwindowElement();
+      if (windowElement) {
+        windowElement.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
+
+      this.window.x = x;
+      this.window.y = y;
     }
 
-    // Aktualizacja pozycji w modelu
-    this.window.x = x;
-    this.window.y = y;
     this.cdr.detectChanges();
   }
 
   @HostListener('document:pointerup', ['$event'])
   onPointerUp(event: PointerEvent) {
-    if (!this.isDragging) return;
-    event.preventDefault();
+    if (this.isResizing) {
+      this.isResizing = false;
+      this.resizeDirection = '';
+      const target = event.target as HTMLElement;
+      if (target.hasPointerCapture(event.pointerId)) {
+        target.releasePointerCapture(event.pointerId);
+      }
+      const windowElement = this.GetwindowElement();
+      if (windowElement) {
+        windowElement.style.transition = '';
+      }
+    } else if (this.isDragging) {
+      this.isDragging = false;
+      const target = event.target as HTMLElement;
+      if (target.hasPointerCapture(event.pointerId)) {
+        target.releasePointerCapture(event.pointerId);
+      }
 
-    this.isDragging = false;
-    const target = event.target as HTMLElement;
-    if (target.hasPointerCapture(event.pointerId)) {
-      target.releasePointerCapture(event.pointerId);
+      const windowElement = this.GetwindowElement();
+      if (windowElement) {
+        windowElement.classList.remove('dragging');
+        windowElement.style.transition = '';
+      }
     }
-
-    const windowElement = this.GetwindowElement();
-    if (windowElement) {
-      windowElement.classList.remove('dragging');
-      windowElement.style.transition = '';
-    }    // Pozycja została już zaktualizowana przez onPointerMove
   }
 
   onWindowClick(event: MouseEvent) {

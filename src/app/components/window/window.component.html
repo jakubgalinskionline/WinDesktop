@@ -6,6 +6,47 @@
   (pointerdown)="onWindowClick($event)"
   [attr.data-theme]="window.themeMode ? 'dark' : 'light'"
 >
+  <div class="resize-handle n" (pointerdown)="startResizing($event, 'n')"></div>
+  <div class="resize-handle e" (pointerdown)="startResizing($event, 'e')"></div>
+  <div class="resize-handle s" (pointerdown)="startResizing($event, 's')"></div>
+  <div class="resize-handle w" (pointerdown)="startResizing($event, 'w')"></div>
+  <div
+    class="resize-handle ne"
+    (pointerdown)="startResizing($event, 'ne')"
+  ></div>
+  <div
+    class="resize-handle se"
+    (pointerdown)="startResizing($event, 'se')"
+  ></div>
+  <div
+    class="resize-handle sw"
+    (pointerdown)="startResizing($event, 'sw')"
+  ></div>
+  <div
+    class="resize-handle nw"
+    (pointerdown)="startResizing($event, 'nw')"
+  ></div>
+  <div class="resize-handle n" (pointerdown)="startResizing($event, 'n')"></div>
+  <div class="resize-handle e" (pointerdown)="startResizing($event, 'e')"></div>
+  <div class="resize-handle s" (pointerdown)="startResizing($event, 's')"></div>
+  <div class="resize-handle w" (pointerdown)="startResizing($event, 'w')"></div>
+  <div
+    class="resize-handle ne"
+    (pointerdown)="startResizing($event, 'ne')"
+  ></div>
+  <div
+    class="resize-handle se"
+    (pointerdown)="startResizing($event, 'se')"
+  ></div>
+  <div
+    class="resize-handle sw"
+    (pointerdown)="startResizing($event, 'sw')"
+  ></div>
+  <div
+    class="resize-handle nw"
+    (pointerdown)="startResizing($event, 'nw')"
+  ></div>
+
   <div
     class="window-header"
     (pointerdown)="startDragging($event)"
