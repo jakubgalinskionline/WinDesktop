@@ -184,6 +184,11 @@
       font-size: 16px;
       vertical-align: middle;
     }
+
+    .submenu-arrow {
+      margin-left: auto;
+      transition: transform 0.2s ease;
+    }
   }
 }
 
@@ -341,6 +346,20 @@ app-footer {
   display: flex;
   align-items: center;
   padding: 0 16px; // Zmodyfikowany padding dla lepszego wycentrowania
+
+  i:first-child {
+    width: 16px;
+    margin-right: 8px;
+  }
+
+  span {
+    flex: 1;
+  }
+
+  .submenu-arrow {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+  }
 }
 
 // Style dla elementów menu
@@ -385,17 +404,24 @@ app-footer {
   .dropdown-toggle {
     position: relative;
     padding-right: 1.5rem;
+    display: flex;
+    align-items: center;
 
-    &::after {
-      content: '';
+    i:first-child {
+      width: 16px;
+      margin-right: 8px;
+    }
+
+    span {
+      flex: 1;
+      padding-right: 16px;
+    }
+
+    .submenu-arrow {
       position: absolute;
-      right: 0.5rem;
-      top: 50%;
-      width: 6px;
-      height: 6px;
-      border: solid var(--text-color);
-      border-width: 0 1px 1px 0;
-      transform: translate(-50%, -50%) rotate(-45deg);
+      right: 8px;
+      font-size: 12px;
+      color: var(--text-color);
     }
   }
 
@@ -403,7 +429,7 @@ app-footer {
     position: absolute;
     top: 0;
     left: 100%;
-    margin-left: 0.5rem;
+    margin-left: 0.125rem;
     display: none;
   }
 
