@@ -2,6 +2,11 @@
   display: flex;
   align-items: center;
 
+  // Ukryj domyślną strzałkę dropdown
+  .dropdown-toggle::after {
+    display: none;
+  }
+
   .navbar-nav {
     height: 100%;
     display: flex;
@@ -68,6 +73,13 @@
           span {
             flex: 1;
             text-align: left;
+          }
+
+          .static-arrow {
+            margin-left: auto;
+            font-size: 12px;
+            color: currentColor;
+            opacity: 0.7;
           }
         }
       }
@@ -148,6 +160,14 @@
     }
 
     &:hover i {
+      color: var(--bs-white);
+    }
+
+    .static-arrow {
+      color: var(--bs-gray-400);
+    }
+
+    &:hover .static-arrow {
       color: var(--bs-white);
     }
   }
