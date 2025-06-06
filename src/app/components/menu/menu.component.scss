@@ -50,9 +50,7 @@
         .menu-text {
           margin-right: 0.5rem;
         }
-      }
-
-      .dropdown-menu {
+      }        .dropdown-menu {
         padding: 0.5rem 0;
         min-width: 200px;
         border-radius: 4px;
@@ -64,15 +62,24 @@
           padding: 0.5rem 1rem;
           gap: 0.5rem;
           text-align: left;
+          width: 100%;
+          justify-content: flex-start;
 
           i {
             width: 16px;
             text-align: center;
+            flex-shrink: 0;
+            margin: 0;
           }
 
           span {
             flex: 1;
             text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+            padding: 0;
           }
 
           .static-arrow {
@@ -90,7 +97,6 @@
 // Style dla podmenu
 .dropend {
   position: relative;
-
   .dropdown-item {
     position: relative;
     padding: 0.5rem 1rem;
@@ -98,17 +104,21 @@
     align-items: center;
     width: 100%;
     text-align: left;
-    justify-content: flex-start;
 
     i:first-child {
       width: 16px;
       margin-right: 0.5rem;
       text-align: center;
+      flex-shrink: 0;
     }
 
     span {
       flex: 1;
       text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 0.5rem;
     }
   }
 
