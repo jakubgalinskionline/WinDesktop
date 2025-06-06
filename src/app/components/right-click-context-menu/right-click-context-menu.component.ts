@@ -1,5 +1,9 @@
 import { Component, ElementRef, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { Observable } from 'rxjs';
+import { ThemeService } from '../../services/theme.service';
+
 import { ContextMenuItem } from './models/context-menu-item.model';
 
 @Component({
@@ -109,6 +113,15 @@ import { ContextMenuItem } from './models/context-menu-item.model';
   `]
 })
 export class RightClickContextMenuComponent {
+  isDarkMode$: Observable<boolean>;
+
+  constructor(
+    private elementRef: ElementRef,
+    private themeService: ThemeService
+  ) {
+    this.isDarkMode$ = this.themeService.darkMode$;
+  }
+
   @Input() menuItems: ContextMenuItem[] = [
     {
       label: 'Nowy',
@@ -172,8 +185,6 @@ export class RightClickContextMenuComponent {
   activeSubmenu: ContextMenuItem[] | null = null;
   submenuX = 0;
   submenuY = 0;
-
-  constructor(private elementRef: ElementRef) {}
 
   show(event: MouseEvent) {
     event.preventDefault();
