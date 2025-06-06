@@ -1,8 +1,12 @@
-.agent-container {  position: fixed;
+/* 1. Główny kontener */
+
+.agent-container {
+  position: fixed;
   right: 20px;
   bottom: 20px;
   width: 300px;
-  height: 300px;  display: flex;
+  height: 300px;
+  display: flex;
   flex-direction: column;
   background-color: white;
   border-radius: 8px;
@@ -11,6 +15,12 @@
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
+
+.agent-container.hidden {
+  display: none;
+}
+
+/* 2. Minimalizacja i kontrolki */
 
 .agent-container.minimized {
   transform: scale(0.2);
@@ -50,7 +60,8 @@
   background: transparent;
   border: none;
   color: #dc3545;
-  cursor: pointer;  display: flex;
+  cursor: pointer;
+  display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
@@ -69,22 +80,7 @@
   transform: scale(1.1);
 }
 
-.agent-container.hidden {
-  display: none;
-}
-
-.agent-container.dark-mode {
-  background-color: #1e1e1e;
-  color: #ffffff;
-}
-
-.agent-container.dark-mode .agent-header {
-  border-bottom-color: #3d3d3d;
-}
-
-.agent-container.dark-mode .agent-control-btn {
-  color: #ffffff;
-}
+/* 3. Nagłówek */
 
 .agent-header {
   padding: 8px;
@@ -138,6 +134,8 @@
   transform: scale(0.95);
 }
 
+/* 4. Zawartość i wiadomości */
+
 .agent-content {
   flex: 1;
   display: flex;
@@ -172,17 +170,14 @@
   color: black;
 }
 
-.dark-mode .agent-message {
-  background-color: #2d2d2d;
-  color: white;
-}
-
 .message-time {
   font-size: 12px;
   opacity: 0.7;
   margin-top: 5px;
   text-align: right;
 }
+
+/* 5. Panel wprowadzania */
 
 .input-area {
   display: flex;
@@ -198,12 +193,6 @@
   border-radius: 3px;
   outline: none;
   font-size: 12px;
-}
-
-.input-area .dark-input {
-  background-color: #2d2d2d;
-  color: white;
-  border-color: #3d3d3d;
 }
 
 .send-button {
@@ -222,9 +211,7 @@
   opacity: 0.9;
 }
 
-.send-button.dark-button {
-  background-color: #0056b3;
-}
+/* 6. Animacje */
 
 @keyframes minimizeAnimation {
   from {
@@ -239,4 +226,34 @@
 
 .agent-container.minimizing {
   animation: minimizeAnimation 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* 7. Tryb ciemny */
+
+.agent-container.dark-mode {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.agent-container.dark-mode .agent-header {
+  border-bottom-color: #3d3d3d;
+}
+
+.agent-container.dark-mode .agent-control-btn {
+  color: #ffffff;
+}
+
+.dark-mode .agent-message {
+  background-color: #2d2d2d;
+  color: white;
+}
+
+.input-area .dark-input {
+  background-color: #2d2d2d;
+  color: white;
+  border-color: #3d3d3d;
+}
+
+.send-button.dark-button {
+  background-color: #0056b3;
 }
