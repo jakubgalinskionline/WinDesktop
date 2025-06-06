@@ -30,7 +30,7 @@ import { ThemeService } from '../../services/theme.service';
   ],
   providers: [ThemeService, WindowService],
   templateUrl: './desktop.component.html',
-  styleUrl: './desktop.component.scss',
+  styleUrl: './desktop.component.css',
 })
 export class DesktopComponent implements OnInit {
   @ViewChild('contextMenu') contextMenu!: ContextMenuComponent;

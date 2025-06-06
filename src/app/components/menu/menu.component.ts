@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, NgFor],
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+  styleUrls: ['./menu.component.css'],
 })
 export class MenuComponent implements OnInit {
   isDarkMode$: Observable<boolean>;

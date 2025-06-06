@@ -9,7 +9,7 @@ import { ContextMenuItem } from './models/context-menu-item.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './context-menu.component.html',
-  styleUrls: ['./context-menu.component.scss']
+  styleUrls: ['./context-menu.component.css']
 })
 export class ContextMenuComponent {
   isDarkMode$: Observable<boolean>;
