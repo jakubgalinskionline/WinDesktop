@@ -1,116 +1,15 @@
 import { Component, ElementRef, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { Observable } from 'rxjs';
 import { ThemeService } from '../../services/theme.service';
-
 import { ContextMenuItem } from './models/context-menu-item.model';
 
 @Component({
   selector: 'right-click-context-menu',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div
-      *ngIf="isVisible"
-      class="context-menu"
-      [style.left.px]="x"
-      [style.top.px]="y"
-    >
-      <div
-        *ngFor="let item of menuItems"
-        class="context-menu-item"
-        [class.disabled]="item.disabled"
-        [class.separator]="item.separator"
-        [class.has-submenu]="item.children?.length"
-        (click)="onItemClick(item)"
-        (mouseenter)="onItemHover(item, $event)"
-      >
-        <i *ngIf="item.icon" [class]="item.icon"></i>
-        <span>{{ item.label }}</span>
-        <i *ngIf="item.children?.length" class="bi bi-chevron-right submenu-arrow"></i>
-      </div>
-    </div>
-
-    <!-- Podmenu -->
-    <div
-      *ngIf="activeSubmenu"
-      class="context-menu submenu"
-      [style.left.px]="submenuX"
-      [style.top.px]="submenuY"
-    >
-      <div
-        *ngFor="let item of activeSubmenu"
-        class="context-menu-item"
-        [class.disabled]="item.disabled"
-        [class.separator]="item.separator"
-        (click)="onItemClick(item)"
-      >
-        <i *ngIf="item.icon" [class]="item.icon"></i>
-        <span>{{ item.label }}</span>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .context-menu {
-      position: fixed;
-      background: var(--bs-white);
-      border: 1px solid var(--bs-border-color);
-      border-radius: 4px;
-      padding: 4px 0;
-      min-width: 180px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      z-index: 9999;
-    }
-
-    .context-menu-item {
-      padding: 6px 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      user-select: none;
-      font-size: 14px;
-      color: var(--bs-body-color);
-      transition: background-color 0.2s;
-      position: relative;
-    }
-
-    .context-menu-item:hover {
-      background-color: var(--bs-gray-100);
-    }
-
-    .context-menu-item.separator {
-      border-top: 1px solid var(--bs-border-color);
-      margin: 4px 0;
-      cursor: default;
-      pointer-events: none;
-    }
-
-    .context-menu-item.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-
-    .submenu-arrow {
-      margin-left: auto;
-      font-size: 12px;
-    }
-
-    .context-menu.submenu {
-      position: fixed;
-    }
-
-    [data-theme="dark"] .context-menu {
-      background: var(--bs-dark);
-      border-color: var(--bs-gray-700);
-    }
-
-    [data-theme="dark"] .context-menu-item:hover {
-      background-color: var(--bs-gray-800);
-    }
-  `]
+  templateUrl: './right-click-context-menu.component.html',
+  styleUrls: ['./right-click-context-menu.component.scss']
 })
 export class RightClickContextMenuComponent {
   isDarkMode$: Observable<boolean>;
