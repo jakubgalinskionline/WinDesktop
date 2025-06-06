@@ -1,0 +1,154 @@
+.navbar-left {
+  display: flex;
+  align-items: center;
+
+  .navbar-nav {
+    height: 100%;
+    display: flex;
+    gap: 0.5rem;
+
+    .nav-item {
+      position: relative;
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        gap: 0.5rem;
+        height: 100%;
+        cursor: pointer;
+        position: relative;
+        padding-left: 2rem;
+
+        .menu-arrow {
+          position: absolute;
+          left: 0.75rem;
+          width: 8px;
+          height: 8px;
+          border-left: 2px solid currentColor;
+          border-bottom: 2px solid currentColor;
+          transform: rotate(-45deg);
+          transition: transform 0.3s ease;
+        }
+
+        &[aria-expanded="true"] {
+          .menu-arrow {
+            transform: rotate(135deg);
+          }
+        }
+
+        .menu-icon {
+          display: flex;
+          align-items: center;
+        }
+
+        .menu-text {
+          margin-right: 0.5rem;
+        }
+      }
+
+      .dropdown-menu {
+        padding: 0.5rem 0;
+        min-width: 200px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+        .dropdown-item {
+          display: flex;
+          align-items: center;
+          padding: 0.5rem 1rem;
+          gap: 0.5rem;
+          text-align: left;
+
+          i {
+            width: 16px;
+            text-align: center;
+          }
+
+          span {
+            flex: 1;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Style dla podmenu
+.dropend {
+  position: relative;
+
+  .dropdown-item {
+    position: relative;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+
+    i:first-child {
+      width: 16px;
+      margin-right: 0.5rem;
+      text-align: center;
+    }
+
+    span {
+      flex: 1;
+      text-align: left;
+    }
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 2px;
+    display: none;
+  }
+
+  &:hover > .dropdown-menu {
+    display: block;
+  }
+}
+
+// Responsywność
+@media (max-width: 768px) {
+  .menu-text {
+    display: none;
+  }
+
+  .menu-icon {
+    margin-right: 0;
+  }
+
+  .dropdown-menu {
+    min-width: 160px;
+  }
+}
+
+// Dark mode
+[data-theme="dark"] {
+  .dropdown-menu {
+    background: var(--taskbar-bg);
+    border-color: var(--bs-gray-700);
+  }
+
+  .dropdown-item {
+    color: var(--bs-light);
+
+    &:hover {
+      background-color: var(--bs-gray-800);
+      color: var(--bs-white);
+    }
+
+    i {
+      color: var(--bs-gray-400);
+    }
+
+    &:hover i {
+      color: var(--bs-white);
+    }
+  }
+}

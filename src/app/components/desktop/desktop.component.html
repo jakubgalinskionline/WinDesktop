@@ -19,58 +19,7 @@
           "
         >
           <!-- Menu -->
-          <div class="navbar-left">
-            <ul class="navbar-nav" [class.dark-mode]="isDarkMode$ | async">
-              <li class="nav-item dropdown" *ngFor="let item of menuItems">
-                <a
-                  class="nav-link dropdown-toggle drop-arrow-none"
-                  href="#"
-                  attr.id="{{ item.id }}"
-                  data-bs-toggle="dropdown"
-                >
-                  <span class="menu-icon"><i class="{{ item.icon }}"></i></span>
-                  <span class="menu-text">{{ item.label }}</span>
-                  <div class="menu-arrow"></div>
-                </a>
-                <div class="dropdown-menu" attr.aria-labelledby="{{ item.id }}">
-                  <ng-container *ngFor="let child of item.children">
-                    <!-- Jeśli element ma podmenu -->
-                    <div class="dropend" *ngIf="child.children">
-                      <a
-                        class="dropdown-item dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        <i class="{{ child.icon }}"></i>
-                        <span>{{ child.label }}</span>
-                        <i class="bi bi-chevron-right submenu-arrow"></i>
-                      </a>
-                      <div class="dropdown-menu">
-                        <a
-                          class="dropdown-item"
-                          *ngFor="let subChild of child.children"
-                          (click)="subChild.action(); $event.preventDefault()"
-                        >
-                          <i class="{{ subChild.icon }}"></i>
-                          {{ subChild.label }}
-                        </a>
-                      </div>
-                    </div>
-                    <!-- Jeśli element nie ma podmenu -->
-                    <a
-                      *ngIf="!child.children"
-                      class="dropdown-item"
-                      (click)="child.action(); $event.preventDefault()"
-                    >
-                      <i class="{{ child.icon }}"></i> {{ child.label }}
-                    </a>
-                  </ng-container>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <app-menu></app-menu>
           <!-- //Menu -->
 
           <!-- Prawy pasek -->
