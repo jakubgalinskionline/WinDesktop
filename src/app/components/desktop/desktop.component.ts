@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { Observable } from 'rxjs';
-import { RightClickContextMenuComponent } from '../right-click-context-menu/right-click-context-menu.component';
+import { ContextMenuComponent } from '../context-menu/context-menu.component';
 
 import { WindowModel } from '../../models/window/window.model';
 import { WindowComponent } from '../window/window.component';
@@ -25,7 +25,7 @@ import { ThemeService } from '../../services/theme.service';
     NotificationIconComponent,
     AgentComponent,
     OpenWindowsListComponent,
-    RightClickContextMenuComponent,
+    ContextMenuComponent,
     MenuComponent
   ],
   providers: [ThemeService, WindowService],
@@ -33,7 +33,7 @@ import { ThemeService } from '../../services/theme.service';
   styleUrl: './desktop.component.scss',
 })
 export class DesktopComponent implements OnInit {
-  @ViewChild('contextMenu') contextMenu!: RightClickContextMenuComponent;
+  @ViewChild('contextMenu') contextMenu!: ContextMenuComponent;
 
   isDarkMode$: Observable<boolean>;
   windows$: Observable<WindowModel[]>;

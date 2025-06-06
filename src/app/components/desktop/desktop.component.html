@@ -5,7 +5,7 @@
   [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
   (contextmenu)="displayContextMenu($event)"
 >
-  <right-click-context-menu #contextMenu></right-click-context-menu>
+  <app-context-menu #contextMenu></app-context-menu>
   <!-- Taskbar -->
   <div class="taskbar">
     <nav class="navbar">

@@ -5,13 +5,13 @@ import { ThemeService } from '../../services/theme.service';
 import { ContextMenuItem } from './models/context-menu-item.model';
 
 @Component({
-  selector: 'right-click-context-menu',
+  selector: 'app-context-menu',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './right-click-context-menu.component.html',
-  styleUrls: ['./right-click-context-menu.component.scss']
+  templateUrl: './context-menu.component.html',
+  styleUrls: ['./context-menu.component.scss']
 })
-export class RightClickContextMenuComponent {
+export class ContextMenuComponent {
   isDarkMode$: Observable<boolean>;
 
   constructor(
