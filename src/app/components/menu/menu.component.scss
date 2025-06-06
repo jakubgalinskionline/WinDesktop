@@ -23,11 +23,11 @@
         height: 100%;
         cursor: pointer;
         position: relative;
-        padding-left: 2rem;
+        padding-right: 2rem;
 
         .menu-arrow {
           position: absolute;
-          left: 0.75rem;
+          right: 0.75rem;
           width: 8px;
           height: 8px;
           border-left: 2px solid currentColor;
