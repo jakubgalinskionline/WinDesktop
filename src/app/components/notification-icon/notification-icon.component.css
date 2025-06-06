@@ -4,30 +4,26 @@
 }
 
 /* Ikona powiadomień */
-.bi-bell {
+.topbar-link i {
   color: var(--text-color);
-  font-size: 1.2rem;
+  font-size: 14px;
   transition: color 0.2s ease-in-out;
 }
 
-[data-theme="dark"] {
-  .bi-bell {
-    color: var(--bs-gray-300);
-
-    &:hover {
-      color: var(--bs-gray-100);
-    }
-  }
+[data-theme="dark"] .topbar-link i {
+  color: var(--bs-gray-300);
 }
 
-[data-theme="light"] {
-  .bi-bell {
-    color: var(--bs-gray-700);
+[data-theme="dark"] .topbar-link:hover i {
+  color: var(--bs-gray-100);
+}
 
-    &:hover {
-      color: var(--bs-gray-900);
-    }
-  }
+[data-theme="light"] .topbar-link i {
+  color: var(--bs-gray-700);
+}
+
+[data-theme="light"] .topbar-link:hover i {
+  color: var(--bs-gray-900);
 }
 
 /* Przycisk powiadomień */
@@ -40,15 +36,16 @@
 
 /* Badge z licznikiem */
 .topbar-badge {
-  position: absolute;
-  top: 1px;
-  right: 1px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
-  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
   font-size: 11px;
-  line-height: 18px;
+  line-height: 1;
   text-align: center;
 }
 
@@ -85,6 +82,8 @@
 .notification-header {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #eee;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 /* Element powiadomienia */
@@ -92,6 +91,7 @@
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #f5f5f5;
   transition: background-color 0.2s;
+  font-size: 13px;
 }
 
 .notification-item:hover {

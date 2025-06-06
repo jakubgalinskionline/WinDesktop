@@ -5,6 +5,25 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.open-windows-icon i {
+  font-size: 13px;
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .open-windows-icon i {
+  color: var(--bs-gray-300);
+}
+
+.open-windows-icon:hover i {
+  color: var(--bs-gray-900);
+}
+
+[data-theme="dark"] .open-windows-icon:hover i {
+  color: var(--bs-gray-100);
 }
 
 .open-windows-count {
@@ -25,9 +44,8 @@
   top: calc(100% + 8px);
   right: 0;
   background: var(--bs-body-bg);
-  border: 1px solid var(--bs-border-color);
   border-radius: 6px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   min-width: 280px;
   display: none;
   z-index: 1050;
@@ -42,24 +60,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--bs-border-color);
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.window-item:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .window-item:hover {
   background-color: var(--bs-gray-100);
 }
 
-.window-item:last-child {
-  border-bottom: none;
-}
 .window-title {
   flex: 1;
   margin-right: 12px;
-  font-size: 13px;
+  font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.4;
 }
 
 .window-actions {
@@ -72,38 +91,58 @@
   border: none;
   cursor: pointer;
   padding: 4px;
-  opacity: 0.6;
-  font-size: 14px;
   width: 24px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  color: var(--bs-body-color);
+  transition: all 0.2s ease-in-out;
+  color: #6c757d;
+}
+
+.window-action-btn i {
+  font-size: 12px;
 }
 
 .window-action-btn:hover {
-  opacity: 1;
-  background-color: var(--bs-gray-200);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Dark mode */
+.window-action-btn.close-btn:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Style ciemnego motywu */
 [data-theme="dark"] .windows-list {
-  background-color: var(--bs-gray-800);
-  border-color: var(--bs-gray-700);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+  background-color: #343a40;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .window-item {
-  background-color: var(--bs-gray-800);
-  border-color: var(--bs-gray-700);
+  background-color: #343a40;
+  color: #e9ecef;
+}
+
+[data-theme="dark"] .window-item:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .window-item:hover {
-  background-color: var(--bs-gray-700);
+  background-color: #495057;
+}
+
+[data-theme="dark"] .window-action-btn {
+  color: #adb5bd;
 }
 
 [data-theme="dark"] .window-action-btn:hover {
-  background-color: var(--bs-gray-600);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+[data-theme="dark"] .window-action-btn.close-btn:hover {
+  background-color: #dc3545;
+  color: #ffffff;
 }

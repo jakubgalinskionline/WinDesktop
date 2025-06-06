@@ -63,10 +63,9 @@ export class MenuComponent implements OnInit {
           action: () => this.openNotepad()
         }
       ]
-    },
-    {
+    },    {
       label: 'Dokumenty',
-      icon: 'ti ti-files',
+      icon: 'bi bi-folder2-open',
       id: 'topnav-documents',
       action: () => {},
       children: [
@@ -87,42 +86,39 @@ export class MenuComponent implements OnInit {
         }
       ]
     },
-    {
-      label: 'Raporty',
-      icon: 'ti ti-chart-bar',
+    {      label: 'Raporty',
+      icon: 'bi bi-bar-chart',
       id: 'topnav-reports',
       action: () => {},
-      children: [
-        {
+      children: [        {
           label: 'Raporty sprzedaży',
-          icon: 'ti ti-report-money',
+          icon: 'bi bi-graph-up-arrow',
           action: () => {},
           children: [
             {
               label: 'Dzienny',
-              icon: 'ti ti-calendar-day',
+              icon: 'bi bi-calendar-day',
               action: () => this.openCalculator()
             },
             {
               label: 'Miesięczny',
-              icon: 'ti ti-calendar-month',
+              icon: 'bi bi-calendar-month',
               action: () => this.openCalculator()
             },
             {
               label: 'Roczny',
-              icon: 'ti ti-calendar-year',
+              icon: 'bi bi-calendar-check',
               action: () => this.openCalculator()
             }
           ]
         },
-        {
-          label: 'Analityka',
-          icon: 'ti ti-chart-dots',
+        {          label: 'Analityka',
+          icon: 'bi bi-graph-up',
           action: () => this.openNotepad()
         },
         {
           label: 'Otwórz 2 okna',
-          icon: 'ti ti-messages',
+          icon: 'bi bi-window-stack',
           action: () => this.openTwoWindows()
         }
       ]
