@@ -12,8 +12,7 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './agent.component.html',
   styleUrl: './agent.component.css'
 })
-export class AgentComponent {
-  isDarkMode$: Observable<boolean>;
+export class AgentComponent {  isDarkMode$: Observable<boolean>;
   userInput: string = '';
   messages: Array<{type: 'user' | 'agent', text: string, time: Date}> = [];
   isVisible: boolean = true;
@@ -21,7 +20,9 @@ export class AgentComponent {
 
   constructor(private themeService: ThemeService) {
     this.isDarkMode$ = this.themeService.darkMode$;
-  }  minimizeAgent() {
+  }
+
+  minimizeAgent() {
     if (!this.isMinimized) {
       // Oblicz pozycję dla animacji
       const rect = document.querySelector('.agent-container')?.getBoundingClientRect();

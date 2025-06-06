@@ -46,10 +46,11 @@
     </div>
   </div>
 </div>
-<button
-  class="restore-button"
-  (click)="minimizeAgent()"
-  *ngIf="isMinimized && isVisible"
->
-  <i class="bi bi-chevron-up"></i>
-</button>
+<div class="restore-controls" *ngIf="isMinimized && isVisible">
+  <button class="restore-button" (click)="minimizeAgent()">
+    <i class="bi bi-chevron-up"></i>
+  </button>
+  <button class="restore-close-button" (click)="closeAgent()">
+    <i class="bi bi-x"></i>
+  </button>
+</div>
