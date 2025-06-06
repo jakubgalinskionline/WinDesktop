@@ -7,7 +7,7 @@
   min-height: 150px;
   display: flex;
   flex-direction: column;
-  z-index: var(--window-z-index, 1000);
+  z-index: var(--window-z-index, 200);
   transform: var(--window-transform);
   width: var(--window-width);
   height: var(--window-height);
