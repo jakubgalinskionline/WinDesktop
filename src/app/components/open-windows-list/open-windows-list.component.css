@@ -6,24 +6,17 @@
   align-items: center;
   gap: 6px;
   border-radius: 6px;
-  transition: background-color 0.2s ease-in-out;
 }
 
-.open-windows-icon i {
+/* Style dla jasnego motywu */
+html body .open-windows-icon i {
   font-size: 13px;
-  color: var(--text-color);
+  color: #000000 !important;
 }
 
-[data-theme="dark"] .open-windows-icon i {
-  color: var(--bs-gray-300);
-}
-
-.open-windows-icon:hover i {
-  color: var(--bs-gray-900);
-}
-
-[data-theme="dark"] .open-windows-icon:hover i {
-  color: var(--bs-gray-100);
+/* Style dla ciemnego motywu */
+html body[data-theme="dark"] .open-windows-icon i {
+  color: #ffffff !important;
 }
 
 .open-windows-count {
