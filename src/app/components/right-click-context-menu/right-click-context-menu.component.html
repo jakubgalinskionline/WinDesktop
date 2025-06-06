@@ -1,0 +1,42 @@
+<div
+  *ngIf="isVisible"
+  class="context-menu"
+  [style.left.px]="x"
+  [style.top.px]="y"
+>
+  <div
+    *ngFor="let item of menuItems"
+    class="context-menu-item"
+    [class.disabled]="item.disabled"
+    [class.separator]="item.separator"
+    [class.has-submenu]="item.children?.length"
+    (click)="onItemClick(item)"
+    (mouseenter)="onItemHover(item, $event)"
+  >
+    <i *ngIf="item.icon" [class]="item.icon"></i>
+    <span>{{ item.label }}</span>
+    <i
+      *ngIf="item.children?.length"
+      class="bi bi-chevron-right submenu-arrow"
+    ></i>
+  </div>
+</div>
+
+<!-- Podmenu -->
+<div
+  *ngIf="activeSubmenu"
+  class="context-menu submenu"
+  [style.left.px]="submenuX"
+  [style.top.px]="submenuY"
+>
+  <div
+    *ngFor="let item of activeSubmenu"
+    class="context-menu-item"
+    [class.disabled]="item.disabled"
+    [class.separator]="item.separator"
+    (click)="onItemClick(item)"
+  >
+    <i *ngIf="item.icon" [class]="item.icon"></i>
+    <span>{{ item.label }}</span>
+  </div>
+</div>
