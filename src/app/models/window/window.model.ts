@@ -2,6 +2,9 @@ export interface WindowModel {
   id: number;
   title: string;
   component: any;
+  componentRef?: any; // Referencja do instancji komponentu
+  componentInput?: {[key: string]: any}; // Dane wejściowe dla komponentu
+  componentOutput?: {[key: string]: Function}; // Handlery dla zdarzeń komponentu
   x: number;
   y: number;
   width: number;

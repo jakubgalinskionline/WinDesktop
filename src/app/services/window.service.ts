@@ -1,4 +1,4 @@
-import { Injectable, Input } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { WindowModel } from '../models/window/window.model';
@@ -7,42 +7,42 @@ import { ThemeService } from './theme.service';
 @Injectable({
   providedIn: 'root'
 })
-export class WindowService {  private windowsSubject = new BehaviorSubject<WindowModel[]>([]);
+export class WindowService {
+  private windowsSubject = new BehaviorSubject<WindowModel[]>([]);
   windows$ = this.windowsSubject.asObservable();
   private nextId = 1;
+  private currentTheme: boolean = false;
 
-
-
-constructor(private themeService: ThemeService) {
-  // Inicjalizacja początkowego stanu
-  this.currentTheme = this.themeService.getCurrentTheme();
-
-  // Nasłuchuj zmian motywu z buforowaniem
-  this.themeService.darkMode$.pipe(
-    distinctUntilChanged() // aktualizuj tylko gdy wartość faktycznie się zmienia
-  ).subscribe(isDark => {
-    this.currentTheme = isDark;
-    this.updateWindowsTheme();
-  });
-}
-
- private currentTheme: boolean;
+  constructor(private themeService: ThemeService) {
+    this.themeService.darkMode$.subscribe(isDark => {
+      this.currentTheme = isDark;
+      this.updateWindowsTheme();
+    });
+  }
 
   private getCurrentTheme(): boolean {
     return this.currentTheme;
   }
+
   private updateWindowsTheme(): void {
     const windows = this.windowsSubject.getValue();
-    if (windows.length > 0) {
-      const updatedWindows = windows.map((window: WindowModel) => ({
-        ...window,
-        themeMode: this.getCurrentTheme()
-      }));
-      this.windowsSubject.next(updatedWindows);
-    }
+    this.windowsSubject.next(windows.map(w => ({
+      ...w,
+      themeMode: this.getCurrentTheme()
+    })));
   }
 
-  openWindow(component: any, title: string, x: number, y: number, w: number, h: number, isDraggable: boolean = false) {
+  openWindow(
+    component: any,
+    title: string,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    isDraggable: boolean = false,
+    componentInput: {[key: string]: any} = {},
+    componentOutput: {[key: string]: Function} = {}
+  ) {
     const window: WindowModel = {
       id: this.nextId++,
       title,
@@ -55,7 +55,9 @@ constructor(private themeService: ThemeService) {
       zIndex: this.getMaxZIndex() + 1,
       isActive: true,
       themeMode: this.getCurrentTheme(),
-      isDraggable
+      isDraggable,
+      componentInput,
+      componentOutput
     };
 
     this.windowsSubject.next([...this.windowsSubject.getValue(), window]);
@@ -65,9 +67,10 @@ constructor(private themeService: ThemeService) {
   private updateWindow(id: number, updates: Partial<WindowModel>): void {
     const windows = this.windowsSubject.getValue();
     this.windowsSubject.next(windows.map((w: WindowModel) =>
-      w.id === id ? { ...w, ...updates, themeMode: this.getCurrentTheme() } : w
+      w.id === id ? { ...w, ...updates } : w
     ));
   }
+
   private getMaxZIndex(): number {
     const windows = this.windowsSubject.getValue();
     return windows.length > 0
@@ -111,6 +114,7 @@ constructor(private themeService: ThemeService) {
       isMaximized: false
     });
   }
+
   closeWindow(id: number) {
     const windows = this.windowsSubject.getValue();
     this.windowsSubject.next(windows.filter((w: WindowModel) => w.id !== id));

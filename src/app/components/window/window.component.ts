@@ -1,5 +1,19 @@
-import { CommonModule, NgComponentOutlet } from '@angular/common';
-import { Component, Input, ElementRef, HostListener, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  Input,
+  ElementRef,
+  HostListener,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ComponentRef,
+  ViewChild,
+  ViewContainerRef,
+  AfterViewInit,
+  Type
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { WindowModel } from '../../models/window/window.model';
@@ -9,21 +23,26 @@ import { WindowService } from '../../services/window.service';
 import { ThemeService } from '../../services/theme.service';
 import { DragDropData } from '../../models/window/drag-drop.model';
 
+interface DynamicComponent {
+  [key: string]: any;
+}
+
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css'],
   standalone: true,
-  imports: [CommonModule, NgComponentOutlet],
+  imports: [CommonModule],
   host: {
     '[class.window-container]': 'true'
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WindowComponent implements OnInit, OnDestroy {
+export class WindowComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() window!: WindowModel;
   @Input() isDarkMode: boolean = false;
   @Input() isDraggable?: boolean = false;
+  @ViewChild('componentcontainer', { read: ViewContainerRef, static: true }) componentContainer!: ViewContainerRef;
 
   public isDragging = false;
   public isResizing = false;
@@ -39,6 +58,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   private lastMoveTime = 0;
   private readonly THROTTLE_TIME = 16; // około 60 FPS
+  private componentRef?: ComponentRef<any>;
 
   constructor(
     private windowService: WindowService,
@@ -51,7 +71,7 @@ export class WindowComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // Przekaż kontekst okna    (window as any).currentwindowId = this.window.id;
+    // Przekaż kontekst okna
     (window as any).currentWindowComponent = this;
 
     // Subskrybuj tryb ciemny
@@ -65,12 +85,68 @@ export class WindowComponent implements OnInit, OnDestroy {
     this.initializewindowProperties();
   }
 
+  ngAfterViewInit() {
+    if (this.window.component) {
+      this.initializeChildComponent();
+    }
+  }
+
+  private initializeChildComponent() {
+    if (!this.componentContainer) {
+      console.error('Brak kontenera na komponent potomny');
+      return;
+    }
+
+    this.componentContainer.clear();
+    const componentRef = this.componentContainer.createComponent<DynamicComponent>(
+      this.window.component as Type<DynamicComponent>
+    );
+
+    // Zachowaj referencję do komponentu
+    this.componentRef = componentRef;
+    this.window.componentRef = componentRef.instance;
+
+    // Przekaż dane wejściowe
+    if (this.window.componentInput) {
+      Object.keys(this.window.componentInput).forEach(key => {
+        if (componentRef.instance && key in componentRef.instance) {
+          componentRef.instance[key] = this.window.componentInput![key];
+        }
+      });
+    }
+
+    // Podłącz handlery zdarzeń
+    if (this.window.componentOutput) {
+      Object.keys(this.window.componentOutput).forEach(key => {
+        const instance = componentRef.instance;
+        if (instance && key in instance && instance[key]?.subscribe) {
+          this.subscriptions.add(
+            instance[key].subscribe((data: any) => {
+              const handler = this.window.componentOutput?.[key];
+              if (handler) {
+                handler(data);
+              }
+            })
+          );
+        }
+      });
+    }
+
+    componentRef.changeDetectorRef.detectChanges();
+    this.cdr.detectChanges();
+  }
+
   ngOnDestroy() {
     window.removeEventListener('resize', this.handleResize);
     this.subscriptions.unsubscribe();
     const windowElement = this.GetwindowElement();
     if (windowElement) {
       windowElement.classList.remove('dragging', 'maximizing', 'maximized', 'restoring');
+    }
+
+    // Zniszcz komponent potomny
+    if (this.componentRef) {
+      this.componentRef.destroy();
     }
   }
 

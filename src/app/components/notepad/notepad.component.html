@@ -20,20 +20,23 @@
       Wyczyść
     </button>
   </div>
-
   <div class="editor-area">
-    <textarea
-      #textArea
-      [formControl]="textControl"
-      placeholder="Wpisz lub wklej tekst..."
-      class="notepad-content"
-      (dragover)="onDragOver($event)"
-      (drop)="onDrop($event)"
-    >
-    </textarea>
+    <form [formGroup]="notepadForm">
+      <textarea
+        #textArea
+        formControlName="content"
+        placeholder="Wpisz lub wklej tekst..."
+        class="notepad-content"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event)"
+      ></textarea>
+    </form>
   </div>
 
   <div class="status-bar">
     {{ getStatusText() }}
+    <span *ngIf="contentControl?.errors?.['maxlength']" class="text-danger">
+      Przekroczono maksymalną długość tekstu (50000 znaków)
+    </span>
   </div>
 </div>

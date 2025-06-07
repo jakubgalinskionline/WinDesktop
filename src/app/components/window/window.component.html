@@ -10,26 +10,7 @@
   (dragover)="onDragOver($event)"
   (drop)="onDrop($event)"
 >
-  <div class="resize-handle n" (pointerdown)="startResizing($event, 'n')"></div>
-  <div class="resize-handle e" (pointerdown)="startResizing($event, 'e')"></div>
-  <div class="resize-handle s" (pointerdown)="startResizing($event, 's')"></div>
-  <div class="resize-handle w" (pointerdown)="startResizing($event, 'w')"></div>
-  <div
-    class="resize-handle ne"
-    (pointerdown)="startResizing($event, 'ne')"
-  ></div>
-  <div
-    class="resize-handle se"
-    (pointerdown)="startResizing($event, 'se')"
-  ></div>
-  <div
-    class="resize-handle sw"
-    (pointerdown)="startResizing($event, 'sw')"
-  ></div>
-  <div
-    class="resize-handle nw"
-    (pointerdown)="startResizing($event, 'nw')"
-  ></div>
+  <!-- Uchwyty do skalowania -->
   <div class="resize-handle n" (pointerdown)="startResizing($event, 'n')"></div>
   <div class="resize-handle e" (pointerdown)="startResizing($event, 'e')"></div>
   <div class="resize-handle s" (pointerdown)="startResizing($event, 's')"></div>
@@ -51,37 +32,28 @@
     (pointerdown)="startResizing($event, 'nw')"
   ></div>
 
-  <div
-    class="window-header"
-    (pointerdown)="startDragging($event)"
-    [class.dragging]="isDragging"
-  >
+  <!-- Pasek tytułu -->
+  <div class="window-header" (pointerdown)="startDragging($event)">
     <span class="window-title">{{ window.title }}</span>
     <div class="window-controls">
-      <button
-        *ngFor="let control of windowControls"
-        [class]="control.class"
-        (pointerup)="control.action()"
-      >
-        <i [class]="control.icon"></i>
+      <button class="minimize-btn" (click)="Minimizewindow()">
+        <i class="bi bi-dash-lg"></i>
+      </button>
+      <button class="maximize-btn" (click)="Maximizewindow()">
+        <i
+          class="bi"
+          [class.bi-window]="window.isMaximized"
+          [class.bi-square]="!window.isMaximized"
+        ></i>
+      </button>
+      <button class="close-btn" (click)="Closewindow()">
+        <i class="bi bi-x-lg"></i>
       </button>
     </div>
   </div>
 
-  <!-- można przesuwać obiekty między oknami -->
-  <ng-container *ngIf="isDraggable">
-    <ng-container
-      class="window-content draggable-element"
-      draggable="true"
-      (dragstart)="onDragStart($event)"
-      *ngComponentOutlet="window.component"
-    ></ng-container>
-  </ng-container>
-  <!-- //można przesuwać obiekty między oknami -->
-
-  <!-- nie można przesuwać obiektów? -->
-  <ng-container *ngIf="!isDraggable">
-    <ng-container *ngComponentOutlet="window.component"></ng-container>
-  </ng-container>
-  <!-- //nie można przesuwać obiektów? -->
+  <!-- Kontener na komponent potomny -->
+  <div class="window-content">
+    <ng-container #componentcontainer></ng-container>
+  </div>
 </div>

@@ -150,10 +150,27 @@ export class MenuComponent implements OnInit {
   // this.windowService.openWindow(NotePadComponent, "Notatnik", 200, 200, 400, 300, false);
 
   openNotepad() {
-    this.windowService.openWindow(NotepadComponent, 'Notatnik',
-      Math.random() * (window.innerWidth - 400), // losowa pozycja x
-      Math.random() * (window.innerHeight - 400), // losowa pozycja y
-      400, 400, false);
+    this.windowService.openWindow(
+      NotepadComponent,
+      'Notatnik',
+      Math.random() * (window.innerWidth - 400),
+      Math.random() * (window.innerHeight - 400),
+      600,
+      400,
+      false,
+      { // dane wejściowe dla komponentu
+        defaultContent: '',
+        maxLength: 50000
+      },
+      { // obsługa zdarzeń z komponentu
+        onContentChange: (content: string) => {
+          console.log('Zmiana zawartości notatnika:', content);
+        },
+        onSave: (fileName: string) => {
+          console.log('Zapisano plik:', fileName);
+        }
+      }
+    );
   }
 
   openCalculator() {
