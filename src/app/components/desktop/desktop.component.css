@@ -20,6 +20,8 @@
   flex-direction: column;
   overflow: hidden;
   background-color: var(--desktop-bg);
+  margin: 0;
+  padding: 0;
 }
 
 .taskbar {
@@ -33,15 +35,22 @@
 .navbar {
   padding: 0;
   height: 48px;
+  width: 100%;
 }
 
 .navbar .navbar-nav {
   height: 100%;
+  width: 100%;
 }
 
 .topnav {
   height: 100%;
-  padding: 0 1rem;
+  padding: 0;
+  width: 100%;
+}
+
+.topnav nav {
+  padding-right: 16px !important;
 }
 
 .topnav .navbar-left {
