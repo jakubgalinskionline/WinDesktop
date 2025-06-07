@@ -1,0 +1,38 @@
+<div class="notepad">
+  <div class="toolbar">
+    <input 
+      type="file" 
+      #fileInput 
+      (change)="openFile($event)" 
+      accept=".txt"
+      style="display: none">
+    <button (click)="fileInput.click()">
+      <i class="bi bi-folder2-open"></i>
+      Otwórz
+    </button>
+    <button (click)="saveToFile()">
+      <i class="bi bi-save"></i>
+      Zapisz
+    </button>
+    <button (click)="clearContent()">
+      <i class="bi bi-trash"></i>
+      Wyczyść
+    </button>
+  </div>
+
+  <div class="editor-area">
+    <textarea
+      #textArea
+      [(ngModel)]="text"
+      (input)="onTextChange()"
+      placeholder="Wpisz lub wklej tekst..."
+      class="notepad-content"
+      (dragover)="onDragOver($event)"
+      (drop)="onDrop($event)">
+    </textarea>
+  </div>
+
+  <div class="status-bar">
+    {{ getStatusText() }}
+  </div>
+</div>
