@@ -164,11 +164,11 @@ export class MenuComponent implements OnInit {
   }
 
   openTwoWindows() {
-    this.windowService.openWindow(CalculatorComponent, 'Drag-and-Drop',
-      Math.random() * (window.innerWidth - 600), // losowa pozycja x
-      Math.random() * (window.innerHeight - 600), // losowa pozycja y
-      600, 600, false);
-    this.windowService.openWindow(CalculatorComponent, 'Drag-and-Drop',
+    this.windowService.openWindow(NotepadComponent, 'Notatnik',
+      Math.random() * (window.innerWidth - 400), // losowa pozycja x
+      Math.random() * (window.innerHeight - 400), // losowa pozycja y
+      400, 400, false);
+    this.windowService.openWindow(CalculatorComponent, 'Kalkulator',
       Math.random() * (window.innerWidth - 600), // losowa pozycja x
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
       600, 600, false);

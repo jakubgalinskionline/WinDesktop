@@ -75,9 +75,11 @@
       *ngComponentOutlet="window.component"
     ></ng-container>
   </ng-container>
+  <!-- //można przesuwać obiekty między oknami -->
 
   <!-- nie można przesuwać obiektów? -->
   <ng-container *ngIf="!isDraggable">
     <ng-container *ngComponentOutlet="window.component"></ng-container>
   </ng-container>
+  <!-- //nie można przesuwać obiektów? -->
 </div>
