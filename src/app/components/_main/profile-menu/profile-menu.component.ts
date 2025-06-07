@@ -1,16 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ThemeService } from '../../services/theme.service';
+import { ThemeService } from '../../../services/theme.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-user-nav-icon',
+  selector: 'app-profile-menu',
   standalone: true,
   imports: [CommonModule, AsyncPipe],
-  templateUrl: './user-nav-icon.component.html',
-  styleUrl: './user-nav-icon.component.css',
+  templateUrl: './profile-menu.component.html',
+  styleUrl: './profile-menu.component.css',
 })
-export class UserNavIconComponent {
+export class ProfileMenuComponent {
   isDarkMode$: Observable<boolean>;
 
   constructor(private themeService: ThemeService) {

@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { ThemeService } from '../../services/theme.service';
+import { ThemeService } from '../../../services/theme.service';
 import { ContextMenuItem } from './models/context-menu-item.model';
 
 @Component({

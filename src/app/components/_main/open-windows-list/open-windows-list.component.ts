@@ -1,8 +1,8 @@
 import { Component, Input, ChangeDetectionStrategy, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WindowModel } from '../../models/window/window.model';
-import { WindowService } from '../../services/window.service';
-import { ThemeService } from '../../services/theme.service';
+import { WindowModel } from '../../../models/window/window.model';
+import { WindowService } from '../../../services/window.service';
+import { ThemeService } from '../../../services/theme.service';
 import { Observable } from 'rxjs';
 
 @Component({

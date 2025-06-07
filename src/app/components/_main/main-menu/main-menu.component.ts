@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
-import { WindowService } from '../../services/window.service';
-import { MenuItem } from '../../models/menu/menu-item.model';
-import { CalculatorComponent } from '../calculator/calculator.component';
-import { NotepadComponent } from '../notepad/notepad.component';
-import { ThemeService } from '../../services/theme.service';
+import { CommonModule } from '@angular/common';
+import { WindowService } from '../../../services/window.service';
+import { MenuItem } from '../../../models/menu/menu-item.model';
+import { CalculatorComponent } from '../../../components/calculator/calculator.component';
+import { NotepadComponent } from '../../../components/notepad/notepad.component';
+import { ThemeService } from '../../../services/theme.service';
+import { DragAndDropComponent } from '../../../components/drag-and-drop/drag-and-drop.component';
 import { Observable } from 'rxjs';
-import { DragAndDropComponent } from '../drag-and-drop/drag-and-drop.component';
 
 @Component({
-  selector: 'app-menu',
+  selector: 'app-main-menu',
   standalone: true,
-  imports: [CommonModule, NgFor],
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css'],
+  imports: [CommonModule],
+  templateUrl: './main-menu.component.html',
+  styleUrls: ['./main-menu.component.css'],
 })
-export class MenuComponent implements OnInit {
+export class MainMenuComponent implements OnInit {
   isDarkMode$: Observable<boolean>;
 
   menuItems: MenuItem[] = [

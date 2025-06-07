@@ -15,13 +15,12 @@ import {
   Type
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-
-import { WindowModel } from '../../models/window/window.model';
-import { WindowClasses } from '../../models/window/windowClasses.model';
-import { WindowStyles } from '../../models/window/windowStyles.model';
-import { WindowService } from '../../services/window.service';
-import { ThemeService } from '../../services/theme.service';
-import { DragDropData } from '../../models/window/drag-drop.model';
+import { WindowModel } from '../../../models/window/window.model';
+import { WindowClasses } from '../../../models/window/windowClasses.model';
+import { WindowStyles } from '../../../models/window/windowStyles.model';
+import { DragDropData } from '../../../models/window/drag-drop.model';
+import { WindowService } from '../../../services/window.service';
+import { ThemeService } from '../../../services/theme.service';
 
 interface DynamicComponent {
   [key: string]: any;
@@ -29,13 +28,10 @@ interface DynamicComponent {
 
 @Component({
   selector: 'app-window',
-  templateUrl: './window.component.html',
-  styleUrls: ['./window.component.css'],
   standalone: true,
   imports: [CommonModule],
-  host: {
-    '[class.window-container]': 'true'
-  },
+  templateUrl: './window.component.html',
+  styleUrls: ['./window.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WindowComponent implements OnInit, AfterViewInit, OnDestroy {
