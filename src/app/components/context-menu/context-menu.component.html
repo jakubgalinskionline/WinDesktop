@@ -3,6 +3,7 @@
   class="context-menu"
   [style.left.px]="x"
   [style.top.px]="y"
+  [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
 >
   <div
     *ngFor="let item of menuItems"
@@ -28,6 +29,7 @@
   class="context-menu submenu"
   [style.left.px]="submenuX"
   [style.top.px]="submenuY"
+  [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
 >
   <div
     *ngFor="let item of activeSubmenu"
