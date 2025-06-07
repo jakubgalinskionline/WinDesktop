@@ -3,13 +3,13 @@
   class="topbar-item"
   [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
 >
-  <div class="dropdown">
+  <div class="dropdown" data-bs-auto-close="inside">
     <button
       class="topbar-link"
       data-bs-toggle="dropdown"
       data-bs-offset="0,22"
       type="button"
-      data-bs-auto-close="outside"
+      data-bs-auto-close="inside"
       aria-haspopup="false"
       aria-expanded="false"
     >
