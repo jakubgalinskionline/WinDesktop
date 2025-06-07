@@ -1,10 +1,10 @@
 <div class="open-windows-icon" (click)="toggleList(); $event.stopPropagation()">
   <i class="bi bi-window-stack fs-5"></i>
   <span class="open-windows-count">{{ windows.length }}</span>
-
   <div
     class="windows-list"
     [class.show]="isListVisible"
+    data-bs-auto-close="true"
     [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
   >
     <div

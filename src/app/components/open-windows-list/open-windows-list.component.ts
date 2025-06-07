@@ -36,9 +36,19 @@ export class OpenWindowsListComponent {
   trackById(index: number, window: WindowModel): number {
     return window.id;
   }
-
   toggleList() {
     this.isListVisible = !this.isListVisible;
+
+    // Zamknij inne dropdowny
+    const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+    dropdowns.forEach(dropdown => {
+      if (dropdown.parentElement) {
+        const toggle = dropdown.parentElement.querySelector('[data-bs-toggle="dropdown"]');
+        if (toggle) {
+          (window as any).bootstrap.Dropdown.getInstance(toggle)?.hide();
+        }
+      }
+    });
   }
 
   minimizeWindow(window: WindowModel, event?: MouseEvent) {
