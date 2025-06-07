@@ -1,23 +1,26 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-notepad',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './notepad.component.html',
   styleUrls: ['./notepad.component.css']
 })
 export class NotepadComponent {
   @ViewChild('textArea') textArea!: ElementRef<HTMLTextAreaElement>;
 
-  text: string = '';
+  textControl = new FormControl('');
   currentFileName: string = 'Nowy dokument';
   modified: boolean = false;
 
-  onTextChange(): void {
-    this.modified = true;
+  constructor() {
+    // Nasłuchuj zmian w formControl
+    this.textControl.valueChanges.subscribe(() => {
+      this.modified = true;
+    });
   }
 
   openFile(event: Event): void {
@@ -25,7 +28,7 @@ export class NotepadComponent {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        this.text = e.target?.result as string;
+        this.textControl.setValue(e.target?.result as string);
         this.currentFileName = file.name;
         this.modified = false;
       };
@@ -34,7 +37,7 @@ export class NotepadComponent {
   }
 
   saveToFile(): void {
-    const blob = new Blob([this.text], { type: 'text/plain;charset=utf-8' });
+    const blob = new Blob([this.textControl.value || ''], { type: 'text/plain;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -47,14 +50,14 @@ export class NotepadComponent {
   }
 
   clearContent(): void {
-    if (this.modified && this.text.length > 0) {
+    if (this.modified && this.textControl.value) {
       if (confirm('Czy na pewno chcesz wyczyścić zawartość? Niezapisane zmiany zostaną utracone.')) {
-        this.text = '';
+        this.textControl.setValue('');
         this.currentFileName = 'Nowy dokument';
         this.modified = false;
       }
     } else {
-      this.text = '';
+      this.textControl.setValue('');
       this.currentFileName = 'Nowy dokument';
       this.modified = false;
     }
@@ -75,7 +78,7 @@ export class NotepadComponent {
       if (file.type === 'text/plain') {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.text = e.target?.result as string;
+          this.textControl.setValue(e.target?.result as string);
           this.currentFileName = file.name;
           this.modified = false;
         };
@@ -85,6 +88,6 @@ export class NotepadComponent {
   }
 
   getStatusText(): string {
-    return `${this.currentFileName}${this.modified ? ' *' : ''} | ${this.text.length} znaków`;
+    return `${this.currentFileName}${this.modified ? ' *' : ''} | ${this.textControl.value?.length || 0} znaków`;
   }
 }
