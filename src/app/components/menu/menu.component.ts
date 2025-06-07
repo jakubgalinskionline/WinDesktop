@@ -6,7 +6,7 @@ import { CalculatorComponent } from '../calculator/calculator.component';
 import { NotepadComponent } from '../notepad/notepad.component';
 import { ThemeService } from '../../services/theme.service';
 import { Observable } from 'rxjs';
-import { DropAndDownComponent } from '../drop-and-down/drop-and-down.component';
+import { DragAndDropComponent } from '../drag-and-drop/drag-and-drop.component';
 
 @Component({
   selector: 'app-menu',
@@ -175,11 +175,11 @@ export class MenuComponent implements OnInit {
   }
 
   openDraggableWindows() {
-    this.windowService.openWindow(DropAndDownComponent, 'Drag-and-Drop',
+    this.windowService.openWindow(DragAndDropComponent, 'Drag-and-Drop',
       Math.random() * (window.innerWidth - 600), // losowa pozycja x
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
       600, 600, true);
-    this.windowService.openWindow(DropAndDownComponent, 'Drag-and-Drop',
+    this.windowService.openWindow(DragAndDropComponent, 'Drag-and-Drop',
       Math.random() * (window.innerWidth - 600), // losowa pozycja x
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
       600, 600, true);

@@ -7,6 +7,7 @@ import { WindowClasses } from '../../models/window/windowClasses.model';
 import { WindowStyles } from '../../models/window/windowStyles.model';
 import { WindowService } from '../../services/window.service';
 import { ThemeService } from '../../services/theme.service';
+import { DragDropData } from '../../models/window/drag-drop.model';
 
 @Component({
   selector: 'app-window',
@@ -431,34 +432,43 @@ export class WindowComponent implements OnInit, OnDestroy {
 
   // Metody drag-and-drop
   onDragStart(event: DragEvent) {
-    const target = event.target as HTMLElement;
-    target.classList.add('dragging');
-    event.dataTransfer?.setData('text/plain', 'draggable-content');
+    if (!this.window.isDraggable) return;
+
+    const dragData: DragDropData = {
+      sourceWindowId: this.window.id,
+      content: event.target instanceof HTMLElement ? event.target.textContent || '' : '',
+      type: 'text'
+    };
+    event.dataTransfer?.setData('application/json', JSON.stringify(dragData));
   }
 
   onDragOver(event: DragEvent) {
+    if (!this.window.isDraggable) return;
+
     event.preventDefault();
-    event.dataTransfer!.dropEffect = 'move';
+    event.stopPropagation();
   }
+
   onDrop(event: DragEvent) {
+    if (!this.window.isDraggable) return;
+
     event.preventDefault();
-    const target = event.target as HTMLElement;
-    const draggedElement = document.querySelector('.dragging');
-    if (draggedElement) {
-      draggedElement.classList.remove('dragging');
-      const windowContent = target.closest('.window-content');
-      if (windowContent) {
-        // Tworzymy nowy element
-        const newElement = draggedElement.cloneNode(true) as HTMLElement;
+    const jsonData = event.dataTransfer?.getData('application/json');
+    if (!jsonData) return;
 
-        // Dodajemy event listenery do nowego elementu
-        newElement.addEventListener('dragstart', (e) => this.onDragStart(e));
-        newElement.draggable = true;
+    try {
+      const dragData: DragDropData = JSON.parse(jsonData);
+      const target = event.target as HTMLElement;
 
-        // Dodajemy nowy element do okna docelowego
-        windowContent.appendChild(newElement);
-        draggedElement.remove();
+      if (dragData.type === 'text' && target.classList.contains('draggable-container')) {
+        const draggableItem = document.createElement('div');
+        draggableItem.className = 'draggable-item';
+        draggableItem.draggable = true;
+        draggableItem.textContent = dragData.content;
+        target.appendChild(draggableItem);
       }
+    } catch (error) {
+      console.error('Błąd podczas przetwarzania danych drag-drop:', error);
     }
   }
 }
