@@ -547,5 +547,13 @@ export class WindowComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error('Błąd podczas przetwarzania danych drag-drop:', error);
     }
   }
+
+  // Dodanie obsługi klawisza Enter
+  @HostListener('window:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent): void {
+    // Powstrzymaj domyślne zachowanie, które może powodować minimalizację
+    event.preventDefault();
+    event.stopPropagation();
+  }
 }
 

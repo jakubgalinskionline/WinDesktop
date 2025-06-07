@@ -21,7 +21,7 @@
     </button>
   </div>
   <div class="editor-area">
-    <form [formGroup]="notepadForm">
+    <form [formGroup]="notepadForm" (keydown.enter)="$event.preventDefault()">
       <textarea
         #textArea
         formControlName="content"
