@@ -19,7 +19,7 @@ export class UserNavIconComponent {
 
   menuItems = [
     { link: '/profile', icon: 'ti ti-user', label: 'Profil' },
-    { link: '/settings', icon: 'ti ti-settings', label: 'Settings' }
+    { link: '/settings', icon: 'ti ti-settings', label: 'Ustawienia' }
   ];
 
 
