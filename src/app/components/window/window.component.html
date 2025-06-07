@@ -63,7 +63,18 @@
       </button>
     </div>
   </div>
-  <div class="window-content">
-    <ng-container *ngComponentOutlet="window.component"></ng-container>
+  <div
+    class="window-content"
+    (dragover)="onDragOver($event)"
+    (drop)="onDrop($event)"
+  >
+    <div
+      class="draggable-element"
+      draggable="true"
+      (dragstart)="onDragStart($event)"
+    >
+      <div>przesuń mnie!</div>
+    </div>
+    <ng-container *ngcomponentoutlet="window.component"></ng-container>
   </div>
 </div>

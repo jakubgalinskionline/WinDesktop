@@ -229,3 +229,36 @@
 .window.maximized .resize-handle {
   display: none;
 }
+
+/* Elementy drag-and-drop */
+.draggable-element {
+  padding: 10px;
+  margin: 10px;
+  background-color: var(--draggable-bg, #f0f0f0);
+  border: 1px solid var(--draggable-border, #ccc);
+  border-radius: 4px;
+  cursor: move;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.window[data-theme="dark"] .draggable-element {
+  --draggable-bg: #2a2a2a;
+  --draggable-border: #444;
+  color: #e9ecef;
+}
+
+.draggable-element:hover {
+  background-color: var(--draggable-hover-bg, #e8e8e8);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.window[data-theme="dark"] .draggable-element:hover {
+  --draggable-hover-bg: #333;
+}
+
+.draggable-element.dragging {
+  opacity: 0.5;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}

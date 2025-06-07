@@ -427,5 +427,38 @@ export class WindowComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  // Metody drag-and-drop
+  onDragStart(event: DragEvent) {
+    const target = event.target as HTMLElement;
+    target.classList.add('dragging');
+    event.dataTransfer?.setData('text/plain', 'draggable-content');
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.dataTransfer!.dropEffect = 'move';
+  }
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    const target = event.target as HTMLElement;
+    const draggedElement = document.querySelector('.dragging');
+    if (draggedElement) {
+      draggedElement.classList.remove('dragging');
+      const windowContent = target.closest('.window-content');
+      if (windowContent) {
+        // Tworzymy nowy element
+        const newElement = draggedElement.cloneNode(true) as HTMLElement;
+
+        // Dodajemy event listenery do nowego elementu
+        newElement.addEventListener('dragstart', (e) => this.onDragStart(e));
+        newElement.draggable = true;
+
+        // Dodajemy nowy element do okna docelowego
+        windowContent.appendChild(newElement);
+        draggedElement.remove();
+      }
+    }
+  }
 }
 
