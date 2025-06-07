@@ -11,6 +11,7 @@ export interface WindowModel {
   zIndex: number;
   isActive: boolean;
   themeMode: boolean;
+  isDraggable: boolean;
   prevState?: {
     x: number;
     y: number;

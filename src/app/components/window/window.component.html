@@ -4,6 +4,8 @@
   [class]="getWindowClasses()"
   [style]="getWindowStyles()"
   (pointerdown)="onWindowClick($event)"
+  (dragover)="onDragOver($event)"
+  (drop)="onDrop($event)"
   [attr.data-theme]="window.themeMode ? 'dark' : 'light'"
 >
   <div class="resize-handle n" (pointerdown)="startResizing($event, 'n')"></div>
@@ -63,18 +65,19 @@
       </button>
     </div>
   </div>
-  <div
-    class="window-content"
-    (dragover)="onDragOver($event)"
-    (drop)="onDrop($event)"
-  >
-    <div
-      class="draggable-element"
+
+  <!-- można przesuwać obiekty między oknami -->
+  <ng-container *ngIf="isDraggable">
+    <ng-container
+      class="window-content draggable-element"
       draggable="true"
       (dragstart)="onDragStart($event)"
-    >
-      <div>przesuń mnie!</div>
-    </div>
-  </div>
-  <ng-container *ngComponentOutlet="window.component"></ng-container>
+      *ngComponentOutlet="window.component"
+    ></ng-container>
+  </ng-container>
+
+  <!-- nie można przesuwać obiektów? -->
+  <ng-container *ngIf="!isDraggable">
+    <ng-container *ngComponentOutlet="window.component"></ng-container>
+  </ng-container>
 </div>

@@ -42,7 +42,7 @@ constructor(private themeService: ThemeService) {
     }
   }
 
-  openWindow(component: any, title: string, x: number, y: number, w: number, h: number) {
+  openWindow(component: any, title: string, x: number, y: number, w: number, h: number, isDraggable: boolean = false) {
     const window: WindowModel = {
       id: this.nextId++,
       title,
@@ -54,7 +54,8 @@ constructor(private themeService: ThemeService) {
       isMaximized: false,
       zIndex: this.getMaxZIndex() + 1,
       isActive: true,
-      themeMode: this.getCurrentTheme()
+      themeMode: this.getCurrentTheme(),
+      isDraggable
     };
 
     this.windowsSubject.next([...this.windowsSubject.getValue(), window]);

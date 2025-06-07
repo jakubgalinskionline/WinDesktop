@@ -6,6 +6,7 @@ import { CalculatorComponent } from '../calculator/calculator.component';
 import { NotepadComponent } from '../notepad/notepad.component';
 import { ThemeService } from '../../services/theme.service';
 import { Observable } from 'rxjs';
+import { DropAndDownComponent } from '../drop-and-down/drop-and-down.component';
 
 @Component({
   selector: 'app-menu',
@@ -120,6 +121,11 @@ export class MenuComponent implements OnInit {
           label: 'Otwórz 2 okna',
           icon: 'bi bi-window-stack',
           action: () => this.openTwoWindows()
+        },
+        {
+          label: 'Drag-and-Drop',
+          icon: 'bi bi-window-stack',
+          action: () => this.openDraggableWindows()
         }
       ]
     }
@@ -136,22 +142,47 @@ export class MenuComponent implements OnInit {
     // Inicjalizacja komponentu
   }
 
+
+  // Okno z przeciągalną zawartością
+  // this.windowService.openWindow(CalculatorComponent, "Kalkulator", 100, 100, 400, 300, true);
+
+  // Okno bez możliwości przeciągania zawartości
+  // this.windowService.openWindow(NotePadComponent, "Notatnik", 200, 200, 400, 300, false);
+
   openNotepad() {
     this.windowService.openWindow(NotepadComponent, 'Notatnik',
       Math.random() * (window.innerWidth - 400), // losowa pozycja x
       Math.random() * (window.innerHeight - 400), // losowa pozycja y
-      400, 400);
+      400, 400, false);
   }
 
   openCalculator() {
     this.windowService.openWindow(CalculatorComponent, 'Kalkulator',
       Math.random() * (window.innerWidth - 600), // losowa pozycja x
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
-      600, 600);
+      600, 600, false);
   }
 
   openTwoWindows() {
-    this.openNotepad();
-    this.openCalculator();
+    this.windowService.openWindow(CalculatorComponent, 'Drag-and-Drop',
+      Math.random() * (window.innerWidth - 600), // losowa pozycja x
+      Math.random() * (window.innerHeight - 600), // losowa pozycja y
+      600, 600, false);
+    this.windowService.openWindow(CalculatorComponent, 'Drag-and-Drop',
+      Math.random() * (window.innerWidth - 600), // losowa pozycja x
+      Math.random() * (window.innerHeight - 600), // losowa pozycja y
+      600, 600, false);
   }
+
+  openDraggableWindows() {
+    this.windowService.openWindow(DropAndDownComponent, 'Drag-and-Drop',
+      Math.random() * (window.innerWidth - 600), // losowa pozycja x
+      Math.random() * (window.innerHeight - 600), // losowa pozycja y
+      600, 600, true);
+    this.windowService.openWindow(DropAndDownComponent, 'Drag-and-Drop',
+      Math.random() * (window.innerWidth - 600), // losowa pozycja x
+      Math.random() * (window.innerHeight - 600), // losowa pozycja y
+      600, 600, true);
+  }
+
 }

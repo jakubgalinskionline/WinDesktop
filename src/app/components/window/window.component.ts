@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { Component, Input, ElementRef, HostListener, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgComponentOutlet],
   host: {
     '[class.window-container]': 'true'
   },
@@ -22,6 +22,7 @@ import { ThemeService } from '../../services/theme.service';
 export class WindowComponent implements OnInit, OnDestroy {
   @Input() window!: WindowModel;
   @Input() isDarkMode: boolean = false;
+  @Input() isDraggable?: boolean = false;
 
   public isDragging = false;
   public isResizing = false;
