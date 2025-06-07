@@ -1,4 +1,4 @@
-import { CommonModule, NgComponentOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, Input, ElementRef, HostListener, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css'],
   standalone: true,
-  imports: [CommonModule, NgComponentOutlet],
+  imports: [CommonModule],
   host: {
     '[class.window-container]': 'true'
   },
