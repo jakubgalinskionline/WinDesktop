@@ -59,7 +59,7 @@
   height: 16px;
   background: transparent;
   border: none;
-  color: #dc3545;
+  color: #ffffff;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -75,7 +75,7 @@
 }
 
 .restore-close-button:hover {
-  color: #c82333;
+  color: #ffffff;
   transform: scale(1.1);
 }
 
