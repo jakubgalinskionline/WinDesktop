@@ -54,29 +54,49 @@ export class DragDropService {
   }
 
   // Przeniesienie elementu między kontenerami
-  moveItem(elementId: string, targetContainerId: string): void {
+  moveItem(elementId: string, targetContainerId: string, targetIndex: number = -1): void {
     // Znajdź kontener źródłowy i element
     let sourceContainerId: string | undefined;
-    let movedItem: DraggableItem | undefined;
+    let sourceItem: DraggableItem | undefined;
+    let sourceIndex: number = -1;
 
     // Znajdź element w kontenerze źródłowym
     for (const [containerId, items] of this.containerItems.entries()) {
-      const itemIndex = items.findIndex(item => item.id === elementId);
-      if (itemIndex !== -1) {
+      sourceIndex = items.findIndex(item => item.id === elementId);
+      if (sourceIndex !== -1) {
         sourceContainerId = containerId;
-        // Usuń element z kontenera źródłowego
-        movedItem = items.splice(itemIndex, 1)[0];
+        sourceItem = items[sourceIndex];
         break;
       }
     }
 
-    // Jeśli znaleziono element i kontenery są różne
-    if (movedItem && sourceContainerId !== targetContainerId) {
-      // Pobierz tablicę elementów kontenera docelowego
-      const targetItems = this.containerItems.get(targetContainerId) || [];
-      // Przenieś element do kontenera docelowego zachowując jego id
-      targetItems.push(movedItem);
-      this.containerItems.set(targetContainerId, targetItems);
+    // Jeśli znaleziono element
+    if (sourceItem && sourceContainerId) {
+      const sourceItems = this.containerItems.get(sourceContainerId);
+      const targetItems = this.containerItems.get(targetContainerId);
+
+      if (!sourceItems || !targetItems) return;
+
+      // Jeśli kontenery są różne
+      if (sourceContainerId !== targetContainerId) {
+        // Usuń z kontenera źródłowego
+        sourceItems.splice(sourceIndex, 1);
+        // Jeśli targetIndex jest określony, wstaw element w odpowiednie miejsce
+        if (targetIndex >= 0 && targetIndex <= targetItems.length) {
+          targetItems.splice(targetIndex, 0, sourceItem);
+        } else {
+          // W przeciwnym razie dodaj na koniec
+          targetItems.push(sourceItem);
+        }
+      } else {
+        // W tym samym kontenerze - zmień kolejność
+        if (targetIndex >= 0 && targetIndex < targetItems.length) {
+          // Usuń z obecnej pozycji
+          sourceItems.splice(sourceIndex, 1);
+          // Wstaw na nową pozycję
+          sourceItems.splice(targetIndex, 0, sourceItem);
+        }
+      }
       this.itemsSubject.next();
     }
   }

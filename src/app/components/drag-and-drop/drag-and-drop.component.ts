@@ -63,6 +63,24 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
     if (!this.isDraggable) return;
     event.preventDefault();
     event.stopPropagation();
+
+    const container = (event.target as HTMLElement).closest('.draggable-container');
+    if (!container) return;
+
+    // Znajdź najbliższy element draggable-item
+    const closestDraggableItem = (event.target as HTMLElement).closest('.draggable-item');
+    if (closestDraggableItem) {
+      const rect = closestDraggableItem.getBoundingClientRect();
+      const midY = rect.top + rect.height / 2;
+      
+      if (event.clientY < midY) {
+        closestDraggableItem.classList.add('drop-before');
+        closestDraggableItem.classList.remove('drop-after');
+      } else {
+        closestDraggableItem.classList.add('drop-after');
+        closestDraggableItem.classList.remove('drop-before');
+      }
+    }
   }
 
   onDragEnter(event: DragEvent) {
@@ -75,13 +93,19 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
     if (!this.isDraggable) return;
     const container = (event.target as HTMLElement).closest('.draggable-container');
     container?.classList.remove('drag-over');
+
+    // Usuń klasy wskazujące miejsce upuszczenia
+    const draggableItem = (event.target as HTMLElement).closest('.draggable-item');
+    if (draggableItem) {
+      draggableItem.classList.remove('drop-before', 'drop-after');
+    }
   }
 
   onDrop(event: DragEvent) {
     if (!this.isDraggable || !event.dataTransfer) return;
     event.preventDefault();
 
-    // Znajdź kontener
+    // Znajdź kontener i element docelowy
     const container = (event.target as HTMLElement).closest('.draggable-container');
     if (!container) return;
 
@@ -91,8 +115,27 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
     const elementId = event.dataTransfer.getData('application/element-id');
     if (!elementId) return;
 
+    // Znajdź element docelowy i jego indeks
+    const targetElement = (event.target as HTMLElement).closest('.draggable-item');
+    let targetIndex = -1;
+
+    if (targetElement) {
+      const targetId = targetElement.id;
+      targetIndex = this.items.findIndex(item => item.id === targetId);
+      
+      // Sprawdź czy element ma być wstawiony przed czy po elemencie docelowym
+      if (targetElement.classList.contains('drop-after')) {
+        targetIndex++;
+      }
+    }
+
     // Aktualizuj pozycję elementu przez serwis
-    this.dragDropService.moveItem(elementId, this.containerId);
+    this.dragDropService.moveItem(elementId, this.containerId, targetIndex);
+
+    // Usuń klasy wskazujące miejsce upuszczenia
+    document.querySelectorAll('.draggable-item').forEach(el => {
+      el.classList.remove('drop-before', 'drop-after');
+    });
 
     this.isDragging = false;
     this.draggedId = null;
