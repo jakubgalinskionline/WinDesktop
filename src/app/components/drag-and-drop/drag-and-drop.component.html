@@ -1,0 +1,35 @@
+<!-- Debug info -->
+<div style="font-size: 10px; color: #999; margin-bottom: 5px">
+  Container ID: {{ containerId }} Items: {{ items.length }}
+</div>
+<div
+  class="draggable-container"
+  [id]="containerId"
+  [attr.data-draggable-group]="isDraggable ? 'draggable-group' : ''"
+  (dragstart)="onDragStart($event)"
+  (dragover)="onDragOver($event)"
+  (dragenter)="onDragEnter($event)"
+  (dragleave)="onDragLeave($event)"
+  (dragend)="onDragEnd($event)"
+  (drop)="onDrop($event)"
+>
+  <div *ngFor="let item of items" class="draggable-item-wrapper">
+    <button
+      class="draggable-item"
+      [draggable]="isDraggable"
+      [id]="item.id"
+      [class.dragging]="isDragging && draggedId === item.id"
+      type="button"
+    >
+      {{ item.text }}
+    </button>
+    <button
+      class="delete-button"
+      type="button"
+      (click)="deleteItem(item.id)"
+      title="Usuń element"
+    >
+      <i class="bi bi-x"></i>
+    </button>
+  </div>
+</div>
