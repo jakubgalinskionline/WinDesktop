@@ -20,7 +20,18 @@ export class DragAndDropService {
   private static readonly DEFAULT_ITEMS = [
     { text: 'Element 1' },
     { text: 'Element 2' },
-    { text: 'Element 3' }
+    { text: 'Element 3' },
+    { text: 'Element 4' },
+    { text: 'Element 5' },
+    { text: 'Element 6' },
+    { text: 'Element 7' },
+    { text: 'Element 8' },
+    { text: 'Element 9' },
+    { text: 'Element 10' },
+    { text: 'Element 11' },
+    { text: 'Element 12' },
+    { text: 'Element 12' },
+    { text: 'Element 14' },
   ];
 
   constructor() {}
