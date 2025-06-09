@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DragDropService, DraggableItem } from '../../services/drag-drop.service';
+import { DragAndDropService, DraggableItem } from '../../services/drag-and-drop.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -19,7 +19,7 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
   draggedId: string | null = null;
   private subscription?: Subscription;
 
-  constructor(private dragDropService: DragDropService) {}
+  constructor(private dragDropService: DragAndDropService) {}
 
   ngOnInit() {
     this.dragDropService.initializeItems(this.containerId);

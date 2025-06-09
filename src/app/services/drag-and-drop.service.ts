@@ -9,7 +9,7 @@ export interface DraggableItem {
 @Injectable({
   providedIn: 'root'
 })
-export class DragDropService {
+export class DragAndDropService {
   // Stan aplikacji przechowywany w Map, gdzie kluczem jest ID kontenera
   private containerItems = new Map<string, DraggableItem[]>();
   private itemsSubject = new BehaviorSubject<void>(undefined);
@@ -29,7 +29,7 @@ export class DragDropService {
   initializeItems(containerId: string): void {
     if (!this.containerItems.has(containerId)) {
       // Tylko pierwszy kontener dostaje domyślne elementy
-      const items = this.initialized ? [] : DragDropService.DEFAULT_ITEMS.map(item => ({
+      const items = this.initialized ? [] : DragAndDropService.DEFAULT_ITEMS.map(item => ({
         id: `${containerId}-${this.nextId++}`,
         text: item.text
       }));
