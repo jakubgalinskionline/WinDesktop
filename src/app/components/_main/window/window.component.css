@@ -303,21 +303,4 @@
   border-color: #0080ff;
 }
 
-.draggable-item {
-  background-color: #4CAF50;
-  color: white;
-  padding: 8px 16px;
-  margin: 4px;
-  border-radius: 4px;
-  display: inline-block;
-  cursor: move;
-  user-select: none;
-}
 
-.draggable-item:hover {
-  background-color: #45a049;
-}
-
-.draggable-item.dragging {
-  opacity: 0.5;
-}

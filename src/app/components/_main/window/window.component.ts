@@ -500,48 +500,23 @@ export class WindowComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cdr.detectChanges();
       });
     }
-  }
-
-  // Metody drag-and-drop
+  }  // Metody obsługi przeciągania
   onDragStart(event: DragEvent) {
     if (!this.window.isDraggable) return;
-
-    const dragData: DragDropData = {
-      sourceWindowId: this.window.id,
-      content: event.target instanceof HTMLElement ? event.target.textContent || '' : '',
-      type: 'text'
-    };
-    event.dataTransfer?.setData('application/json', JSON.stringify(dragData));
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   onDragOver(event: DragEvent) {
     if (!this.window.isDraggable) return;
-
     event.preventDefault();
     event.stopPropagation();
   }
 
   onDrop(event: DragEvent) {
     if (!this.window.isDraggable) return;
-
     event.preventDefault();
-    const jsonData = event.dataTransfer?.getData('application/json');
-    if (!jsonData) return;
-
-    try {
-      const dragData: DragDropData = JSON.parse(jsonData);
-      const target = event.target as HTMLElement;
-
-      if (dragData.type === 'text' && target.classList.contains('draggable-container')) {
-        const draggableItem = document.createElement('div');
-        draggableItem.className = 'draggable-item';
-        draggableItem.draggable = true;
-        draggableItem.textContent = dragData.content;
-        target.appendChild(draggableItem);
-      }
-    } catch (error) {
-      console.error('Błąd podczas przetwarzania danych drag-drop:', error);
-    }
+    event.stopPropagation();
   }
 
   // Dodanie obsługi klawisza Enter

@@ -195,11 +195,15 @@ export class MainMenuComponent implements OnInit {
     this.windowService.openWindow(DragAndDropComponent, 'Drag-and-Drop',
       Math.random() * (window.innerWidth - 600), // losowa pozycja x
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
-      600, 600, true);
+      600, 600, true,
+      { containerId: 'container-1', isDraggable: true }
+    );
     this.windowService.openWindow(DragAndDropComponent, 'Drag-and-Drop',
       Math.random() * (window.innerWidth - 600), // losowa pozycja x
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
-      600, 600, true);
+      600, 600, true,
+      { containerId: 'container-2', isDraggable: true }
+    );
   }
 
 }

@@ -5,10 +5,6 @@
   [style]="getWindowStyles()"
   (pointerdown)="onWindowClick($event)"
   [attr.data-theme]="window.themeMode ? 'dark' : 'light'"
-  [draggable]="window.isDraggable"
-  (dragstart)="onDragStart($event)"
-  (dragover)="onDragOver($event)"
-  (drop)="onDrop($event)"
 >
   <!-- Uchwyty do skalowania -->
   <div class="resize-handle n" (pointerdown)="startResizing($event, 'n')"></div>
