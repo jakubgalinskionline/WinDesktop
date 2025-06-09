@@ -72,7 +72,7 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
     if (closestDraggableItem) {
       const rect = closestDraggableItem.getBoundingClientRect();
       const midY = rect.top + rect.height / 2;
-      
+
       if (event.clientY < midY) {
         closestDraggableItem.classList.add('drop-before');
         closestDraggableItem.classList.remove('drop-after');
@@ -122,7 +122,7 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
     if (targetElement) {
       const targetId = targetElement.id;
       targetIndex = this.items.findIndex(item => item.id === targetId);
-      
+
       // Sprawdź czy element ma być wstawiony przed czy po elemencie docelowym
       if (targetElement.classList.contains('drop-after')) {
         targetIndex++;
