@@ -112,7 +112,8 @@ export class MainMenuComponent implements OnInit {
             },
           ]
         },
-        {          label: 'Analityka',
+        {
+          label: 'Analityka',
           icon: 'bi bi-graph-up',
           action: () => this.openNotepad()
         },
