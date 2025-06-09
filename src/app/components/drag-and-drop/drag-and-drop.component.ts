@@ -1,5 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+interface DraggableItem {
+  id: string;
+  text: string;
+}
 
 @Component({
   selector: 'app-drag-and-drop',
@@ -13,10 +18,12 @@ import { CommonModule } from '@angular/common';
       (dragover)="onDragOver($event)"
       (drop)="onDrop($event)">
       <div
+        *ngFor="let item of items"
         class="draggable-item"
         [draggable]="isDraggable"
+        [id]="item.id"
         >
-        Przeciągnij mnie
+        {{ item.text }}
       </div>
     </div>
   `,
@@ -44,18 +51,25 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class DragAndDropComponent {
+export class DragAndDropComponent implements OnInit {
   @Input() isDraggable: boolean = false;
+  items: DraggableItem[] = [];
+
+  ngOnInit() {
+    // Inicjalizacja przykładowego elementu
+    this.items.push({
+      id: 'draggable-' + Date.now(),
+      text: 'Przeciągnij mnie'
+    });
+  }
 
   onDragStart(event: DragEvent) {
-    if (!this.isDraggable) return;
+    if (!this.isDraggable || !event.target) return;
 
     const target = event.target as HTMLElement;
-    event.dataTransfer?.setData('text/plain', target.textContent || '');
+    if (!target.classList.contains('draggable-item')) return;
 
-    // Dodajemy identyfikator przeciąganego elementu
-    target.id = 'dragged-element-' + Date.now();
-    event.dataTransfer?.setData('text/id', target.id);
+    event.dataTransfer?.setData('application/element-id', target.id);
   }
 
   onDragOver(event: DragEvent) {
@@ -63,29 +77,39 @@ export class DragAndDropComponent {
 
     event.preventDefault();
     event.stopPropagation();
+
+    // Sprawdzamy, czy przeciągamy nad kontenerem
+    const dropTarget = event.target as HTMLDivElement;
+    if (dropTarget.classList.contains('draggable-container')) {
+      dropTarget.style.borderStyle = 'solid';
+    }
   }
 
   onDrop(event: DragEvent) {
-    if (!this.isDraggable) return;
+    if (!this.isDraggable || !event.dataTransfer) return;
 
     event.preventDefault();
-    const data = event.dataTransfer?.getData('text/plain');
-    const draggedId = event.dataTransfer?.getData('text/id');
-    const container = event.target as HTMLElement;
 
-    if (data && container.classList.contains('draggable-container')) {
-      // Usuwamy oryginalny element
-      if (draggedId) {
-        const originalElement = document.getElementById(draggedId);
-        originalElement?.remove();
+    const dropTarget = event.target as HTMLElement;
+    const container = dropTarget.closest('.draggable-container') as HTMLDivElement;
+    if (!container) return;
+
+    // Przywracamy oryginalny styl bordera
+    container.style.borderStyle = 'dashed';
+
+    const elementId = event.dataTransfer.getData('application/element-id');
+    const draggedElement = document.getElementById(elementId);
+
+    if (draggedElement) {
+      const sourceContainer = draggedElement.parentElement;
+      if (sourceContainer !== container) {
+        // Znajdujemy element w źródłowej tablicy items
+        const item = this.items.find(i => i.id === elementId);
+        if (item) {
+          // Przenosimy element fizycznie do nowego kontenera
+          container.appendChild(draggedElement);
+        }
       }
-
-      // Tworzymy nowy element w docelowym kontenerze
-      const draggableItem = document.createElement('div');
-      draggableItem.className = 'draggable-item';
-      draggableItem.draggable = true;
-      draggableItem.textContent = data;
-      container.appendChild(draggableItem);
     }
   }
 }
