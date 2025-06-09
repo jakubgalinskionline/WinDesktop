@@ -1,0 +1,10 @@
+.dual-container {
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+}
+
+app-drag-and-drop {
+  flex: 1;
+  min-width: 0;
+}
