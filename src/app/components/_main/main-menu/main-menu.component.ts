@@ -6,6 +6,7 @@ import { CalculatorComponent } from '../../../components/calculator/calculator.c
 import { NotepadComponent } from '../../../components/notepad/notepad.component';
 import { ThemeService } from '../../../services/theme.service';
 import { DragAndDropComponent } from '../../../components/drag-and-drop/drag-and-drop.component';
+import { DualContainerComponent } from '../../../components/dual-container/dual-container.component';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -191,19 +192,26 @@ export class MainMenuComponent implements OnInit {
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
       600, 600, false);
   }
-
   openDraggableWindows() {
-    this.windowService.openWindow(DragAndDropComponent, 'Drag-and-Drop',
-      Math.random() * (window.innerWidth - 600), // losowa pozycja x
-      Math.random() * (window.innerHeight - 600), // losowa pozycja y
-      600, 600, true,
-      { containerId: 'container-1', isDraggable: true }
+    // Otwórz okno z dwoma kontenerami
+    this.windowService.openWindow(DualContainerComponent, 'Drag-and-Drop (2 kontenery)',
+      Math.random() * (window.innerWidth - 800),
+      Math.random() * (window.innerHeight - 400),
+      800, 400, true
     );
-    this.windowService.openWindow(DragAndDropComponent, 'Drag-and-Drop',
-      Math.random() * (window.innerWidth - 600), // losowa pozycja x
-      Math.random() * (window.innerHeight - 600), // losowa pozycja y
-      600, 600, true,
-      { containerId: 'container-2', isDraggable: true }
+
+    // Otwórz dwa osobne okna z kontenerami
+    this.windowService.openWindow(DragAndDropComponent, 'Drag-and-Drop (Okno 1)',
+      Math.random() * (window.innerWidth - 400),
+      Math.random() * (window.innerHeight - 400),
+      400, 400, true,
+      { containerId: 'window-1', isDraggable: true }
+    );
+    this.windowService.openWindow(DragAndDropComponent, 'Drag-and-Drop (Okno 2)',
+      Math.random() * (window.innerWidth - 400),
+      Math.random() * (window.innerHeight - 400),
+      400, 400, true,
+      { containerId: 'window-2', isDraggable: true }
     );
   }
 
