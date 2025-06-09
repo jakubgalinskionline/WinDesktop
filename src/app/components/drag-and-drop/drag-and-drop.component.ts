@@ -33,16 +33,16 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
   }
 
   onDragStart(event: DragEvent) {
-    if (!this.isDraggable || !event.target) return;
+    if (!this.isDraggable || !event.dataTransfer || !event.target) return;
 
     const target = event.target as HTMLElement;
     if (!target.classList.contains('draggable-item')) return;
 
     this.isDragging = true;
     this.draggedId = target.id;
-    event.dataTransfer?.setData('application/element-id', target.id);
+    event.dataTransfer.setData('application/element-id', target.id);
 
-    // Dodaj efekt przezroczystości
+    // Dodaj efekt przezroczystości podczas przeciągania
     target.classList.add('dragging');
   }
 
@@ -73,12 +73,16 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
       const rect = closestDraggableItem.getBoundingClientRect();
       const midY = rect.top + rect.height / 2;
 
+      // Usuń poprzednie klasy wskazujące miejsce upuszczenia
+      document.querySelectorAll('.draggable-item').forEach(el => {
+        el.classList.remove('drop-before', 'drop-after');
+      });
+
+      // Dodaj odpowiednią klasę w zależności od pozycji kursora
       if (event.clientY < midY) {
         closestDraggableItem.classList.add('drop-before');
-        closestDraggableItem.classList.remove('drop-after');
       } else {
         closestDraggableItem.classList.add('drop-after');
-        closestDraggableItem.classList.remove('drop-before');
       }
     }
   }
@@ -92,12 +96,13 @@ export class DragAndDropComponent implements OnInit, OnDestroy {
   onDragLeave(event: DragEvent) {
     if (!this.isDraggable) return;
     const container = (event.target as HTMLElement).closest('.draggable-container');
-    container?.classList.remove('drag-over');
+    if (!container?.contains(event.relatedTarget as Node)) {
+      container?.classList.remove('drag-over');
 
-    // Usuń klasy wskazujące miejsce upuszczenia
-    const draggableItem = (event.target as HTMLElement).closest('.draggable-item');
-    if (draggableItem) {
-      draggableItem.classList.remove('drop-before', 'drop-after');
+      // Usuń klasy wskazujące miejsce upuszczenia
+      document.querySelectorAll('.draggable-item').forEach(el => {
+        el.classList.remove('drop-before', 'drop-after');
+      });
     }
   }
 

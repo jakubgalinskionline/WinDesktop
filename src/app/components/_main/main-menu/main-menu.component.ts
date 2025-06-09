@@ -91,8 +91,7 @@ export class MainMenuComponent implements OnInit {
       icon: 'bi bi-bar-chart',
       id: 'topnav-reports',
       action: () => {},
-      children: [        {
-          label: 'Raporty sprzedaży',
+      children: [        {          label: 'Raporty sprzedaży',
           icon: 'bi bi-graph-up-arrow',
           action: () => {},
           children: [
@@ -110,7 +109,7 @@ export class MainMenuComponent implements OnInit {
               label: 'Roczny',
               icon: 'bi bi-calendar-check',
               action: () => this.openCalculator()
-            }
+            },
           ]
         },
         {          label: 'Analityka',
@@ -127,6 +126,7 @@ export class MainMenuComponent implements OnInit {
           icon: 'bi bi-window-stack',
           action: () => this.openDraggableWindows()
         }
+
       ]
     }
   ];
