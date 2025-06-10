@@ -247,7 +247,9 @@ export class MainMenuComponent implements OnInit {
       { containerId: 'window-2', isDraggable: true }
     );
   }
+  // openDraggableWindows()
 
+  // openTableDragDropWindows()
   openTableDragDropWindows() {
     // Otwórz dwa okna z tabelami
     this.windowService.openWindow(TableDragDropComponent, 'Tabela 1',
@@ -264,6 +266,6 @@ export class MainMenuComponent implements OnInit {
       { containerId: 'table-2', rows: 4, cols: 4 }
     );
   }
-  // openDraggableWindows()
+  // openTableDragDropWindows()
 
 }

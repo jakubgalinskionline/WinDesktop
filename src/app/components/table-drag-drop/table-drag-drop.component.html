@@ -1,0 +1,20 @@
+<div class="table-container">
+  <table>
+    <tbody>
+      <tr *ngFor="let row of tableData; let i = index">
+        <td *ngFor="let cell of row; let j = index"
+            [id]="getTableCellId(i, j)"
+            [draggable]="true"
+            (dragstart)="onDragStart($event, i, j)"
+            (dragover)="onDragOver($event)"
+            (drop)="onDrop($event, i, j)"
+            (dragenter)="onDragEnter($event)"
+            (dragleave)="onDragLeave($event)"
+            [class.drag-over]="isDragOver && currentDragTarget === getTableCellId(i, j)"
+            >
+          {{ cell }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
