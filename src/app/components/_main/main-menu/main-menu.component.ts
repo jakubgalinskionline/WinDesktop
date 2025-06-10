@@ -8,6 +8,7 @@ import { ThemeService } from '../../../services/theme.service';
 import { DragAndDropComponent } from '../../../components/drag-and-drop/drag-and-drop.component';
 import { DualContainerComponent } from '../../../components/dual-container/dual-container.component';
 import { Observable } from 'rxjs';
+import { DraggableItem } from '../../../services/drag-and-drop.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -18,7 +19,6 @@ import { Observable } from 'rxjs';
 })
 export class MainMenuComponent implements OnInit {
   isDarkMode$: Observable<boolean>;
-
   menuItems: MenuItem[] = [
     {
       label: 'Pulpit',
@@ -192,12 +192,32 @@ export class MainMenuComponent implements OnInit {
       Math.random() * (window.innerHeight - 600), // losowa pozycja y
       600, 600, false);
   }
+
+
+  // openDraggableWindows()
+  private readonly DRAGGABLE_WINDOW_ITEMS: DraggableItem[] = [
+    { id: 'default-1', icon: 'bi bi-pc-display', text: 'Mój komputer' },
+    { id: 'default-2', icon: 'bi bi-folder', text: 'Moje dokumenty' },
+    { id: 'default-3', icon: 'bi bi-diagram-3', text: 'Sieć' },
+    { id: 'default-4', icon: 'bi bi-download', text: 'Pobrane' },
+    { id: 'default-5', icon: 'bi bi-images', text: 'Obrazy' },
+    { id: 'default-6', icon: 'bi bi-file-music', text: 'Muzyka' },
+    { id: 'default-7', icon: 'bi bi-camera-video', text: 'Wideo' },
+    { id: 'default-8', icon: 'bi bi-trash', text: 'Kosz' },
+    { id: 'default-9', icon: 'bi bi-cloud', text: 'Chmura' },
+    { id: 'default-10', icon: 'bi bi-star', text: 'Ulubione' },
+    { id: 'default-11', icon: 'bi bi-archive', text: 'Archiwum' },
+    { id: 'default-12', icon: 'bi bi-gear', text: 'Ustawienia' },
+    { id: 'default-13', icon: 'bi bi-person', text: 'Użytkownik' },
+    { id: 'default-14', icon: 'bi bi-shield-lock', text: 'Zabezpieczenia' }
+  ];
   openDraggableWindows() {
     // Otwórz okno z dwoma kontenerami
     this.windowService.openWindow(DualContainerComponent, 'Drag-and-Drop (2 kontenery)',
       Math.random() * (window.innerWidth - 800),
       Math.random() * (window.innerHeight - 400),
-      800, 400, true
+      800, 400, true,
+      { items: this.DRAGGABLE_WINDOW_ITEMS }
     );
 
     // Otwórz dwa osobne okna z kontenerami
@@ -214,5 +234,6 @@ export class MainMenuComponent implements OnInit {
       { containerId: 'window-2', isDraggable: true }
     );
   }
+  // openDraggableWindows()
 
 }

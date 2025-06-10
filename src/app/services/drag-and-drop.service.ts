@@ -13,26 +13,8 @@ export interface DraggableItem {
 export class DragAndDropService {
   private containerItems: Map<string, DraggableItem[]>;
   private itemsSubject: BehaviorSubject<void>;
-  items$: Observable<void>;
-  private nextId: number;
+  items$: Observable<void>;  private nextId: number;
   private initialized: boolean;
-
-  private static readonly DEFAULT_ITEMS: DraggableItem[] = [
-    { id: 'default-1', icon: 'bi bi-pc-display', text: 'Mój komputer' },
-    { id: 'default-2', icon: 'bi bi-folder', text: 'Moje dokumenty' },
-    { id: 'default-3', icon: 'bi bi-diagram-3', text: 'Sieć' }, 
-    { id: 'default-4', icon: 'bi bi-download', text: 'Pobrane' },
-    { id: 'default-5', icon: 'bi bi-images', text: 'Obrazy' },
-    { id: 'default-6', icon: 'bi bi-file-music', text: 'Muzyka' },
-    { id: 'default-7', icon: 'bi bi-camera-video', text: 'Wideo' },
-    { id: 'default-8', icon: 'bi bi-trash', text: 'Kosz' },
-    { id: 'default-9', icon: 'bi bi-cloud', text: 'Chmura' },
-    { id: 'default-10', icon: 'bi bi-star', text: 'Ulubione' },
-    { id: 'default-11', icon: 'bi bi-archive', text: 'Archiwum' },
-    { id: 'default-12', icon: 'bi bi-gear', text: 'Ustawienia' },
-    { id: 'default-13', icon: 'bi bi-person', text: 'Użytkownik' },
-    { id: 'default-14', icon: 'bi bi-shield-lock', text: 'Zabezpieczenia' }
-  ];
 
   constructor() {
     this.containerItems = new Map<string, DraggableItem[]>();
@@ -41,21 +23,17 @@ export class DragAndDropService {
     this.nextId = 1;
     this.initialized = false;
   }
-
-  initializeItems(containerId: string): void {
+  initializeItems(containerId: string, defaultItems?: DraggableItem[]): void {
     if (!this.containerItems.has(containerId)) {
-      const items = this.initialized 
-        ? [] 
-        : DragAndDropService.DEFAULT_ITEMS.map(item => ({
+      const items = defaultItems
+        ? defaultItems.map(item => ({
             id: `${containerId}-${this.nextId++}`,
             icon: item.icon,
             text: item.text
-          }));
+          }))
+        : [];
 
       this.containerItems.set(containerId, items);
-      if (!this.initialized) {
-        this.initialized = true;
-      }
       this.itemsSubject.next();
     }
   }

@@ -1,6 +1,6 @@
 <!-- Debug info -->
 <div style="font-size: 10px; color: #999; margin-bottom: 5px">
-  Container ID: {{ containerId }} Items: {{ items.length }}
+  Container ID: {{ containerId }} Items: {{ displayedItems.length }}
 </div>
 <div
   class="draggable-container"
@@ -13,7 +13,7 @@
   (dragend)="onDragEnd($event)"
   (drop)="onDrop($event)"
 >
-  <div *ngFor="let item of items" class="draggable-item-wrapper">
+  <div *ngFor="let item of displayedItems" class="draggable-item-wrapper">
     <button
       class="draggable-item"
       [draggable]="isDraggable"
