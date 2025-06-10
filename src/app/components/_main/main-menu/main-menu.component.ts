@@ -7,6 +7,7 @@ import { NotepadComponent } from '../../../components/notepad/notepad.component'
 import { ThemeService } from '../../../services/theme.service';
 import { DragAndDropComponent } from '../../../components/drag-and-drop/drag-and-drop.component';
 import { DualContainerComponent } from '../../../components/dual-container/dual-container.component';
+import { TableDragDropComponent } from '../../../components/table-drag-drop/table-drag-drop.component';
 import { Observable } from 'rxjs';
 import { DraggableItem } from '../../../services/drag-and-drop.service';
 
@@ -118,6 +119,14 @@ export class MainMenuComponent implements OnInit {
           icon: 'bi bi-graph-up',
           action: () => this.openNotepad()
         },
+      ]
+    },
+    {
+      label: 'Narzędzia',
+      icon: 'bi bi-tools',
+      id: 'topnav-tools',
+      action: () => {},
+      children: [
         {
           label: 'Otwórz 2 okna',
           icon: 'bi bi-window-stack',
@@ -127,8 +136,12 @@ export class MainMenuComponent implements OnInit {
           label: 'Drag-and-Drop 2 kontenery',
           icon: 'bi bi-window-stack',
           action: () => this.openDraggableWindows()
+        },
+        {
+          label: 'Drag-and-Drop Tabele',
+          icon: 'bi bi-table',
+          action: () => this.openTableDragDropWindows()
         }
-
       ]
     }
   ];
@@ -232,6 +245,23 @@ export class MainMenuComponent implements OnInit {
       Math.random() * (window.innerHeight - 400),
       400, 400, true,
       { containerId: 'window-2', isDraggable: true }
+    );
+  }
+
+  openTableDragDropWindows() {
+    // Otwórz dwa okna z tabelami
+    this.windowService.openWindow(TableDragDropComponent, 'Tabela 1',
+      Math.random() * (window.innerWidth - 400),
+      Math.random() * (window.innerHeight - 400),
+      400, 400, true,
+      { containerId: 'table-1', rows: 4, cols: 4 }
+    );
+
+    this.windowService.openWindow(TableDragDropComponent, 'Tabela 2',
+      Math.random() * (window.innerWidth - 400),
+      Math.random() * (window.innerHeight - 400),
+      400, 400, true,
+      { containerId: 'table-2', rows: 4, cols: 4 }
     );
   }
   // openDraggableWindows()
