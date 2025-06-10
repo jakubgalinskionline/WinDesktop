@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface DraggableItem {
   id: string;
+  icon: string;
   text: string;
 }
 
@@ -10,40 +11,46 @@ export interface DraggableItem {
   providedIn: 'root'
 })
 export class DragAndDropService {
-  // Stan aplikacji przechowywany w Map, gdzie kluczem jest ID kontenera
-  private containerItems = new Map<string, DraggableItem[]>();
-  private itemsSubject = new BehaviorSubject<void>(undefined);
-  items$ = this.itemsSubject.asObservable();
-  private nextId = 1;
-  private initialized = false;
+  private containerItems: Map<string, DraggableItem[]>;
+  private itemsSubject: BehaviorSubject<void>;
+  items$: Observable<void>;
+  private nextId: number;
+  private initialized: boolean;
 
-  private static readonly DEFAULT_ITEMS = [
-    { text: 'Element 1' },
-    { text: 'Element 2' },
-    { text: 'Element 3' },
-    { text: 'Element 4' },
-    { text: 'Element 5' },
-    { text: 'Element 6' },
-    { text: 'Element 7' },
-    { text: 'Element 8' },
-    { text: 'Element 9' },
-    { text: 'Element 10' },
-    { text: 'Element 11' },
-    { text: 'Element 12' },
-    { text: 'Element 12' },
-    { text: 'Element 14' },
+  private static readonly DEFAULT_ITEMS: DraggableItem[] = [
+    { id: 'default-1', icon: 'bi bi-pc-display', text: 'Mój komputer' },
+    { id: 'default-2', icon: 'bi bi-folder', text: 'Moje dokumenty' },
+    { id: 'default-3', icon: 'bi bi-diagram-3', text: 'Sieć' }, 
+    { id: 'default-4', icon: 'bi bi-download', text: 'Pobrane' },
+    { id: 'default-5', icon: 'bi bi-images', text: 'Obrazy' },
+    { id: 'default-6', icon: 'bi bi-file-music', text: 'Muzyka' },
+    { id: 'default-7', icon: 'bi bi-camera-video', text: 'Wideo' },
+    { id: 'default-8', icon: 'bi bi-trash', text: 'Kosz' },
+    { id: 'default-9', icon: 'bi bi-cloud', text: 'Chmura' },
+    { id: 'default-10', icon: 'bi bi-star', text: 'Ulubione' },
+    { id: 'default-11', icon: 'bi bi-archive', text: 'Archiwum' },
+    { id: 'default-12', icon: 'bi bi-gear', text: 'Ustawienia' },
+    { id: 'default-13', icon: 'bi bi-person', text: 'Użytkownik' },
+    { id: 'default-14', icon: 'bi bi-shield-lock', text: 'Zabezpieczenia' }
   ];
 
-  constructor() {}
+  constructor() {
+    this.containerItems = new Map<string, DraggableItem[]>();
+    this.itemsSubject = new BehaviorSubject<void>(undefined);
+    this.items$ = this.itemsSubject.asObservable();
+    this.nextId = 1;
+    this.initialized = false;
+  }
 
-  // Inicjalizacja elementów dla danego kontenera
   initializeItems(containerId: string): void {
     if (!this.containerItems.has(containerId)) {
-      // Tylko pierwszy kontener dostaje domyślne elementy
-      const items = this.initialized ? [] : DragAndDropService.DEFAULT_ITEMS.map(item => ({
-        id: `${containerId}-${this.nextId++}`,
-        text: item.text
-      }));
+      const items = this.initialized 
+        ? [] 
+        : DragAndDropService.DEFAULT_ITEMS.map(item => ({
+            id: `${containerId}-${this.nextId++}`,
+            icon: item.icon,
+            text: item.text
+          }));
 
       this.containerItems.set(containerId, items);
       if (!this.initialized) {
@@ -53,20 +60,16 @@ export class DragAndDropService {
     }
   }
 
-  // Pobranie elementów dla danego kontenera
   getItemsForContainer(containerId: string): DraggableItem[] {
     return this.containerItems.get(containerId) || [];
   }
 
-  // Sprawdzenie czy kontener ma elementy
   hasItems(containerId: string): boolean {
     const items = this.containerItems.get(containerId);
     return items !== undefined && items.length > 0;
   }
 
-  // Przeniesienie elementu między kontenerami
   moveItem(elementId: string, targetContainerId: string, targetIndex: number = -1): void {
-    // Znajdź kontener źródłowy i element
     let sourceContainerId: string | undefined;
     let sourceItem: DraggableItem | undefined;
     let sourceIndex: number = -1;
@@ -112,7 +115,6 @@ export class DragAndDropService {
     }
   }
 
-  // Usunięcie elementu z kontenera
   deleteItem(elementId: string, containerId: string): void {
     const items = this.containerItems.get(containerId);
     if (items) {
@@ -124,7 +126,6 @@ export class DragAndDropService {
     }
   }
 
-  // Wyczyszczenie wszystkich elementów
   clear(): void {
     this.containerItems.clear();
     this.itemsSubject.next();

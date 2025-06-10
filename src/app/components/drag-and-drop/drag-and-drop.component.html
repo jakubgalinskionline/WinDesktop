@@ -21,7 +21,7 @@
       [class.dragging]="isDragging && draggedId === item.id"
       type="button"
     >
-      {{ item.text }}
+      <i class="{{ item.icon }} me-2"></i>{{ item.text }}
     </button>
     <button
       class="delete-button"
