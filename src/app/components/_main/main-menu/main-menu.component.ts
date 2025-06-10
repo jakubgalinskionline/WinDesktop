@@ -124,7 +124,7 @@ export class MainMenuComponent implements OnInit {
           action: () => this.openTwoWindows()
         },
         {
-          label: 'Drag-and-Drop',
+          label: 'Drag-and-Drop 2 kontenery',
           icon: 'bi bi-window-stack',
           action: () => this.openDraggableWindows()
         }
