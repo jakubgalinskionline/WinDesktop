@@ -1,15 +1,15 @@
 :root {
-  --user-menu-bg: #ffffff;
+  --user-menu-bg: #ffffff !important;
   --user-menu-border: #dee2e6;
   --user-menu-text: #212529;
   --user-menu-hover: #f8f9fa;
 }
 
 [data-theme="dark"] {
-  --user-menu-bg: rgba(33, 37, 41, 0.95);
-  --user-menu-border: rgba(73, 80, 87, 0.5);
+  --user-menu-bg: #212529 !important;
+  --user-menu-border: #495057;
   --user-menu-text: #ffffff;
-  --user-menu-hover: rgba(52, 58, 64, 0.95);
+  --user-menu-hover: #495057;
 }
 
 .nav-user {
@@ -50,24 +50,27 @@
   transform: rotate(135deg);
 }
 
-.nav-user .topbar-link img {
-  width: 24px;
-  height: 24px;
-}
-
-.dropdown-menu {
-  background-color: var(--user-menu-bg);
-  border: 1px solid var(--user-menu-border);
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+.nav-user .dropdown-menu {
   padding: 0.5rem 0;
   min-width: 180px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: #ffffff !important;
+  border: 1px solid #dee2e6;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="dark"] .dropdown-menu {
+  background: #212529 !important;
+  border-color: #495057;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .dropdown-item {
-  color: var(--user-menu-text);
+  color: #212529;
   font-size: 12px;
-  padding: 8px 12px;
+  padding: 8px 16px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -75,17 +78,37 @@
 }
 
 .dropdown-item i {
+  width: 16px;
+  text-align: center;
   font-size: 14px;
 }
 
 .dropdown-item:hover {
-  background-color: var(--user-menu-hover);
+  background-color: #f8f9fa;
+}
+
+[data-theme="dark"] .dropdown-item {
+  color: #e9ecef;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: #495057;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .dropdown-item i {
+  color: #adb5bd;
+}
+
+[data-theme="dark"] .dropdown-item:hover i {
+  color: #ffffff;
 }
 
 .dropdown-divider {
   margin: 0.5rem 0;
+  border-color: #dee2e6;
 }
 
-[data-theme="dark"] .dropdown-header {
-  background-color: var(--user-menu-bg);
+[data-theme="dark"] .dropdown-divider {
+  border-color: #495057;
 }

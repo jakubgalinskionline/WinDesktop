@@ -14,7 +14,11 @@
         <span class="menu-icon"><i [class]="item.icon"></i></span>
         <span class="menu-text">{{ item.label }}</span>
       </a>
-      <div class="dropdown-menu" [attr.aria-labelledby]="item.id">
+      <div
+        class="dropdown-menu"
+        [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
+        [attr.aria-labelledby]="item.id"
+      >
         <ng-container *ngFor="let child of item.children">
           <!-- Jeśli element ma podmenu -->
           <div class="dropend" *ngIf="child.children">
@@ -29,7 +33,10 @@
               <span>{{ child.label }}</span>
               <i class="bi bi-chevron-right"></i>
             </a>
-            <div class="dropdown-menu">
+            <div
+              class="dropdown-menu"
+              [attr.data-theme]="(isDarkMode$ | async) ? 'dark' : 'light'"
+            >
               <a
                 class="dropdown-item"
                 href="#"
