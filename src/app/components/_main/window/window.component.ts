@@ -12,7 +12,8 @@ import {
   ViewChild,
   ViewContainerRef,
   AfterViewInit,
-  Type
+  Type,
+  Injector
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WindowModel } from '../../../models/window/window.model';
@@ -24,6 +25,11 @@ import { ThemeService } from '../../../services/theme.service';
 
 interface DynamicComponent {
   [key: string]: any;
+  cellValue?: string | number;
+}
+
+interface ComponentOutputHandlers {
+  [key: string]: (data: unknown) => void;
 }
 
 @Component({
@@ -85,41 +91,43 @@ export class WindowComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.window.component) {
       this.initializeChildComponent();
     }
-  }
-
-  private initializeChildComponent() {
+  }  private initializeChildComponent() {
     if (!this.componentContainer) {
       console.error('Brak kontenera na komponent potomny');
       return;
     }
 
     this.componentContainer.clear();
+
     const componentRef = this.componentContainer.createComponent<DynamicComponent>(
       this.window.component as Type<DynamicComponent>
     );
 
     // Zachowaj referencję do komponentu
     this.componentRef = componentRef;
-    this.window.componentRef = componentRef.instance;
 
-    // Przekaż dane wejściowe
+    // Przekaż dane wejściowe w bezpieczny sposób
     if (this.window.componentInput) {
-      Object.keys(this.window.componentInput).forEach(key => {
-        if (componentRef.instance && key in componentRef.instance) {
-          componentRef.instance[key] = this.window.componentInput![key];
+      const instance = componentRef.instance;
+      Object.entries(this.window.componentInput).forEach(([key, value]) => {
+        try {
+          // Użyj indeksowania zamiast notacji kropkowej
+          instance[key] = value;
+        } catch (error) {
+          console.warn(`Nie można ustawić właściwości ${key} na komponencie`, error);
         }
       });
     }
 
-    // Podłącz handlery zdarzeń
+    // Podłącz handlery zdarzeń w bezpieczny sposób
     if (this.window.componentOutput) {
-      Object.keys(this.window.componentOutput).forEach(key => {
+      Object.entries(this.window.componentOutput).forEach(([key, handler]) => {
         const instance = componentRef.instance;
-        if (instance && key in instance && instance[key]?.subscribe) {
+        // Sprawdź czy właściwość istnieje i czy jest subskrybowalna
+        if (instance && key in instance && typeof instance[key]?.subscribe === 'function') {
           this.subscriptions.add(
-            instance[key].subscribe((data: any) => {
-              const handler = this.window.componentOutput?.[key];
-              if (handler) {
+            instance[key].subscribe((data: unknown) => {
+              if (handler && typeof handler === 'function') {
                 handler(data);
               }
             })
@@ -128,6 +136,7 @@ export class WindowComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
 
+    // Wywołaj detekcję zmian tylko raz na końcu
     componentRef.changeDetectorRef.detectChanges();
     this.cdr.detectChanges();
   }

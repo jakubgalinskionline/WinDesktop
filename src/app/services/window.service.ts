@@ -30,9 +30,7 @@ export class WindowService {
       ...w,
       themeMode: this.getCurrentTheme()
     })));
-  }
-
-  openWindow(
+  }  openWindow(
     component: any,
     title: string,
     x: number,
@@ -41,8 +39,8 @@ export class WindowService {
     h: number,
     isDraggable: boolean = false,
     componentInput: {[key: string]: any} = {},
-    componentOutput: {[key: string]: Function} = {}
-  ) {
+    componentOutput: {[key: string]: Function} = {}  ) {
+
     const window: WindowModel = {
       id: this.nextId++,
       title,

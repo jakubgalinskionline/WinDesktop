@@ -1,6 +1,8 @@
+import { TableDragDropDetailsComponent } from './../table-drag-drop-details/table-drag-drop-details.component';
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragAndDropService } from '../../services/drag-and-drop.service';
+import { WindowService } from '../../services/window.service';
 
 interface TableCell {
   value: string;
@@ -23,13 +25,39 @@ export class TableDragDropComponent implements OnInit {
   tableData: string[][] = [];
   isDragOver: boolean = false;
   currentDragTarget: string | null = null;
-
-  constructor(private dragDropService: DragAndDropService) {}
+  constructor(
+    private dragDropService: DragAndDropService,
+    private windowService: WindowService
+  ) {}
 
   ngOnInit() {
     // Inicjalizacja przykładowych danych
     this.tableData = Array(this.rows).fill(0).map((_, i) =>
       Array(this.cols).fill(0).map((_, j) => `${this.containerId}-${i+1},${j+1}`)
+    );
+  }
+
+  saveTableData() {
+    const jsonData = JSON.stringify(this.tableData);
+    console.log('Zapisane dane tabeli:', jsonData);
+  }
+
+  isLink(cell: any): boolean {
+    // Sprawdzamy czy komórka zawiera ID
+    return typeof cell === 'string' && cell.includes('-');
+  }  openDetails(cell: string) {
+    const x = Math.random() * (window.innerWidth - 400);
+    const y = Math.random() * (window.innerHeight - 400);
+
+    this.windowService.openWindow(
+      TableDragDropDetailsComponent,
+      'Szczegóły',
+      x,
+      y,
+      400,
+      400,
+      true,
+      { cellValue: cell }
     );
   }
 
