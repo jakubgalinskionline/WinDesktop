@@ -19,7 +19,11 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: var(--desktop-bg);
+  background-image: url('/images/bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
   margin: 0;
   padding: 0;
 }
@@ -122,4 +126,9 @@
 
 [data-theme="dark"] .dropend .dropdown-menu .dropdown-item:hover {
   background-color: var(--bs-gray-800);
+}
+
+[data-theme="dark"] .desktop {
+  background-blend-mode: multiply;
+  background-color: rgba(26, 29, 33, 0.6); /* Przyciemnienie dla trybu ciemnego */
 }
