@@ -10,7 +10,7 @@ import { OpenWindowsListComponent } from '../open-windows-list/open-windows-list
 import { MainMenuComponent } from '../main-menu/main-menu.component';
 import { WindowService } from '../../../services/window.service';
 import { ThemeService } from '../../../services/theme.service';
-import { AgentComponent } from '../agent/agent.component';
+// import { AgentComponent } from '../agent/agent.component';
 
 @Component({
   selector: 'app-desktop',
@@ -22,8 +22,7 @@ import { AgentComponent } from '../agent/agent.component';
     NotificationIconComponent,
     OpenWindowsListComponent,
     ContextMenuComponent,
-    MainMenuComponent,
-    AgentComponent
+    MainMenuComponent
   ],
   providers: [ThemeService, WindowService],
   templateUrl: './desktop.component.html',
